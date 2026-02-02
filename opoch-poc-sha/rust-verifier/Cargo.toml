@@ -1,0 +1,41 @@
+[package]
+name = "opoch-poc-sha"
+version = "1.0.0"
+edition = "2021"
+authors = ["OPOCH Team"]
+description = "OPOCH-PoC-SHA: Proof of Computation for SHA-256 chains"
+license = "MIT"
+
+[dependencies]
+sha2 = "0.10"
+hex = "0.4"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+rand = "0.8"
+rayon = "1.8"
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+panic = "abort"
+
+[[bin]]
+name = "verifier"
+path = "src/main.rs"
+
+[[bin]]
+name = "prover"
+path = "src/prover.rs"
+
+[[bin]]
+name = "bench"
+path = "src/bench.rs"
+
+[[bin]]
+name = "e2e"
+path = "src/e2e_main.rs"
+
+[[bin]]
+name = "analysis"
+path = "src/analysis_main.rs"

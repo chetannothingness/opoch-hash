@@ -1,0 +1,101 @@
+{
+  "description": "SHA-256 FIPS 180-4 Test Vectors for OPOCH-PoC-SHA",
+  "version": "1.0.0",
+  "generated": "2026-02-02",
+  "standard": {
+    "name": "FIPS PUB 180-4",
+    "url": "https://csrc.nist.gov/publications/detail/fips/180/4/final"
+  },
+  "single_block_vectors": [
+    {
+      "id": "empty",
+      "input_hex": "",
+      "input_ascii": "",
+      "hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "abc",
+      "input_hex": "616263",
+      "input_ascii": "abc",
+      "hash": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+    },
+    {
+      "id": "32bytes_zeros",
+      "input_hex": "0000000000000000000000000000000000000000000000000000000000000000",
+      "input_ascii": null,
+      "hash": "66687aadf862bd776c8fc18b8e9f8e20089714856ee233b3902a591d0d5f2925"
+    }
+  ],
+  "multi_block_vectors": [
+    {
+      "id": "two_blocks",
+      "input_hex": "6162636462636465636465666465666765666768666768696768696a68696a6b696a6b6c6a6b6c6d6b6c6d6e6c6d6e6f6d6e6f706e6f7071",
+      "input_ascii": "abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopq",
+      "hash": "248d6a61d20638b8e5c026930c3e6039a33ce45964ff2167f6ecedd419db06c1"
+    },
+    {
+      "id": "112_bytes",
+      "input_hex": "61626364656667686263646566676869636465666768696a6465666768696a6b65666768696a6b6c666768696a6b6c6d6768696a6b6c6d6e68696a6b6c6d6e6f696a6b6c6d6e6f706a6b6c6d6e6f70716b6c6d6e6f7071726c6d6e6f707172736d6e6f70717273746e6f707172737475",
+      "input_ascii": "abcdefghbcdefghicdefghijdefghijkefghijklfghijklmghijklmnhijklmnoijklmnopjklmnopqklmnopqrlmnopqrsmnopqrstnopqrstu",
+      "hash": "cf5b16a778af8380036ce59e7b0492370b249b11e8f07a51afac45037afee9d1"
+    }
+  ],
+  "chain_vectors": [
+    {
+      "id": "chain_1",
+      "description": "d0 = SHA-256('abc'), h1 = SHA-256(d0)",
+      "input_ascii": "abc",
+      "d0": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad",
+      "chain_length": 1,
+      "result": "4f8b42c22dd3729b519ba6f68d2da7cc5b2d606d05daed5ad5128cc03e6c6358"
+    },
+    {
+      "id": "chain_10",
+      "description": "10-step hash chain from 'OPOCH test input'",
+      "input_ascii": "OPOCH test input",
+      "d0": "46d78d7f184921b35169d071b640cf36ea7b62fa10a423683e64fc37948b456d",
+      "chain_length": 10,
+      "result": "00d83b7d015b74566d7a5af4c2a5bcf8737be005e5169fd6efd3b7b8b2e24c72",
+      "intermediate_hashes": [
+        "92c858698dcfc1c1837761b504df225ae33a796785ee66f0b6b1bde8c0de45f4",
+        "8ad24b151c0a65564cd9366a056d4a64df812db0594fac9a073fcd086f6a428d",
+        "02a8ca0d419fbdb3ff4c678634aaa6fd6acaf955732b528f10c2ae1d38560ca8",
+        "6ddef233da0b10fde06aa4e969c97473d6e15c3984c7ea964aea293f01763a07",
+        "795cdf236082c495d6bf3ff1d9f9a51a38ba01d2594ea3b1b6e31bbd88775b63",
+        "6621b3ab3cbb1ee1cfaa869bfe29f8f6d2889b7773d515e22cd22c9311c7d49c",
+        "a084313a616e878049b1f919beeba6d3263f2bcc085d2ccc54cb60ecde346be5",
+        "7621fe2d18cd06ad5b90a3bf726bf20a9625ab2470b3b34e42cfc8cd2ffdd5c8",
+        "3962cf9a4e74033842bb356e5c2c69e9b9f85f8182d3cb57c5bf8fa909fb1f45",
+        "00d83b7d015b74566d7a5af4c2a5bcf8737be005e5169fd6efd3b7b8b2e24c72"
+      ]
+    },
+    {
+      "id": "chain_100",
+      "description": "100-step hash chain from 'OPOCH test input'",
+      "input_ascii": "OPOCH test input",
+      "d0": "46d78d7f184921b35169d071b640cf36ea7b62fa10a423683e64fc37948b456d",
+      "chain_length": 100,
+      "result": "c6ceb4d77ed494cc"
+    },
+    {
+      "id": "chain_1000",
+      "description": "1000-step hash chain from 'OPOCH test input'",
+      "input_ascii": "OPOCH test input",
+      "d0": "46d78d7f184921b35169d071b640cf36ea7b62fa10a423683e64fc37948b456d",
+      "chain_length": 1000,
+      "result": "783b6bd5c44b4194"
+    }
+  ],
+  "opoch_params": {
+    "N": 1000000000,
+    "L": 1024,
+    "fri_queries": 68,
+    "fri_blowup": 8,
+    "max_degree": 65536
+  },
+  "implementation_hash": {
+    "description": "Hash of the SHA-256 implementation for versioning",
+    "method": "SHA-256 of sha256.rs source file",
+    "value": "to_be_computed_on_freeze"
+  }
+}
