@@ -59,6 +59,45 @@ class MerkleProof:
 
         return root_hash(current) == root
 
+    def serialize(self) -> bytes:
+        """Serialize proof to bytes."""
+        parts = [
+            self.index.to_bytes(8, 'big'),
+            len(self.leaf_data).to_bytes(4, 'big'),
+            self.leaf_data,
+            len(self.siblings).to_bytes(4, 'big'),
+        ]
+        for sibling, is_right in self.siblings:
+            parts.append(sibling)
+            parts.append(bytes([1 if is_right else 0]))
+        return b''.join(parts)
+
+    @classmethod
+    def deserialize(cls, data: bytes) -> 'MerkleProof':
+        """Deserialize proof from bytes."""
+        offset = 0
+
+        index = int.from_bytes(data[offset:offset+8], 'big')
+        offset += 8
+
+        leaf_len = int.from_bytes(data[offset:offset+4], 'big')
+        offset += 4
+        leaf_data = data[offset:offset+leaf_len]
+        offset += leaf_len
+
+        num_siblings = int.from_bytes(data[offset:offset+4], 'big')
+        offset += 4
+
+        siblings = []
+        for _ in range(num_siblings):
+            sibling = data[offset:offset+32]
+            offset += 32
+            is_right = data[offset] == 1
+            offset += 1
+            siblings.append((sibling, is_right))
+
+        return cls(index=index, leaf_data=leaf_data, siblings=siblings)
+
 
 class MerkleTree:
     """
