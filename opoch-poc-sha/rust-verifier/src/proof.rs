@@ -98,7 +98,7 @@ impl ProofHeader {
     }
 }
 
-/// Segment proof
+/// Segment proof - COMPLETE with all verification data
 #[derive(Clone, Debug)]
 pub struct SegmentProof {
     /// Segment index
@@ -107,6 +107,10 @@ pub struct SegmentProof {
     pub start_hash: [u8; 32],
     /// Ending hash for this segment
     pub end_hash: [u8; 32],
+    /// Merkle commitments to trace columns (32 columns)
+    pub column_commitments: Vec<[u8; 32]>,
+    /// Boundary constraint evaluations (should all be zero)
+    pub boundary_values: Vec<crate::field::Fp>,
     /// FRI proof for segment constraints
     pub fri_proof: FriProof,
 }
@@ -117,6 +121,20 @@ impl SegmentProof {
         result.extend_from_slice(&self.segment_index.to_be_bytes());
         result.extend_from_slice(&self.start_hash);
         result.extend_from_slice(&self.end_hash);
+
+        // Column commitments
+        result.extend_from_slice(&(self.column_commitments.len() as u32).to_be_bytes());
+        for commitment in &self.column_commitments {
+            result.extend_from_slice(commitment);
+        }
+
+        // Boundary values
+        result.extend_from_slice(&(self.boundary_values.len() as u32).to_be_bytes());
+        for val in &self.boundary_values {
+            result.extend_from_slice(&val.to_bytes());
+        }
+
+        // FRI proof
         let fri_bytes = self.fri_proof.serialize();
         result.extend_from_slice(&(fri_bytes.len() as u32).to_be_bytes());
         result.extend_from_slice(&fri_bytes);
@@ -140,6 +158,34 @@ impl SegmentProof {
         end_hash.copy_from_slice(&data[offset..offset+32]);
         offset += 32;
 
+        // Column commitments
+        if offset + 4 > data.len() { return None; }
+        let num_commitments = u32::from_be_bytes(data[offset..offset+4].try_into().ok()?) as usize;
+        offset += 4;
+
+        let mut column_commitments = Vec::with_capacity(num_commitments);
+        for _ in 0..num_commitments {
+            if offset + 32 > data.len() { return None; }
+            let mut commitment = [0u8; 32];
+            commitment.copy_from_slice(&data[offset..offset+32]);
+            column_commitments.push(commitment);
+            offset += 32;
+        }
+
+        // Boundary values
+        if offset + 4 > data.len() { return None; }
+        let num_boundary = u32::from_be_bytes(data[offset..offset+4].try_into().ok()?) as usize;
+        offset += 4;
+
+        let mut boundary_values = Vec::with_capacity(num_boundary);
+        for _ in 0..num_boundary {
+            if offset + 8 > data.len() { return None; }
+            let val = crate::field::Fp::from_bytes(&data[offset..offset+8]);
+            boundary_values.push(val);
+            offset += 8;
+        }
+
+        // FRI proof
         if offset + 4 > data.len() { return None; }
         let fri_len = u32::from_be_bytes(data[offset..offset+4].try_into().ok()?) as usize;
         offset += 4;
@@ -152,12 +198,14 @@ impl SegmentProof {
             segment_index,
             start_hash,
             end_hash,
+            column_commitments,
+            boundary_values,
             fri_proof,
         }, offset))
     }
 }
 
-/// Aggregation proof (recursive)
+/// Aggregation proof (recursive) - COMPLETE with chain verification
 #[derive(Clone, Debug)]
 pub struct AggregationProof {
     /// Recursion level (1 or 2)
@@ -166,6 +214,10 @@ pub struct AggregationProof {
     pub num_children: u32,
     /// Merkle root of child proof commitments
     pub children_root: [u8; 32],
+    /// Starting hash of the chain covered by this proof
+    pub chain_start: [u8; 32],
+    /// Ending hash of the chain covered by this proof
+    pub chain_end: [u8; 32],
     /// FRI proof for aggregation circuit
     pub fri_proof: FriProof,
 }
@@ -176,6 +228,8 @@ impl AggregationProof {
         result.extend_from_slice(&self.level.to_be_bytes());
         result.extend_from_slice(&self.num_children.to_be_bytes());
         result.extend_from_slice(&self.children_root);
+        result.extend_from_slice(&self.chain_start);
+        result.extend_from_slice(&self.chain_end);
         let fri_bytes = self.fri_proof.serialize();
         result.extend_from_slice(&(fri_bytes.len() as u32).to_be_bytes());
         result.extend_from_slice(&fri_bytes);
@@ -198,6 +252,16 @@ impl AggregationProof {
         children_root.copy_from_slice(&data[offset..offset+32]);
         offset += 32;
 
+        if offset + 32 > data.len() { return None; }
+        let mut chain_start = [0u8; 32];
+        chain_start.copy_from_slice(&data[offset..offset+32]);
+        offset += 32;
+
+        if offset + 32 > data.len() { return None; }
+        let mut chain_end = [0u8; 32];
+        chain_end.copy_from_slice(&data[offset..offset+32]);
+        offset += 32;
+
         if offset + 4 > data.len() { return None; }
         let fri_len = u32::from_be_bytes(data[offset..offset+4].try_into().ok()?) as usize;
         offset += 4;
@@ -210,6 +274,8 @@ impl AggregationProof {
             level,
             num_children,
             children_root,
+            chain_start,
+            chain_end,
             fri_proof,
         }, offset))
     }
