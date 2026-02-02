@@ -375,6 +375,49 @@ RUNNER 5: Pareto Frontier Certificate
 
 ---
 
+## Proof of Computation
+
+OpochHash includes a complete **hash-based proof of computation** framework - proving that a computation was executed correctly using only hash functions.
+
+### Three Levels of Verification
+
+| Level | Verification Cost | Soundness | Use Case |
+|-------|-------------------|-----------|----------|
+| **Level 0** | O(T) replay | Perfect | Audit trails, disputes |
+| **Level 1** | O(k log T) spot-check | Probabilistic | Most applications |
+| **Level 2** | O(polylog T) STARK-style | Cryptographic | Massive computations |
+
+### Quick Example
+
+```python
+from opochhash.proof import (
+    program_factorial, prove_level1, verify_level1
+)
+
+# Create a program that computes 5!
+program = program_factorial(5)
+
+# Generate a proof
+proof = prove_level1(program, b"")
+
+# Verify WITHOUT replaying (O(k log T) instead of O(T))
+assert verify_level1(proof, program)
+
+# Check soundness bound
+print(f"Pr[miss bad step] ≤ {proof.soundness_bound():.2e}")
+```
+
+### How It Works
+
+1. **Merkle-commit the trace**: All states `s_0, s_1, ..., s_T` form a Merkle tree
+2. **Fiat-Shamir challenges**: Derive random indices deterministically from commitment
+3. **Spot-check transitions**: Verify sampled `s_t → s_{t+1}` transitions
+4. **Soundness bound**: `Pr[miss b bad steps] ≤ (1 - b/T)^k`
+
+*See [PROOF_OF_COMPUTATION.md](PROOF_OF_COMPUTATION.md) for complete specification.*
+
+---
+
 ## File Structure
 
 ```
@@ -388,10 +431,19 @@ opochhash/
 │   ├── mixer_universal.py       # Universal two-regime mixer
 │   ├── opochhash.py             # Reference API
 │   ├── opochhash_fast.py        # Fast API
-│   └── opochhash_universal.py   # Universal API with receipts
+│   ├── opochhash_universal.py   # Universal API with receipts
+│   └── proof/                   # Proof of Computation
+│       ├── __init__.py          # Proof module exports
+│       ├── tags.py              # Domain separation tags
+│       ├── merkle.py            # Merkle tree implementation
+│       ├── kernel.py            # State machine primitives
+│       ├── level0.py            # Receipted replay proofs
+│       ├── level1.py            # Spot-check proofs
+│       └── vm.py                # Demo stack-based VM
 ├── tests/
 │   ├── test_properties.py       # 38 property tests
-│   ├── test_hypothesis.py       # 18 property-based tests
+│   ├── test_hypothesis.py       # 18 hypothesis tests
+│   ├── test_proof.py            # 36 proof of computation tests
 │   └── test_benchmarks.py       # Performance benchmarks
 ├── bench/
 │   ├── opochbench.py            # CLI benchmark tool
@@ -401,7 +453,9 @@ opochhash/
 │       ├── end2end_bench.py     # Runner 3: Full pipeline
 │       ├── dominance_proofs.py  # Runner 4: Semantic dominance
 │       └── pareto_frontier.py   # Runner 5: Optimality certificate
-├── SPECIFICATION.md             # Formal specification
+├── SPECIFICATION.md             # Formal hash specification
+├── PROOF_OF_COMPUTATION.md      # Proof system specification
+├── ECONOMIC_IMPACT.md           # $14.7B impact analysis
 ├── README.md                    # This file
 └── pyproject.toml               # Package configuration
 ```

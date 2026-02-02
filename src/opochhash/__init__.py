@@ -72,6 +72,9 @@ from .opochhash_fast import (
     opoch_mac_fast,
 )
 
+# Proof of Computation (submodule)
+from . import proof
+
 __version__ = "0.1.0"
 
 __all__ = [
