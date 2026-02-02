@@ -583,16 +583,189 @@ Features:
 
 ---
 
-## Budget Estimate
+## Zero Budget Approach
 
-| Item | Cost |
-|------|------|
-| AWS compute (3 months) | $5,000 |
-| Hardware for testing | $3,000 |
-| Security audit | $50,000 - $150,000 |
-| Formal verification | $20,000 |
-| **Total** | **$78,000 - $178,000** |
+### ALL FREE - No Money Required
+
+| Need | Free Solution |
+|------|---------------|
+| **Cloud Compute** | GitHub Actions (2000+ free minutes/month), GitLab CI, or local machine |
+| **Hardware Matrix** | Community contributions + free tier cloud (Oracle Free Tier, GCP Free) |
+| **Security Audit** | Self-audit + community review + bug bounty via reputation |
+| **Formal Verification** | Open source tools (Lean 4, Kani, Coq) - all free |
+| **Competitor Comparison** | All open source (Plonky2, RISC Zero, SP1) |
+| **Dashboard** | GitHub Pages (free) + static site |
+
+### Free Resources to Use
+
+**Compute:**
+```
+1. GitHub Actions - 2000 min/month free (Linux)
+2. GitLab CI - 400 min/month free
+3. Oracle Cloud Free Tier - 4 ARM cores FOREVER FREE
+4. Google Cloud Free Tier - $300 credits for 90 days
+5. Local machine - Your own hardware
+```
+
+**Hardware Matrix (Community-Sourced):**
+```
+1. Post benchmarks script
+2. Ask community to run on their hardware
+3. Collect results via GitHub Issues/Discussions
+4. Aggregate into report
+
+Platforms covered for FREE:
+- M1/M2 Macs (community devs have these)
+- Linux x86 (everyone has access)
+- ARM (Oracle free tier, Raspberry Pi)
+- Windows (community)
+```
+
+**Security Validation (Free):**
+```
+1. Self-audit with detailed documentation
+2. Public code review (open source)
+3. Crypto Twitter review (tag researchers)
+4. Academic review (post to ePrint/arXiv)
+5. Bug bounty via reputation (Hall of Fame)
+6. Formal verification with free tools:
+   - Lean 4 (free, open source)
+   - Kani (free, Rust verifier by AWS)
+   - Coq (free, open source)
+```
+
+**Competitor Benchmarks (All Open Source):**
+```
+Plonky2 - MIT License, free
+Plonky3 - MIT License, free
+RISC Zero - Apache 2.0, free
+SP1 - MIT License, free
+Stone - Apache 2.0, free
+```
+
+### Revised Timeline (Self-Funded)
+
+| Week | Task | Resources |
+|------|------|-----------|
+| 1-2 | Fibonacci + Scaling benchmarks | Local machine |
+| 3-4 | Merkle tree AIR | Local machine |
+| 5-6 | Keccak-256 AIR | Local machine |
+| 7-8 | ECDSA AIR (hardest) | Local machine |
+| 9-10 | Competitor integration | GitHub Actions |
+| 11-12 | Community hardware matrix | Community contributions |
+
+### Community-Powered Validation
+
+**Instead of paid audit, do:**
+
+1. **Publish Everything**
+   - Full source code (done ✅)
+   - Complete math spec (done ✅)
+   - Test vectors (done ✅)
+
+2. **Invite Review**
+   - Post on r/crypto, r/rust
+   - Tag ZK researchers on Twitter
+   - Submit to academic cryptography mailing lists
+   - Post on Ethereum Research forum
+
+3. **Bug Bounty (Reputation-Based)**
+   ```
+   OPOCH-PoC-SHA Security Hall of Fame
+
+   Found a bug? Get credited:
+   - Critical: Named in README + paper acknowledgment
+   - High: Named in CONTRIBUTORS.md
+   - Medium: Named in release notes
+   ```
+
+4. **Formal Verification (DIY)**
+   ```lean
+   -- We write the proofs ourselves using free tools
+   -- Lean 4 + Mathlib for field arithmetic
+   -- Kani for Rust code verification
+   -- All open source, all free
+   ```
+
+### GitHub Actions Benchmark Workflow
+
+```yaml
+# .github/workflows/benchmarks.yml
+name: Benchmark Suite
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '0 0 * * 0'  # Weekly
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Run benchmarks
+        run: |
+          cargo bench --release
+          cargo run --release --bin e2e
+
+      - name: Upload results
+        uses: actions/upload-artifact@v4
+        with:
+          name: benchmark-results
+          path: results/
+
+      - name: Update benchmark page
+        run: |
+          # Generate markdown report
+          ./scripts/generate_report.sh > docs/BENCHMARKS.md
+
+  competitor-comparison:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup competitors
+        run: |
+          # All free, open source
+          cargo install plonky2
+          # RISC Zero
+          curl -L https://risczero.com/install | bash
+
+      - name: Run comparisons
+        run: ./scripts/compare_all.sh
+```
+
+### Free Dashboard (GitHub Pages)
+
+```
+https://[username].github.io/opoch-poc-sha/benchmarks/
+
+Built with:
+- GitHub Pages (free)
+- Chart.js (free)
+- Static HTML/CSS/JS
+- Auto-updated via GitHub Actions
+```
 
 ---
 
-*This plan establishes OPOCH-PoC-SHA as the benchmark champion through rigorous, reproducible, no-shortcuts methodology.*
+## Total Cost: $0
+
+| Item | Solution | Cost |
+|------|----------|------|
+| Compute | GitHub Actions + Oracle Free | $0 |
+| Hardware testing | Community sourced | $0 |
+| Security audit | Community review + self-audit | $0 |
+| Formal verification | Lean 4 / Kani (open source) | $0 |
+| Competitors | All open source | $0 |
+| Dashboard | GitHub Pages | $0 |
+| **TOTAL** | | **$0** |
+
+---
+
+*This plan establishes OPOCH-PoC-SHA as the benchmark champion through rigorous, reproducible methodology - completely free.*
