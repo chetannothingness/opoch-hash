@@ -70,6 +70,7 @@ impl Verifier {
     /// Verify proof for input x
     ///
     /// This is the main entry point. Verification should complete in < 1ms.
+    /// COMPLETE VERIFICATION - NO SHORTCUTS
     pub fn verify(&self, x: &[u8], proof: &OpochProof) -> VerifyResult {
         // 1. Verify header
         if &proof.header.magic != b"OPSH" {
@@ -96,19 +97,27 @@ impl Verifier {
             return VerifyResult::InvalidParams;
         }
 
-        // 5. Reconstruct transcript and verify FRI proof
+        // 5. CRITICAL: Verify final proof chain boundaries match header
+        // This binds the cryptographic proof to the claimed hash chain
+        if proof.final_proof.chain_start != proof.header.d0 {
+            return VerifyResult::ChainMismatch;
+        }
+        if proof.final_proof.chain_end != proof.header.y {
+            return VerifyResult::ChainMismatch;
+        }
+
+        // 6. Verify final proof is level 2 (top-level aggregation)
+        if proof.final_proof.level != 2 {
+            return VerifyResult::InvalidProofStructure;
+        }
+
+        // 7. Reconstruct transcript (must match prover's transcript exactly)
         let mut transcript = Transcript::new();
-
-        // Add public inputs to transcript
-        transcript.append(&proof.header.d0);
-        transcript.append(&proof.header.y);
-        transcript.append(&proof.header.n.to_be_bytes());
-        transcript.append(&proof.header.l.to_be_bytes());
-
-        // Add aggregation commitments
         transcript.append_commitment(&proof.final_proof.children_root);
+        transcript.append(&proof.final_proof.chain_start);
+        transcript.append(&proof.final_proof.chain_end);
 
-        // Verify FRI proof
+        // 8. Verify FRI proof (proves constraint polynomial is low-degree)
         let fri_verifier = FriVerifier::new(self.config.fri_config.clone());
         if !fri_verifier.verify(&proof.final_proof.fri_proof, &mut transcript) {
             return VerifyResult::InvalidFriProof;

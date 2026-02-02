@@ -143,6 +143,8 @@ pub fn measure_verification_time(
 }
 
 /// Internal verification (what the verifier actually does)
+///
+/// COMPLETE VERIFICATION - NO SHORTCUTS
 fn verify_proof_internal(proof: &OpochProof, input: &[u8]) -> bool {
     // 1. Verify header magic and version
     if &proof.header.magic != b"OPSH" {
@@ -164,15 +166,27 @@ fn verify_proof_internal(proof: &OpochProof, input: &[u8]) -> bool {
         return false;
     }
 
-    // 4. Reconstruct transcript
-    let mut transcript = Transcript::new();
-    transcript.append(&proof.header.d0);
-    transcript.append(&proof.header.y);
-    transcript.append(&proof.header.n.to_be_bytes());
-    transcript.append(&proof.header.l.to_be_bytes());
-    transcript.append_commitment(&proof.final_proof.children_root);
+    // 4. CRITICAL: Verify final proof chain boundaries match header
+    // This is the binding between the cryptographic proof and the claimed chain
+    if proof.final_proof.chain_start != proof.header.d0 {
+        return false;  // Proof doesn't start at claimed d0
+    }
+    if proof.final_proof.chain_end != proof.header.y {
+        return false;  // Proof doesn't end at claimed y
+    }
 
-    // 5. Verify FRI proof
+    // 5. Verify final proof is level 2
+    if proof.final_proof.level != 2 {
+        return false;
+    }
+
+    // 6. Reconstruct transcript (must match prover's transcript exactly)
+    let mut transcript = Transcript::new();
+    transcript.append_commitment(&proof.final_proof.children_root);
+    transcript.append(&proof.final_proof.chain_start);
+    transcript.append(&proof.final_proof.chain_end);
+
+    // 7. Verify FRI proof (proves constraint polynomial is low-degree)
     let fri_config = production_fri_config();
     let fri_verifier = FriVerifier::new(fri_config);
 
