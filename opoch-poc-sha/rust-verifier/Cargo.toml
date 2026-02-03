@@ -70,3 +70,7 @@ path = "src/reference_verifier.rs"
 [[bin]]
 name = "generate_large_proof"
 path = "src/generate_large_proof.rs"
+
+[[bin]]
+name = "run_delta"
+path = "src/run_delta.rs"

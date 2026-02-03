@@ -70,9 +70,21 @@ pub mod receipt;
 // WASM module
 pub mod wasm;
 
+// Proof-of-Cost-and-Computation modules
+pub mod meter;
+pub mod feasibility;
+pub mod cost_proof;
+pub mod cost_benchmarks;
+
+// Delta benchmarks (v0 vs v1 comparison)
+pub mod delta_benchmarks;
+
 // Security tests
 #[cfg(test)]
 mod adversarial_tests;
+
+#[cfg(test)]
+mod cost_tests;
 
 // Re-exports for convenience
 pub use sha256::{Sha256, sha256_32, hash_chain};
@@ -99,6 +111,15 @@ pub use serpi::{SerPi, CanonicalTape, SemanticObject};
 pub use mixer::{opoch_hash, TreeSpongeMixer};
 pub use machines::{Machine, MachineId};
 pub use receipt::{Receipt, ReceiptChain};
+
+// Proof-of-Cost-and-Computation re-exports
+pub use meter::{MeterConfig, CostAccumulator, CostBreakdown, Operation, meter_cost, sha256_chain_cost};
+pub use feasibility::{FeasibilityConfig, SurvivorClass, FeasibilityResult, is_feasible, feasibility_bound};
+pub use cost_proof::{CostProofHeader, CostReceipt, CostSegmentProof, CostAggregationProof};
+pub use cost_benchmarks::run_cost_benchmarks;
+
+// Delta benchmarks re-exports
+pub use delta_benchmarks::{run_delta_benchmarks, DeltaReport, DeltaSummary};
 
 /// Library version
 pub const VERSION: &str = env!("CARGO_PKG_VERSION");

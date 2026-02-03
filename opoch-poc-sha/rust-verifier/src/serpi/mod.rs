@@ -15,6 +15,15 @@
 //! [PAYLOAD: variable]
 //! ```
 //!
+//! ## v0 vs v1
+//!
+//! - **v0**: Rules-only canonicalization - applies fixed normalization rules
+//! - **v1**: Partition-lattice normal form with:
+//!   1. Partition hash P_W(τ) for equivalence on meaning
+//!   2. Coequalization of redundant normalizations
+//!   3. Compression to minimal-cost representative
+//!   4. Parallel composition (product partitions)
+//!
 //! ## Usage
 //!
 //! ```ignore
@@ -27,9 +36,15 @@
 
 pub mod types;
 pub mod primitives;
+pub mod partition;
 
 pub use types::{TypeTag, SemanticObject, SerPiError};
 pub use primitives::{SNull, SBool, SInt, SBytes, SString, SDigest};
+pub use partition::{
+    PartitionHash, PartitionKey, PartitionSerializer,
+    CompressionMap, CompressionStats, CoequalizationStats,
+    SemanticMap, product_partition,
+};
 
 use crate::sha256::Sha256;
 
