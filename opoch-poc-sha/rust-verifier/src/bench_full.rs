@@ -10,13 +10,12 @@
 //!   cargo run --release --bin bench_full A B C    # Run specific benchmarks
 
 use std::time::Instant;
-use std::collections::HashMap;
 use std::fs;
 use std::path::Path;
 
 use opoch_poc_sha::{
     Sha256, sha256_32, hash_chain,
-    Fp, Fp2, GOLDILOCKS_PRIME,
+    Fp,
     MerkleTree, MerklePath,
     FriConfig, FriProver, FriVerifier,
     Transcript,
@@ -29,18 +28,15 @@ use opoch_poc_sha::{
 use opoch_poc_sha::serpi::{SerPi, CanonicalTape, SString, SBytes, context};
 use opoch_poc_sha::mixer::{opoch_hash, TreeSpongeMixer, MixerTag};
 use opoch_poc_sha::machines::{
-    MachineId, Machine, MachineState,
+    MachineId, Machine,
     PocShaMachine,
     KeccakMachine,
     PoseidonMachine,
     Ed25519Machine,
     Secp256k1Machine,
-    BigIntMachine,
-    LookupMachine,
 };
 use opoch_poc_sha::machines::poc_sha::PocConfig;
-use opoch_poc_sha::machines::bigint::{BigIntOp, BigIntResult, moduli};
-use opoch_poc_sha::machines::lookup::{LookupTableType, LookupQuery};
+use opoch_poc_sha::machines::bigint::moduli;
 use opoch_poc_sha::receipt::{Receipt, ReceiptChain, BenchmarkStatus, BenchmarkMetrics};
 use opoch_poc_sha::bigint::{U256Limbs, U256Add, U256Sub, U256Mul, U256Compare, ModularReduce, WitnessInverse};
 
@@ -568,7 +564,7 @@ fn benchmark_f_bigint() -> Receipt {
 
     // F2: Subtraction correctness
     println!("F2. Subtraction correctness...");
-    let (diff, borrow) = U256Sub::sub(&b, &a);
+    let (_diff, borrow) = U256Sub::sub(&b, &a);
     // b > a so no borrow expected
     let sub_pass = !borrow;
     println!("    {} Basic subtraction (borrow={})", if sub_pass { "[PASS]" } else { "[FAIL]" }, borrow);

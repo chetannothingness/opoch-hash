@@ -12,8 +12,7 @@ use std::fs;
 use std::time::Instant;
 
 use opoch_poc_sha::{
-    Sha256, sha256_32, hash_chain,
-    Verifier, VerifierConfig, verify_quick, verify_timed,
+    Sha256, sha256_32, hash_chain, verify_timed,
     params,
 };
 

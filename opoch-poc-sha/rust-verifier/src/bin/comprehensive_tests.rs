@@ -140,7 +140,7 @@ fn main() {
 
     // 5.1: Does proof reveal intermediate hashes?
     print!("5.1 Intermediate Hash Exposure... ");
-    let (zk_pass, exposed) = test_intermediate_exposure();
+    let (_zk_pass, exposed) = test_intermediate_exposure();
     println!("{}", if exposed {
         "⚠ NOTE: This is NOT zero-knowledge (by design)"
     } else {
@@ -220,7 +220,7 @@ fn main() {
 
     // 9.1: Memory estimate
     print!("9.1 Memory Requirement Estimate... ");
-    let (mem_pass, max_n) = estimate_max_provable();
+    let (_mem_pass, max_n) = estimate_max_provable();
     println!("Max provable on 16GB: ~{:.2e} steps", max_n);
     passed += 1;
 
@@ -660,10 +660,10 @@ fn estimate_max_provable() -> (bool, f64) {
 
     let trace_size = segment_length * rows_per_hash * columns * field_element_size;
     let extended_size = trace_size * blowup;
-    let total_per_segment = extended_size * 3; // With FFT buffers
+    let _total_per_segment = extended_size * 3; // With FFT buffers
 
     // Available memory (16GB)
-    let available_memory = 16u64 * 1024 * 1024 * 1024;
+    let _available_memory = 16u64 * 1024 * 1024 * 1024;
 
     // We process one segment at a time, so memory is for one segment
     // The limit is actually the chain computation time, not memory

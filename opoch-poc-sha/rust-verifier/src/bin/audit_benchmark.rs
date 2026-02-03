@@ -180,7 +180,7 @@ fn deserialize_only(proof_bytes: &[u8]) -> Option<OpochProof> {
 }
 
 /// Run benchmark with warmup and statistics
-fn benchmark_fn<F, R>(name: &str, iterations: usize, warmup: usize, mut f: F) -> (f64, f64, f64)
+fn benchmark_fn<F, R>(_name: &str, iterations: usize, warmup: usize, mut f: F) -> (f64, f64, f64)
 where
     F: FnMut() -> R,
 {
@@ -210,7 +210,7 @@ where
 }
 
 /// Run correctness tests
-fn run_correctness_tests(proof: &OpochProof, proof_bytes: &[u8], input: &[u8], n: u64) -> (bool, bool, bool, bool) {
+fn run_correctness_tests(_proof: &OpochProof, proof_bytes: &[u8], input: &[u8], _n: u64) -> (bool, bool, bool, bool) {
     // Test 1: Valid proof should verify
     let valid_test = verify_total(proof_bytes, input);
 

@@ -5,16 +5,13 @@
 
 use std::time::Instant;
 use std::fs;
-use std::io::Write;
 
 use opoch_poc_sha::field::Fp;
-use opoch_poc_sha::fri::{FriConfig, FriProver, FriVerifier};
-use opoch_poc_sha::sha256::{Sha256, hash_chain};
+use opoch_poc_sha::sha256::Sha256;
 use opoch_poc_sha::keccak::keccak256;
 use opoch_poc_sha::poseidon::poseidon_hash;
-use opoch_poc_sha::transcript::Transcript;
 use opoch_poc_sha::soundness::{SoundnessParams, fri_soundness_bits, total_soundness_bits, deep_composition_bits};
-use opoch_poc_sha::endtoend::{generate_production_proof, measure_verification_time, production_fri_config};
+use opoch_poc_sha::endtoend::{generate_production_proof, measure_verification_time};
 use opoch_poc_sha::params;
 
 fn main() {

@@ -1,51 +1,14 @@
 # OPOCH-PoC-SHA
 
-> **Cryptographic proof that computation happened—verified in microseconds.**
+A transparent proof system for SHA-256 hash chains using STARK/FRI. Generate a constant-size cryptographic proof that N sequential hash operations were computed correctly, verifiable in microseconds regardless of N.
 
-## What is this?
+## Overview
 
-OPOCH-PoC-SHA is a **proof-of-computation system** for SHA-256 hash chains. It lets you prove that you computed billions of sequential hash operations, and anyone can verify that proof in ~18 microseconds with a 312-byte proof.
+OPOCH-PoC-SHA proves statements of the form: "starting from input x, I computed N sequential SHA-256 hashes and obtained output y." The proof is 312 bytes for any N, and verification takes ~18 microseconds on commodity hardware—independent of whether N is 1,000 or 1,000,000,000.
 
-**The problem it solves:** How do you prove expensive computation was done correctly without re-doing all the work? OPOCH generates a tiny cryptographic proof that verifies instantly.
-
-## Why does it matter?
-
-- **Cloud computing:** Prove the cloud actually did your computation (trustless billing)
-- **Blockchain:** Replace expensive on-chain re-execution with instant proof verification
-- **VDF (Verifiable Delay Functions):** Unbiasable randomness for consensus, lotteries, MEV protection
-- **Audit/Compliance:** Cryptographically prove computation logs are authentic
-
-## Installation
-
-```bash
-git clone https://github.com/opoch-research/opoch-hash.git
-cd opoch-hash/opoch-poc-sha/rust-verifier
-cargo build --release
-cargo test --release  # 311 tests pass
-```
-
-## Quick Example
-
-```bash
-# Run the benchmark and see the numbers
-cargo run --release --bin closure_benchmark
-```
-
-## Documentation
-
-- [Technical Whitepaper](opoch-poc-sha/OPOCH_WHITEPAPER.md) - Full mathematical foundations
-- [Protocol Specification](opoch-poc-sha/spec.md) - Pinned parameters and proof format
-- [Math Details](opoch-poc-sha/rust-verifier/MATH.md) - Cryptographic analysis
-
----
-
-## Proof of Computation for SHA-256 Hash Chains
-
-**Verify 1 billion SHA-256 operations in 18 microseconds.***
+This enables trustless verification of computation: a cloud provider can prove they did the work, an audit system can verify logs are authentic, or a blockchain can use it as a verifiable delay function (VDF) for unbiasable randomness.
 
 ```
-                         OPOCH-PoC-SHA v1.0.0
-
   Input: x
   Chain: d0 = SHA-256(x)
          h1 = SHA-256(d0)
@@ -53,18 +16,22 @@ cargo run --release --bin closure_benchmark
          ...
          y  = SHA-256(h_{N-1})
 
-  Prove:  N = 1,000,000,000 operations
-  Verify: 18 µs* (constant, O(1))
-  Proof:  312 bytes (constant, O(1))
-  Security: 128 bits (min(FRI=136, Hash=128))
-  Setup:  NONE (transparent)
+  Proof size:     312 bytes (constant)
+  Verify time:    18 µs (constant)
+  Security:       128 bits
+  Trusted setup:  None
 ```
 
-*\*Measured on Apple M4. Times vary by hardware but remain O(1).*
+## Installation
 
----
+```bash
+git clone https://github.com/opoch-research/opoch-hash.git
+cd opoch-hash/opoch-poc-sha/rust-verifier
+cargo build --release
+cargo test --release --lib
+```
 
-## Verified Claims
+## Benchmarks
 
 | Claim | Value | Evidence | Status |
 |-------|-------|----------|--------|
@@ -74,22 +41,11 @@ cargo run --release --bin closure_benchmark
 | **SHA-256 Compatible** | FIPS 180-4 | All test vectors pass | PROVEN |
 | **Test Suite** | 311 tests | All passing | PROVEN |
 
----
-
-## Quick Start
-
-```bash
-cd opoch-poc-sha/rust-verifier
-cargo build --release
-cargo test --release          # 311 tests pass
-cargo run --release --bin closure_benchmark  # See the numbers
-```
-
 ### Reproduce All Claims
 
 ```bash
-cd opoch-poc-sha/rust-verifier/public_bundle
-./replay.sh
+cd opoch-poc-sha/rust-verifier
+./public_bundle/replay.sh
 ```
 
 ---
@@ -235,114 +191,11 @@ Sequential (AND) composition preserves soundness:
 
 ---
 
-## Economic Value Analysis
-
-### Direct Value Creation
-
-| Market | Size | OPOCH Impact | Value Unlocked |
-|--------|------|--------------|----------------|
-| Cloud Computing | $500B/yr | 5% verification overhead | $25B/yr |
-| Cryptocurrency | $2T market cap | 10% efficiency gain | $200B |
-| Global Payments | $2Q/yr volume | 0.001% friction | $20B/yr |
-| Supply Chain | $50T/yr | 0.01% verification | $5B/yr |
-| **Total Direct** | | | **$250B+** |
-
-### New Markets Enabled
-
-| Capability | Market Potential |
-|------------|------------------|
-| Trustless cloud computing | $100B+ |
-| Instant cross-border settlements | $50B+ |
-| Verifiable AI computation | $100B+ |
-| Automated compliance | $20B+ |
-| **Total Indirect** | **$270B+** |
-
-### The Trillion-Dollar Math
-
-```
-Direct efficiency gains:       $250B+
-New markets enabled:           $270B+
-Compound network effects:      10-100x multiplier
-----------------------------------------------
-Conservative estimate:         $500B - $5T
-"Trillion-dollar" claim:       JUSTIFIED
-```
-
----
-
-## Use Cases
-
-### 1. Trustless Cloud Computing
-
-```
-PROBLEM: How do you know AWS actually did the computation?
-
-OPOCH SOLUTION:
-  - Cloud computes hash chain as "proof of work done"
-  - Client verifies in 18 µs
-  - Cannot fake without doing actual work
-  - Trustless cloud computing
-
-IMPACT: $500B cloud computing market
-```
-
-### 2. Cryptocurrency & DeFi
-
-```
-CURRENT STATE: Every node recomputes every transaction
-
-WITH OPOCH:
-  - Ethereum gas (verify): ~21,000 gas -> ~500 gas (42x cheaper)
-  - Rollup proof size: 40-200 KB -> 312 bytes (130-650x smaller)
-  - Bridge verification: Hours -> 18 µs (instant)
-```
-
-### 3. Payments & Fintech
-
-```
-CURRENT STATE: Settlement takes 1-3 days
-
-WITH OPOCH:
-  - Settlement: Instant proof verification
-  - Cross-border: 3-5 days -> Instant
-  - Chargeback cost: $20-100/dispute -> ~$0
-```
-
-### 4. Blockchain Randomness
-
-```
-PROBLEM: Every blockchain needs unbiased randomness
-
-OPOCH SOLUTION:
-  - Anyone commits to input x
-  - Must wait (cannot cheat time - VDF property)
-  - Output y is unpredictable until revealed
-  - Proof verifies in 18 µs
-  - No trust required
-```
-
-### 5. MEV Protection
-
-```
-PROBLEM: MEV costs users $10B+/year
-  - Front-running on DEXs
-  - Sandwich attacks
-  - Transaction ordering manipulation
-
-OPOCH SOLUTION:
-  - Users commit to transactions with VDF
-  - Ordering determined by VDF output
-  - No one can predict or manipulate order
-  - 18 µs verification means no latency penalty
-```
-
----
-
 ## Cryptographic Binding
 
 | Identity | SHA-256 Hash |
 |----------|--------------|
-| spec_id | `1b79d8d4f1eceba066ab5ba9169e8b90ef7772fd9848c08aca385339c2fc701d` |
+| spec_id | `9b40585b7ab6a362abd6b4b02824f98aa241a35d9c51ed4157748348f50b8532` |
 | chain_hash | `0e06874eb1747e41357d3234f23c5b822f959cc974a0cfb4b625d145d6348a81` |
 
 All artifacts are cryptographically bound via `receipt_chain.json`.
@@ -447,7 +300,12 @@ opoch-poc-sha/
 
 - O(1) verification is achievable for hash chains
 - 128-bit security is achievable with transparent setup
-- Trillion-dollar value proposition is mathematically justified
+
+---
+
+## Implications
+
+When verification becomes microseconds instead of minutes, and proofs become bytes instead of kilobytes, trust infrastructures change. Cloud billing becomes auditable. Settlement becomes instant. Computation becomes a verifiable commodity. The markets that depend on re-execution, manual audit, or trusted intermediaries—cloud computing, payments, compliance, blockchain—are measured in trillions of dollars annually.
 
 ---
 

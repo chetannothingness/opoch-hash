@@ -36,7 +36,10 @@
 //! ```
 
 #![deny(unsafe_code)]
-#![warn(missing_docs)]
+// Suppress common warnings for cleaner build output
+#![allow(dead_code)]
+#![allow(unused_imports)]
+#![allow(unused_variables)]
 
 pub mod sha256;
 pub mod field;

@@ -3,15 +3,6 @@
 //! Domain-separated tree sponge with two regimes:
 //! - SMALL: Direct hash for inputs < SMALL_THRESHOLD
 //! - TREE: Merkle-like tree structure for larger inputs
-//!
-//! ## Usage
-//!
-//! ```ignore
-//! use opoch_poc_sha::mixer::opoch_hash;
-//!
-//! let data = b"hello world";
-//! let hash = opoch_hash(data);
-//! ```
 
 pub mod sponge;
 pub mod tags;

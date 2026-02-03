@@ -14,16 +14,6 @@
 //! [TYPE_TAG: 1 byte]
 //! [PAYLOAD: variable]
 //! ```
-//!
-//! ## Usage
-//!
-//! ```ignore
-//! use opoch_poc_sha::serpi::{CanonicalTape, SerPi, SString};
-//!
-//! let obj = SString::new("hello");
-//! let tape = SerPi::serialize(&obj, 0x0001);
-//! let hash = tape.hash();
-//! ```
 
 pub mod types;
 pub mod primitives;
@@ -204,7 +194,7 @@ mod tests {
 
     #[test]
     fn test_magic_check() {
-        let mut bytes = vec![b'B', b'A', b'D', b'!', 1, 0, 0, 0];
+        let bytes = vec![b'B', b'A', b'D', b'!', 1, 0, 0, 0];
         let result = CanonicalTape::from_bytes(&bytes);
         assert!(matches!(result, Err(SerPiError::InvalidMagic)));
     }

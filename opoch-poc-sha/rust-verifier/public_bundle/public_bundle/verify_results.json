@@ -1,0 +1,14 @@
+{
+  "cache_state": "warm",
+  "iterations": 10000,
+  "max": 117167,
+  "mean": 18207,
+  "median": 17666,
+  "min": 17416,
+  "p95": 17875,
+  "p95_microseconds": 17.875,
+  "p99": 41375,
+  "target_1ms_met": true,
+  "unit": "nanoseconds",
+  "warmup_iterations": 100
+}

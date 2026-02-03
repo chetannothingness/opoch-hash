@@ -3,9 +3,9 @@
   "label": "N_2048",
   "num_segments": 32,
   "proof_size_bytes": 312,
-  "prover_time_ms": 219618,
+  "prover_time_ms": 219020,
   "segment_length": 64,
   "total_steps": 2048,
-  "verify_time_ns": 1904,
+  "verify_time_ns": 1577,
   "y": "6db61372d5575693ae6a0b263caf14feb81f101d7394f288858fa9bfb89d3b1b"
 }

@@ -8,8 +8,7 @@ use std::time::Instant;
 
 use opoch_poc_sha::field::Fp;
 use opoch_poc_sha::fri::{FriConfig, FriProver, FriVerifier};
-use opoch_poc_sha::merkle::MerkleTree;
-use opoch_poc_sha::sha256::{Sha256, hash_chain};
+use opoch_poc_sha::sha256::Sha256;
 use opoch_poc_sha::keccak::keccak256;
 use opoch_poc_sha::poseidon::poseidon_hash;
 use opoch_poc_sha::transcript::Transcript;
@@ -185,7 +184,7 @@ fn main() {
         let total_steps = num_segments * segment_length;
 
         // Generate REAL proof
-        let (proof, d0, y) = generate_production_proof(input, num_segments, segment_length);
+        let (proof, _d0, _y) = generate_production_proof(input, num_segments, segment_length);
 
         // Measure ACTUAL verification time (100 iterations)
         let verify_time = measure_verification_time(&proof, input, 100);
