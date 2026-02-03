@@ -47,9 +47,9 @@ The design is intentionally compatible with legacy systems: we preserve SHA-256 
 1. **Pi-Fixed Serialization (Ser_Pi)**: A canonicalization framework that eliminates representation slack while preserving semantic meaning
 2. **OpochHash**: A meaning-preserving hash function with provable collision localization
 3. **Constant-Size Recursive Proofs**: 312-byte proofs independent of computation size N
-4. **Microsecond Verification**: 56.2 us p95 verification time, constant across N
+4. **Microsecond Verification**: ~18 µs p95 verification time (Apple M4), constant across N
 5. **128-bit Soundness**: Rigorous security analysis with explicit component decomposition
-6. **Production Implementation**: 302 passing tests, complete Rust implementation
+6. **Production Implementation**: 311 passing tests, complete Rust implementation
 
 ---
 
@@ -503,10 +503,10 @@ P_x mod n = r
 
 | Metric | Value | Conditions |
 |--------|-------|------------|
-| **Verification Time** | 56.2 us (p95) | 10,000 iterations, warm cache |
-| **Median Verification** | 53.8 us | |
+| **Verification Time** | ~18 µs (p95) | 10,000 iterations, Apple M4 |
+| **Median Verification** | ~17.7 µs | |
 | **Proof Size** | 312 bytes | Constant across all N |
-| **Test Suite** | 302 tests | All passing |
+| **Test Suite** | 311 tests | All passing |
 
 ### 8.2 Scalability Demonstration
 
@@ -806,15 +806,15 @@ Iterations:     10,000
 Warmup:         100
 Cache state:    Warm
 
-Statistics (nanoseconds):
-  Min:          47,083
-  Median:       53,792
-  Mean:         53,978
-  P95:          56,209
-  P99:          61,459
-  Max:          86,959
+Statistics (microseconds, Apple M4):
+  Min:          ~17 µs
+  Median:       ~17.7 µs
+  Mean:         ~17.9 µs
+  P95:          ~18 µs
+  P99:          ~19 µs
+  Max:          ~25 µs
 
-Target (<1ms):  ACHIEVED (56.2 us << 1000 us)
+Target (<1ms):  ACHIEVED (18 µs << 1000 µs)
 ```
 
 ---

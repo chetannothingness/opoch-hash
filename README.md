@@ -1,5 +1,44 @@
 # OPOCH-PoC-SHA
 
+> **Cryptographic proof that computation happened—verified in microseconds.**
+
+## What is this?
+
+OPOCH-PoC-SHA is a **proof-of-computation system** for SHA-256 hash chains. It lets you prove that you computed billions of sequential hash operations, and anyone can verify that proof in ~18 microseconds with a 312-byte proof.
+
+**The problem it solves:** How do you prove expensive computation was done correctly without re-doing all the work? OPOCH generates a tiny cryptographic proof that verifies instantly.
+
+## Why does it matter?
+
+- **Cloud computing:** Prove the cloud actually did your computation (trustless billing)
+- **Blockchain:** Replace expensive on-chain re-execution with instant proof verification
+- **VDF (Verifiable Delay Functions):** Unbiasable randomness for consensus, lotteries, MEV protection
+- **Audit/Compliance:** Cryptographically prove computation logs are authentic
+
+## Installation
+
+```bash
+git clone https://github.com/opoch-research/opoch-hash.git
+cd opoch-hash/opoch-poc-sha/rust-verifier
+cargo build --release
+cargo test --release  # 311 tests pass
+```
+
+## Quick Example
+
+```bash
+# Run the benchmark and see the numbers
+cargo run --release --bin closure_benchmark
+```
+
+## Documentation
+
+- [Technical Whitepaper](opoch-poc-sha/OPOCH_WHITEPAPER.md) - Full mathematical foundations
+- [Protocol Specification](opoch-poc-sha/spec.md) - Pinned parameters and proof format
+- [Math Details](opoch-poc-sha/rust-verifier/MATH.md) - Cryptographic analysis
+
+---
+
 ## Proof of Computation for SHA-256 Hash Chains
 
 **Verify 1 billion SHA-256 operations in 18 microseconds.***
