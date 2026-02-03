@@ -1,0 +1,56 @@
+# OPOCH-PoC-SHA Build Instructions
+# =================================
+#
+# Requirements:
+# - Rust 1.75+ (stable)
+# - Cargo
+# - Git
+#
+# Optional:
+# - wasm-pack (for WASM build)
+# - Foundry (for Solidity tests)
+
+# Step 1: Clone and enter directory
+git clone <repository-url>
+cd opoch-poc-sha/rust-verifier
+
+# Step 2: Build release binary
+cargo build --release
+
+# Step 3: Run tests
+cargo test --release
+
+# Step 4: Compute verifier_id
+# The verifier_id is the SHA-256 hash of the release binary
+sha256sum target/release/verifier > verifier_id.txt
+
+# Step 5: Generate proofs
+cargo run --release --bin generate_billion_proof -- 4096
+
+# Step 6: Verify proofs
+cargo run --release --bin reference_verifier -- \
+    public_bundle/vectors/poc_N_4K_stmt.json \
+    public_bundle/vectors/poc_N_4K_proof.bin
+
+# Step 7: Run full benchmark
+cargo run --release --bin bench_full
+
+# Step 8: Build WASM (optional)
+wasm-pack build --release --target web
+
+# Step 9: Run Solidity tests (optional)
+forge test
+
+# Verification Commands:
+# ----------------------
+# All tests pass:
+cargo test --release 2>&1 | grep "test result"
+# Expected: test result: ok. 311 passed; 0 failed
+
+# Proof verification:
+./target/release/reference_verifier public_bundle/vectors/poc_N_2K_stmt.json public_bundle/vectors/poc_N_2K_proof.bin
+# Expected: PASS
+
+# Receipt chain verification:
+cargo run --release --bin bench_full 2>&1 | grep "VERDICT"
+# Expected: VERDICT: ALL BENCHMARKS PASSED

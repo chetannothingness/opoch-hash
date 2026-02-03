@@ -46,6 +46,7 @@ pub mod fri;
 pub mod proof;
 pub mod verifier;
 pub mod air;
+pub mod air_bytewise;  // Production-grade bytewise SHA-256 AIR with lookup tables
 pub mod segment;
 pub mod aggregation;
 pub mod endtoend;
@@ -65,6 +66,13 @@ pub mod serpi;
 pub mod mixer;
 pub mod machines;
 pub mod receipt;
+
+// WASM module
+pub mod wasm;
+
+// Security tests
+#[cfg(test)]
+mod adversarial_tests;
 
 // Re-exports for convenience
 pub use sha256::{Sha256, sha256_32, hash_chain};

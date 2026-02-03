@@ -447,6 +447,8 @@ mod tests {
         let seg1_end = compute_segment_end(&seg0_end, 10);
 
         // Create mock proofs with correct chain
+        // Note: z_bind is None because these are mock proofs for chain verification,
+        // not actual FRI verification. In production, degenerate proofs need z_bind.
         let proof0 = SegmentProof {
             segment_index: 0,
             start_hash: start,
@@ -457,6 +459,7 @@ mod tests {
                 layer_commitments: vec![],
                 final_layer: vec![Fp::ZERO],
                 query_responses: vec![],
+                z_bind: None,
             },
         };
 
@@ -470,6 +473,7 @@ mod tests {
                 layer_commitments: vec![],
                 final_layer: vec![Fp::ZERO],
                 query_responses: vec![],
+                z_bind: None,
             },
         };
 

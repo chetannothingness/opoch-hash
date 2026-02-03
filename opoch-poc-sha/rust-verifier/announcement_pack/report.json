@@ -4,11 +4,11 @@
       "metrics": {
         "custom": {
           "deterministic": true,
-          "spec_hash": "5c33b3e7b86aa327176c39d4b03a57b0811205cd6ef5ad998e8111ab77b12b21"
+          "spec_hash": "3aebc7e56e7e4566c7d19c8d1c620d39bf048c4f8f1dbb84248cf1108d1aa062"
         },
         "proof_size": null,
         "throughput": null,
-        "time_us": 766,
+        "time_us": 812,
         "verify_time_us": null
       },
       "name": "Specification Pinning",
@@ -18,8 +18,8 @@
       "metrics": {
         "custom": {},
         "proof_size": null,
-        "throughput": 4298688.341226442,
-        "time_us": 2350,
+        "throughput": 3525782.2829440283,
+        "time_us": 2867,
         "verify_time_us": null
       },
       "name": "SerΠ Semantic Serialization",
@@ -29,8 +29,8 @@
       "metrics": {
         "custom": {},
         "proof_size": null,
-        "throughput": 61212.63778000665,
-        "time_us": 163461,
+        "throughput": 61875.36509559174,
+        "time_us": 161724,
         "verify_time_us": null
       },
       "name": "OpochHash Mixer",
@@ -39,12 +39,12 @@
     "D": {
       "metrics": {
         "custom": {
-          "build_us": 561,
+          "build_us": 569,
           "path_size_bytes": 342
         },
         "proof_size": null,
         "throughput": null,
-        "time_us": 991,
+        "time_us": 994,
         "verify_time_us": null
       },
       "name": "Merkle Tree Operations",
@@ -56,8 +56,8 @@
           "fips_pass": true
         },
         "proof_size": null,
-        "throughput": 6255268.10861022,
-        "time_us": 159922,
+        "throughput": 6812290.734943986,
+        "time_us": 146845,
         "verify_time_us": null
       },
       "name": "SHA-256 Primitive",
@@ -74,7 +74,7 @@
         },
         "proof_size": null,
         "throughput": null,
-        "time_us": 120,
+        "time_us": 126,
         "verify_time_us": null
       },
       "name": "256-bit Integer Emulation",
@@ -86,8 +86,8 @@
           "hash_correct": true
         },
         "proof_size": null,
-        "throughput": 22052.94543031512,
-        "time_us": 453651,
+        "throughput": 24023.737816898898,
+        "time_us": 416462,
         "verify_time_us": null
       },
       "name": "Poseidon Hash AIR",
@@ -99,8 +99,8 @@
           "hash_correct": true
         },
         "proof_size": null,
-        "throughput": 199323.6271630027,
-        "time_us": 50214,
+        "throughput": 206257.68915774077,
+        "time_us": 48522,
         "verify_time_us": null
       },
       "name": "Keccak-256 Hash AIR",
@@ -114,7 +114,7 @@
         },
         "proof_size": null,
         "throughput": null,
-        "time_us": 189,
+        "time_us": 195,
         "verify_time_us": null
       },
       "name": "Ed25519 Signature Verification AIR",
@@ -129,7 +129,7 @@
         },
         "proof_size": null,
         "throughput": null,
-        "time_us": 101,
+        "time_us": 96,
         "verify_time_us": null
       },
       "name": "secp256k1 ECDSA Signature Verification AIR",
@@ -142,8 +142,8 @@
           "verified": true
         },
         "proof_size": null,
-        "throughput": 6023490.4078927,
-        "time_us": 3423,
+        "throughput": 6492979.465952438,
+        "time_us": 3136,
         "verify_time_us": null
       },
       "name": "PoC over SHA-256 Chain",
@@ -152,14 +152,14 @@
     "L": {
       "metrics": {
         "custom": {
-          "p50_us": 160,
-          "p95_us": 178,
-          "p99_us": 193
+          "p50_us": 142,
+          "p95_us": 161,
+          "p99_us": 177
         },
         "proof_size": null,
         "throughput": null,
-        "time_us": 169743,
-        "verify_time_us": 178
+        "time_us": 152333,
+        "verify_time_us": 161
       },
       "name": "Verification Asymmetry",
       "status": "PASS"
@@ -190,15 +190,15 @@
         },
         "proof_size": null,
         "throughput": null,
-        "time_us": 677,
+        "time_us": 555,
         "verify_time_us": null
       },
       "name": "Industry Demos",
       "status": "PASS"
     }
   },
-  "spec_id": "5c33b3e7b86aa327176c39d4b03a57b0811205cd6ef5ad998e8111ab77b12b21",
-  "timestamp": "1770070905",
+  "spec_id": "3aebc7e56e7e4566c7d19c8d1c620d39bf048c4f8f1dbb84248cf1108d1aa062",
+  "timestamp": "1770098549",
   "verdict": {
     "all_pass": true,
     "failed": 0,
@@ -206,7 +206,7 @@
     "skipped": 0,
     "soundness_bits": 128,
     "spec_stable": true,
-    "verification_p95_us": 178
+    "verification_p95_us": 161
   },
   "version": "1.0.0"
 }

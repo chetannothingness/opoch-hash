@@ -13,6 +13,12 @@ from hypothesis import given, strategies as st, settings, assume
 from hypothesis.strategies import composite
 import math
 
+# Valid UTF-8 text (excludes surrogate characters which can't be encoded)
+valid_text = st.text(
+    alphabet=st.characters(blacklist_categories=('Cs',)),
+    max_size=100
+)
+
 from opochhash.types import (
     SemanticObject, TypeTag, SchemaId,
     SNull, SBool, SInt, SFloat, SBytes, SString,
@@ -48,7 +54,7 @@ def semantic_primitives(draw):
     elif choice == 4:
         return SBytes(draw(st.binary(max_size=1000)))
     else:
-        return SString(draw(st.text(max_size=100)))
+        return SString(draw(valid_text))
 
 
 @composite
@@ -161,7 +167,7 @@ class TestQuotientRespect:
     def test_map_order_invariance(self, data):
         """Map hash doesn't depend on insertion order."""
         keys = data.draw(st.lists(
-            st.text(min_size=1, max_size=10),
+            st.text(alphabet=st.characters(blacklist_categories=('Cs',)), min_size=1, max_size=10),
             min_size=2,
             max_size=10,
             unique=True
@@ -231,7 +237,10 @@ class TestInjectivity:
         assume(a != b)
         assert opoch_hash(SInt(a)) != opoch_hash(SInt(b))
 
-    @given(a=st.text(min_size=1), b=st.text(min_size=1))
+    @given(
+        a=st.text(alphabet=st.characters(blacklist_categories=('Cs',)), min_size=1),
+        b=st.text(alphabet=st.characters(blacklist_categories=('Cs',)), min_size=1)
+    )
     def test_different_strings_different_hashes(self, a, b):
         """Different strings hash differently (after normalization)."""
         s1 = SString(a)
@@ -278,13 +287,21 @@ class TestAvalanche:
         # 256 bits total, expect at least 64 different
         assert diff_bits > 32, f"Insufficient avalanche: {diff_bits} bits differ"
 
-    @given(s=st.text(min_size=2, max_size=100))
+    @given(s=st.text(
+        alphabet=st.characters(blacklist_categories=('Cs',)),  # Exclude surrogates
+        min_size=2,
+        max_size=100
+    ))
     @settings(max_examples=100)
     def test_string_avalanche(self, s):
         """Strings differing by one character have different hashes."""
-        # Change last character
+        # Change last character (staying in valid Unicode range)
         if len(s) > 0:
-            modified = s[:-1] + chr((ord(s[-1]) + 1) % 65536)
+            # Use modular arithmetic within BMP to avoid surrogates
+            new_char = chr((ord(s[-1]) + 1) % 0xD800) if ord(s[-1]) < 0xD800 else chr((ord(s[-1]) + 1) % 0x10000)
+            if 0xD800 <= ord(new_char) <= 0xDFFF:
+                new_char = chr(0xE000)  # Skip surrogate range
+            modified = s[:-1] + new_char
             h1 = opoch_hash(SString(s))
             h2 = opoch_hash(SString(modified))
 

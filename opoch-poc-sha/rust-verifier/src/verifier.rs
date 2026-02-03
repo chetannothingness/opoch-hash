@@ -117,6 +117,9 @@ impl Verifier {
         transcript.append(&proof.final_proof.chain_start);
         transcript.append(&proof.final_proof.chain_end);
 
+        // CRITICAL: Must call challenge_aggregation to match prover's transcript state
+        let _alpha = transcript.challenge_aggregation();
+
         // 8. Verify FRI proof (proves constraint polynomial is low-degree)
         let fri_verifier = FriVerifier::new(self.config.fri_config.clone());
         if !fri_verifier.verify(&proof.final_proof.fri_proof, &mut transcript) {

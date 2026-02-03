@@ -14,6 +14,13 @@ serde_json = "1.0"
 rand = "0.8"
 rayon = "1.8"
 
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+wasm-bindgen = "0.2"
+console_error_panic_hook = "0.1"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
 [profile.release]
 opt-level = 3
 lto = true
@@ -51,3 +58,15 @@ path = "src/trillion_dollar_demo.rs"
 [[bin]]
 name = "closure_benchmark"
 path = "src/closure_benchmark.rs"
+
+[[bin]]
+name = "generate_billion_proof"
+path = "src/generate_billion_proof.rs"
+
+[[bin]]
+name = "reference_verifier"
+path = "src/reference_verifier.rs"
+
+[[bin]]
+name = "generate_large_proof"
+path = "src/generate_large_proof.rs"
