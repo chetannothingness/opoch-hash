@@ -207,8 +207,8 @@ impl GrandProductLookup {
         transcript.append_commitment(&proof.witness_commitment);
 
         // 2. Get challenges (must match prover)
-        let beta = transcript.challenge();
-        let gamma = transcript.challenge();
+        let _beta = transcript.challenge();
+        let _gamma = transcript.challenge();
 
         // 3. Add Z commitment
         transcript.append_commitment(&proof.z_commitment);

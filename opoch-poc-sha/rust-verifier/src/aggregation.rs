@@ -527,6 +527,9 @@ impl AggregationVerifier {
         transcript.append(&proof.chain_start);
         transcript.append(&proof.chain_end);
 
+        // Must call challenge_aggregation to match prover's transcript state
+        let _alpha = transcript.challenge_aggregation();
+
         // Verify FRI proof
         let fri_verifier = FriVerifier::new(self.config.fri_config.clone());
         fri_verifier.verify(&proof.fri_proof, &mut transcript)

@@ -455,7 +455,7 @@ mod tests {
             boundary_values: vec![],
             fri_proof: crate::fri::FriProof {
                 layer_commitments: vec![],
-                final_value: Fp::ZERO,
+                final_layer: vec![Fp::ZERO],
                 query_responses: vec![],
             },
         };
@@ -468,7 +468,7 @@ mod tests {
             boundary_values: vec![],
             fri_proof: crate::fri::FriProof {
                 layer_commitments: vec![],
-                final_value: Fp::ZERO,
+                final_layer: vec![Fp::ZERO],
                 query_responses: vec![],
             },
         };
