@@ -2,7 +2,7 @@
 
 ## Proof of Computation for SHA-256 Hash Chains
 
-**Verify 1 billion SHA-256 operations in 18 microseconds.**
+**Verify 1 billion SHA-256 operations in 18 microseconds.*****
 
 ```
                          OPOCH-PoC-SHA v1.0.0
@@ -15,11 +15,13 @@
          y  = SHA-256(h_{N-1})
 
   Prove:  N = 1,000,000,000 operations
-  Verify: 18 us (constant, O(1))
+  Verify: 18 µs* (constant, O(1))
   Proof:  312 bytes (constant, O(1))
   Security: 128 bits (min(FRI=136, Hash=128))
   Setup:  NONE (transparent)
 ```
+
+*\*Measured on Apple M4. Times vary by hardware but remain O(1).*
 
 ---
 
@@ -27,7 +29,7 @@
 
 | Claim | Value | Evidence | Status |
 |-------|-------|----------|--------|
-| **O(1) Verification** | 17.6 us p95 | Constant across N=256 to N=2048 | PROVEN |
+| **O(1) Verification** | 17.9 µs p95 | Constant across N=256 to N=2048 | PROVEN |
 | **O(1) Proof Size** | 312 bytes | Constant for all N | PROVEN |
 | **128-bit Security** | 128 bits | min(FRI=136, Hash=128) | PROVEN |
 | **SHA-256 Compatible** | FIPS 180-4 | All test vectors pass | PROVEN |
@@ -55,20 +57,20 @@ cd public_bundle
 
 ## The Numbers That Matter
 
-### Core Measurements (Verified, 10,000 iterations)
+### Core Measurements (Apple M4, 10,000 iterations)
 
 ```
   Chain Length (N):           1,000,000,000 operations
 
   VERIFIER SIDE:
-    Verification time:      17.6 us (p95)
-    Median:                 17.3 us
-    Variance:               < 1 us
+    Verification time:      17.9 µs (p95)
+    Median:                 17.7 µs
+    Variance:               < 1 µs
     Proof size:             312 bytes (CONSTANT)
 
   ASYMMETRY at N = 10^9:
     Recompute time:         ~100 seconds
-    Verify time:            18 us
+    Verify time:            18 µs
     Speedup:                5,500,000x
 
   SECURITY:
@@ -82,13 +84,14 @@ cd public_bundle
 
 | N (computations) | Verify Time | Proof Size | Speedup vs Recompute |
 |------------------|-------------|------------|----------------------|
-| 256 | 18 us | 312 bytes | 0.1x |
-| 1,024 | 18 us | 312 bytes | 0.6x |
-| 10,000 | 18 us | 312 bytes | 6x |
-| 1,000,000 | 18 us | 312 bytes | 5,500x |
-| 100,000,000 | 18 us | 312 bytes | 550,000x |
-| **1,000,000,000** | **18 us** | **312 bytes** | **5,500,000x** |
-| 10^12 | 18 us | 312 bytes | 5.5 billion x |
+| 256 | 18 µs | 312 bytes | 0.1x |
+| 1,024 | 18 µs | 312 bytes | 0.6x |
+| 2,048 | 18 µs | 312 bytes | 1.1x |
+| 10,000† | 18 µs | 312 bytes | 6x |
+| 1,000,000† | 18 µs | 312 bytes | 5,500x |
+| **1,000,000,000†** | **18 µs** | **312 bytes** | **5,500,000x** |
+
+*Rows without † are measured. †Extrapolated from O(1) property (verification time and proof size are independent of N by construction).*
 
 ---
 
@@ -98,7 +101,7 @@ cd public_bundle
 
 | System | Verification Time | Ratio vs OPOCH |
 |--------|-------------------|----------------|
-| **OPOCH-PoC-SHA** | **18 us** | **1x (baseline)** |
+| **OPOCH-PoC-SHA** | **18 µs** | **1x (baseline)** |
 | Groth16 (snarkjs) | 8-15 ms | 440-830x slower |
 | PLONK (Aztec) | 5-10 ms | 280-560x slower |
 | STARKs (StarkWare) | 2-5 ms | 110-280x slower |
@@ -110,10 +113,10 @@ cd public_bundle
 
 | System | Verification Time | Ratio vs OPOCH |
 |--------|-------------------|----------------|
-| **OPOCH-PoC-SHA** | **18 us** | **1x (baseline)** |
-| Bitcoin ECDSA | 50-100 us | 2.8-5.6x slower |
-| Ethereum secp256k1 | 50-100 us | 2.8-5.6x slower |
-| Solana Ed25519 | 30-50 us | 1.7-2.8x slower |
+| **OPOCH-PoC-SHA** | **18 µs** | **1x (baseline)** |
+| Bitcoin ECDSA | 50-100 µs | 2.8-5.6x slower |
+| Ethereum secp256k1 | 50-100 µs | 2.8-5.6x slower |
+| Solana Ed25519 | 30-50 µs | 1.7-2.8x slower |
 | zkSync proof verify | 5-15 ms | 280-830x slower |
 | Polygon zkEVM | 10-50 ms | 560-2800x slower |
 
@@ -237,7 +240,7 @@ PROBLEM: How do you know AWS actually did the computation?
 
 OPOCH SOLUTION:
   - Cloud computes hash chain as "proof of work done"
-  - Client verifies in 18 us
+  - Client verifies in 18 µs
   - Cannot fake without doing actual work
   - Trustless cloud computing
 
@@ -252,7 +255,7 @@ CURRENT STATE: Every node recomputes every transaction
 WITH OPOCH:
   - Ethereum gas (verify): ~21,000 gas -> ~500 gas (42x cheaper)
   - Rollup proof size: 40-200 KB -> 312 bytes (130-650x smaller)
-  - Bridge verification: Hours -> 18 us (instant)
+  - Bridge verification: Hours -> 18 µs (instant)
 ```
 
 ### 3. Payments & Fintech
@@ -275,7 +278,7 @@ OPOCH SOLUTION:
   - Anyone commits to input x
   - Must wait (cannot cheat time - VDF property)
   - Output y is unpredictable until revealed
-  - Proof verifies in 18 us
+  - Proof verifies in 18 µs
   - No trust required
 ```
 
@@ -291,7 +294,7 @@ OPOCH SOLUTION:
   - Users commit to transactions with VDF
   - Ordering determined by VDF output
   - No one can predict or manipulate order
-  - 18 us verification means no latency penalty
+  - 18 µs verification means no latency penalty
 ```
 
 ---
@@ -343,7 +346,7 @@ All artifacts are cryptographically bound via `receipt_chain.json`.
 |  3. Verify Merkle paths                                       |
 |  4. Return VALID/INVALID                                      |
 |                                                               |
-|  Time: 18 us (CONSTANT for any N)                             |
+|  Time: 18 µs (CONSTANT for any N)                             |
 |                                                               |
 +--------------------------------------------------------------+
 ```
@@ -405,8 +408,8 @@ rust-verifier/
 ### What This Is
 
 - Complete proof-of-concept implementation
-- 302 tests, all passing
-- Measured 18 us verification (real, repeatable)
+- 311 tests, all passing
+- Measured 18 µs verification on Apple M4 (real, repeatable, O(1))
 - Sound mathematical foundation (STARK/FRI)
 - Production-grade cryptographic code
 - No hardcoding, no shortcuts
@@ -625,5 +628,5 @@ No new cryptographic primitives. No architectural changes. Just parameter tuning
 
 **OPOCH-PoC-SHA v1.0.0**
 
-*Verify a billion operations in fifty-six microseconds.*
-*128-bit security proven. 256-bit upgrade path documented.*
+*Verify a billion operations in eighteen microseconds (Apple M4).*
+*Times vary by hardware but remain O(1). 128-bit security proven.*

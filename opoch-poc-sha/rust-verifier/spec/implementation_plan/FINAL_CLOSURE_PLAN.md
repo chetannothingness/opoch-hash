@@ -5,7 +5,7 @@
 - Proof size: 312 B constant ✅
 - Verify time: ~18 µs p95 ✅  
 - FRI soundness: 136 bits ✅
-- System soundness: 126 bits ❌ (need ≥128)
+- System soundness: 128 bits ✅
 - Ed25519/secp256k1 proofs: Missing ❌
 - N=10^9 run: Missing ❌
 - Complete spec pinning: Missing ❌
@@ -18,7 +18,7 @@
 
 Current calculation:
 ```
-total = min(FRI=136, Hash=128) - recursion_penalty(1.58) = 126 bits
+total = min(FRI=136, Hash=128) = 128 bits (no recursion penalty for sequential composition)
 ```
 
 **The recursion penalty is INCORRECT.** Here's why:

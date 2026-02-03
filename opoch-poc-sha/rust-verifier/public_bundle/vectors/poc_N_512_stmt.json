@@ -3,9 +3,9 @@
   "label": "N_512",
   "num_segments": 8,
   "proof_size_bytes": 312,
-  "prover_time_ms": 51338,
+  "prover_time_ms": 56738,
   "segment_length": 64,
   "total_steps": 512,
-  "verify_time_ns": 5582,
+  "verify_time_ns": 1597,
   "y": "082b60dab12493107a4d77320eeb7236a8579db91be8d88b4d2ca90d3d5580c6"
 }

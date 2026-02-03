@@ -25,10 +25,6 @@ name = "verifier"
 path = "src/main.rs"
 
 [[bin]]
-name = "prover"
-path = "src/prover.rs"
-
-[[bin]]
 name = "bench"
 path = "src/bench.rs"
 

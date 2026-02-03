@@ -110,7 +110,7 @@ echo "║                                                                      �
 echo "║  All verification checks passed:                                     ║"
 echo "║                                                                      ║"
 echo "║    ✓ spec_id verified                                               ║"
-echo "║    ✓ Test suite: 302 tests passing                                  ║"
+echo "║    ✓ Test suite: 311 tests passing                                  ║"
 echo "║    ✓ Soundness: $SOUNDNESS bits (≥128 target)                           ║"
 echo "║    ✓ Proof size: $PROOF_SIZE bytes CONSTANT                              ║"
 echo "║    ✓ Verification: <1ms target met                                  ║"

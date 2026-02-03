@@ -10,7 +10,7 @@ This plan establishes OPOCH-PoC-SHA as the definitive benchmark leader for verif
 
 ### 1.1 SHA-256 Hash Chain (CURRENT - EXTEND)
 
-**Status:** ✅ Implemented (1B iterations, 5µs verification)
+**Status:** ✅ Implemented (1B iterations, ~18µs verification on Apple M4)
 
 **Extensions needed:**
 ```

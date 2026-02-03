@@ -6,7 +6,7 @@ This bundle contains all artifacts proving the claims of OPOCH-PoC-SHA:
 
 | Claim | Evidence | Status |
 |-------|----------|--------|
-| **O(1) Verification** | Constant ~56µs across N=256 to N=2048 | ✓ PROVEN |
+| **O(1) Verification** | Constant ~18µs across N=256 to N=2048 (Apple M4) | ✓ PROVEN |
 | **O(1) Proof Size** | Constant 312 bytes for all N | ✓ PROVEN |
 | **128-bit Security** | min(FRI=136, Hash=128) = 128 bits | ✓ PROVEN |
 | **SHA-256 Compatible** | FIPS 180-4 test vectors pass | ✓ PROVEN |
@@ -19,7 +19,7 @@ This bundle contains all artifacts proving the claims of OPOCH-PoC-SHA:
 
 This script:
 1. Verifies `spec_id` matches specification
-2. Runs 302 unit tests
+2. Runs 311 unit tests
 3. Verifies 128-bit soundness
 4. Confirms proof size invariance
 5. Confirms <1ms verification target

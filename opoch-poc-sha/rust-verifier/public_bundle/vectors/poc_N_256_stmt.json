@@ -3,9 +3,9 @@
   "label": "N_256",
   "num_segments": 4,
   "proof_size_bytes": 312,
-  "prover_time_ms": 27670,
+  "prover_time_ms": 27678,
   "segment_length": 64,
   "total_steps": 256,
-  "verify_time_ns": 5527,
+  "verify_time_ns": 1595,
   "y": "9751c7d7b33b05339cffb64f2ef9f6443765214ae32ff1e7bcbcca89ba893a99"
 }

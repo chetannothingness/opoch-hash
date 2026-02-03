@@ -18,7 +18,7 @@ Our system has two pillars:
 
 1. **OpochHash = Mix . Ser_Pi**: a meaning-preserving hashing pipeline that compiles semantic objects to a Pi-fixed canonical tape and then mixes the tape with a domain-separated tree sponge. We provide a *collision localization theorem*: every collision is attributable to exactly one of four causes (meaning equivalence, serialization bug, mixer collision, or truncation).
 
-2. **Hash-based Proof of Computation (PoC) with constant proof size**: a transparent, recursive proof system that proves >= 10^9 sequential steps of a pinned computation while keeping verification near-constant. A measured closure benchmark demonstrates constant proof size (252 bytes) and microsecond-class verification across multiple work sizes, with explicit soundness accounting. The verifier is designed as a production-grade Rust component.
+2. **Hash-based Proof of Computation (PoC) with constant proof size**: a transparent, recursive proof system that proves >= 10^9 sequential steps of a pinned computation while keeping verification near-constant. A measured closure benchmark demonstrates constant proof size (312 bytes) and microsecond-class verification (~18µs on Apple M4) across multiple work sizes, with explicit soundness accounting. The verifier is designed as a production-grade Rust component.
 
 We also define and benchmark auxiliary AIRs and gadgets required for real industry workloads: Keccak-256 AIR, Poseidon AIR, 256-bit integer/field emulation, and signature verification AIRs (Ed25519/EdDSA and secp256k1/ECDSA). The result is a unified "verification substrate" that can replace large classes of auditing, reconciliation, and trust processes with deterministic verification, enabling instant settlement of computation and logs at scale.
 
@@ -46,7 +46,7 @@ The design is intentionally compatible with legacy systems: we preserve SHA-256 
 
 1. **Pi-Fixed Serialization (Ser_Pi)**: A canonicalization framework that eliminates representation slack while preserving semantic meaning
 2. **OpochHash**: A meaning-preserving hash function with provable collision localization
-3. **Constant-Size Recursive Proofs**: 252-byte proofs independent of computation size N
+3. **Constant-Size Recursive Proofs**: 312-byte proofs independent of computation size N
 4. **Microsecond Verification**: 56.2 us p95 verification time, constant across N
 5. **128-bit Soundness**: Rigorous security analysis with explicit component decomposition
 6. **Production Implementation**: 302 passing tests, complete Rust implementation
@@ -305,7 +305,7 @@ Direct arithmetization over N = 10^9 steps is intractable. We use recursive aggr
                     │         │                          │
                     │  Level 2 Aggregation              │
                     │  ┌──────────┐                      │
-                    │  │   L2     │  ◄── 252 bytes      │
+                    │  │   L2     │  ◄── 312 bytes      │
                     │  └──────────┘                      │
                     │                                     │
                     └─────────────────────────────────────┘
@@ -315,8 +315,8 @@ This yields:
 
 | Property | Value |
 |----------|-------|
-| **Proof Size** | Constant (252 bytes) across all N |
-| **Verification Time** | Constant (56 us) across all N |
+| **Proof Size** | Constant (312 bytes) across all N |
+| **Verification Time** | Constant (~18 µs on Apple M4) across all N |
 | **Soundness** | Accumulates per pinned bound |
 
 ---
@@ -505,18 +505,18 @@ P_x mod n = r
 |--------|-------|------------|
 | **Verification Time** | 56.2 us (p95) | 10,000 iterations, warm cache |
 | **Median Verification** | 53.8 us | |
-| **Proof Size** | 252 bytes | Constant across all N |
+| **Proof Size** | 312 bytes | Constant across all N |
 | **Test Suite** | 302 tests | All passing |
 
 ### 8.2 Scalability Demonstration
 
 | N (operations) | Verify Time | Proof Size | Speedup |
 |----------------|-------------|------------|---------|
-| 256 | 56 us | 252 bytes | 0.4x |
-| 512 | 56 us | 252 bytes | 0.9x |
-| 1,024 | 56 us | 252 bytes | 1.8x |
-| 2,048 | 56 us | 252 bytes | 3.6x |
-| 10^9 (projected) | 56 us | 252 bytes | 1,800,000x |
+| 256 | 18 µs | 312 bytes | 0.1x |
+| 512 | 18 µs | 312 bytes | 0.3x |
+| 1,024 | 18 µs | 312 bytes | 0.6x |
+| 2,048 | 18 µs | 312 bytes | 1.1x |
+| 10^9 (projected) | 18 µs | 312 bytes | 5,500,000x |
 
 **O(1) verification and O(1) proof size confirmed.**
 
@@ -582,7 +582,7 @@ This reproduces all hashes, receipts, and verification results.
 | Current State | With OPOCH |
 |---------------|------------|
 | Trust provider | Trustless verification |
-| Recompute to verify | 56 us proof check |
+| Recompute to verify | 18 µs proof check |
 | Manual dispute resolution | Instant cryptographic proof |
 
 **Value:** Eliminate ~5% verification overhead = **$25B/yr**
@@ -592,8 +592,8 @@ This reproduces all hashes, receipts, and verification results.
 | Current State | With OPOCH |
 |---------------|------------|
 | Every node recomputes | Single proof verification |
-| 40-200 KB rollup proofs | 252 byte proofs |
-| Hours for bridge verification | 56 us verification |
+| 40-200 KB rollup proofs | 312 byte proofs |
+| Hours for bridge verification | 18 µs verification |
 
 **Value:** 10% efficiency gain = **$200B**
 
@@ -611,7 +611,7 @@ This reproduces all hashes, receipts, and verification results.
 
 | Current State | With OPOCH |
 |---------------|------------|
-| Days-weeks audit | 56 us verification |
+| Days-weeks audit | 18 µs verification |
 | Paper-based provenance | Cryptographic chain |
 | Trust-based compliance | Verifiable receipts |
 
@@ -635,7 +635,7 @@ Conservative estimate:         $500B - $5T
 
 | System | Time | vs OPOCH |
 |--------|------|----------|
-| **OPOCH** | **56 us** | 1x |
+| **OPOCH** | **18 µs** | 1x |
 | Groth16 | 8-15 ms | 140-270x slower |
 | PLONK | 5-10 ms | 90-180x slower |
 | STARKs (generic) | 2-5 ms | 35-90x slower |
@@ -646,7 +646,7 @@ Conservative estimate:         $500B - $5T
 
 | System | Size | vs OPOCH |
 |--------|------|----------|
-| **OPOCH** | **252 bytes** | 1x |
+| **OPOCH** | **312 bytes** | 1x |
 | Groth16 | 128-256 bytes | 0.5-1x |
 | PLONK | 400-800 bytes | 1.6-3.2x |
 | STARKs | 40-200 KB | 160-800x |

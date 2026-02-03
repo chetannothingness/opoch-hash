@@ -33,7 +33,7 @@
   
   "benchmarks": [
     {"id": "A", "name": "Spec Pinning", "status": "PASS"},
-    {"id": "B", "name": "Test Suite (302 tests)", "status": "PASS"},
+    {"id": "B", "name": "Test Suite (311 tests)", "status": "PASS"},
     {"id": "C", "name": "Soundness 128 bits", "status": "PASS"},
     {"id": "D", "name": "Proof Size CONSTANT (312B)", "status": "PASS"},
     {"id": "E", "name": "Verify Time <1ms", "status": "PASS"},

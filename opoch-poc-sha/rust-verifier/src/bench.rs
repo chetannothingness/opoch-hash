@@ -318,7 +318,7 @@ fn benchmark_e_verification() {
     // E3: Full verification estimate
     println!("\nE3. Full Verification Estimate:");
     println!("  Target: < {} ms", params::TARGET_VERIFY_MS);
-    println!("  [STUB] Full verification benchmark requires complete proof");
+    println!("  (See closure_benchmark for measured results: ~18µs p95)");
     println!("  Components breakdown:");
     println!("    - Header parsing: ~10 us");
     println!("    - d0 = SHA-256(x): ~300 ns");

@@ -28,7 +28,7 @@ MAX_DEGREE = 65536
 
 **Key observations:**
 - Segment proof generation: ~6.6 sec per segment (with L=64)
-- Verification: CONSTANT 4-5 µs ✓
+- Verification: CONSTANT ~18 µs ✓
 - Proof size: CONSTANT 312 bytes ✓
 
 ### 0.4 The Timing Discrepancy - HONEST ACCOUNTING
@@ -65,7 +65,7 @@ Run N values that ACTUALLY complete:
 ### 1.2 Prove O(1) Verification with Real Data
 
 **What we CAN prove today:**
-1. Verification time is CONSTANT (4-5 µs) across all N values
+1. Verification time is CONSTANT (~18 µs) across all N values
 2. Proof size is CONSTANT (312 bytes) across all N values
 3. Prover time scales linearly with N
 4. Security is 136 bits (computed, not hardcoded)
@@ -273,7 +273,7 @@ Create `public_bundle/soundness.json`:
 ## 6. Final Claims (What We CAN Prove)
 
 ### ✅ Proven by Measurement
-- Verification time: CONSTANT 4-5 µs (measured across 1K, 2K, 4K chains)
+- Verification time: CONSTANT ~18 µs (measured across N=256, 512, 1024, 2048)
 - Proof size: CONSTANT 312 bytes (measured)
 - SHA-256 compatibility: FIPS 180-4 test vectors pass
 
@@ -289,7 +289,7 @@ Create `public_bundle/soundness.json`:
 ### The HONEST Headline
 
 > "OPOCH-PoC-SHA achieves O(1) verification of arbitrary-length SHA-256 chains
-> with measured 4-5 µs verification time, 312-byte constant proof size,
+> with measured ~18 µs verification time, 312-byte constant proof size,
 > and 128-bit cryptographic security. Full N=10^9 proof generation
 > requires GPU acceleration (future work); O(1) verification is proven
 > by constant measured time across N=10³ to N=10⁴ chains."
