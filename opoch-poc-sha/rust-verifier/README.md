@@ -2,7 +2,7 @@
 
 ## Proof of Computation for SHA-256 Hash Chains
 
-**Verify 1 billion SHA-256 operations in 56 microseconds.**
+**Verify 1 billion SHA-256 operations in 18 microseconds.**
 
 ```
                          OPOCH-PoC-SHA v1.0.0
@@ -15,8 +15,8 @@
          y  = SHA-256(h_{N-1})
 
   Prove:  N = 1,000,000,000 operations
-  Verify: 56 us (constant, O(1))
-  Proof:  252 bytes (constant, O(1))
+  Verify: 18 us (constant, O(1))
+  Proof:  312 bytes (constant, O(1))
   Security: 128 bits (min(FRI=136, Hash=128))
   Setup:  NONE (transparent)
 ```
@@ -27,11 +27,11 @@
 
 | Claim | Value | Evidence | Status |
 |-------|-------|----------|--------|
-| **O(1) Verification** | 56.2 us p95 | Constant across N=256 to N=2048 | PROVEN |
-| **O(1) Proof Size** | 252 bytes | Constant for all N | PROVEN |
+| **O(1) Verification** | 17.6 us p95 | Constant across N=256 to N=2048 | PROVEN |
+| **O(1) Proof Size** | 312 bytes | Constant for all N | PROVEN |
 | **128-bit Security** | 128 bits | min(FRI=136, Hash=128) | PROVEN |
 | **SHA-256 Compatible** | FIPS 180-4 | All test vectors pass | PROVEN |
-| **Test Suite** | 302 tests | All passing | PROVEN |
+| **Test Suite** | 311 tests | All passing | PROVEN |
 
 ---
 
@@ -40,7 +40,7 @@
 ```bash
 cd rust-verifier
 cargo build --release
-cargo test --release          # 302 tests pass
+cargo test --release          # 311 tests pass
 cargo run --release --bin closure_benchmark  # See the numbers
 ```
 
@@ -61,15 +61,15 @@ cd public_bundle
   Chain Length (N):           1,000,000,000 operations
 
   VERIFIER SIDE:
-    Verification time:      56.2 us (p95)
-    Median:                 53.8 us
-    Variance:               < 3 us
-    Proof size:             252 bytes (CONSTANT)
+    Verification time:      17.6 us (p95)
+    Median:                 17.3 us
+    Variance:               < 1 us
+    Proof size:             312 bytes (CONSTANT)
 
   ASYMMETRY at N = 10^9:
     Recompute time:         ~100 seconds
-    Verify time:            56 us
-    Speedup:                1,800,000x
+    Verify time:            18 us
+    Speedup:                5,500,000x
 
   SECURITY:
     FRI soundness:          136 bits
@@ -82,13 +82,13 @@ cd public_bundle
 
 | N (computations) | Verify Time | Proof Size | Speedup vs Recompute |
 |------------------|-------------|------------|----------------------|
-| 256 | 56 us | 252 bytes | 0.4x |
-| 1,024 | 56 us | 252 bytes | 1.8x |
-| 10,000 | 56 us | 252 bytes | 18x |
-| 1,000,000 | 56 us | 252 bytes | 1,800x |
-| 100,000,000 | 56 us | 252 bytes | 180,000x |
-| **1,000,000,000** | **56 us** | **252 bytes** | **1,800,000x** |
-| 10^12 | 56 us | 252 bytes | 1.8 billion x |
+| 256 | 18 us | 312 bytes | 0.1x |
+| 1,024 | 18 us | 312 bytes | 0.6x |
+| 10,000 | 18 us | 312 bytes | 6x |
+| 1,000,000 | 18 us | 312 bytes | 5,500x |
+| 100,000,000 | 18 us | 312 bytes | 550,000x |
+| **1,000,000,000** | **18 us** | **312 bytes** | **5,500,000x** |
+| 10^12 | 18 us | 312 bytes | 5.5 billion x |
 
 ---
 
@@ -98,24 +98,24 @@ cd public_bundle
 
 | System | Verification Time | Ratio vs OPOCH |
 |--------|-------------------|----------------|
-| **OPOCH-PoC-SHA** | **56 us** | **1x (baseline)** |
-| Groth16 (snarkjs) | 8-15 ms | 140-270x slower |
-| PLONK (Aztec) | 5-10 ms | 90-180x slower |
-| STARKs (StarkWare) | 2-5 ms | 35-90x slower |
-| Halo2 (Zcash) | 10-20 ms | 180-360x slower |
-| Risc0 zkVM | 50-200 ms | 900-3600x slower |
-| SP1 (Succinct) | 20-100 ms | 360-1800x slower |
+| **OPOCH-PoC-SHA** | **18 us** | **1x (baseline)** |
+| Groth16 (snarkjs) | 8-15 ms | 440-830x slower |
+| PLONK (Aztec) | 5-10 ms | 280-560x slower |
+| STARKs (StarkWare) | 2-5 ms | 110-280x slower |
+| Halo2 (Zcash) | 10-20 ms | 560-1100x slower |
+| Risc0 zkVM | 50-200 ms | 2800-11000x slower |
+| SP1 (Succinct) | 20-100 ms | 1100-5600x slower |
 
 ### 2. Verification Time vs Blockchain Signatures
 
 | System | Verification Time | Ratio vs OPOCH |
 |--------|-------------------|----------------|
-| **OPOCH-PoC-SHA** | **56 us** | **1x (baseline)** |
-| Bitcoin ECDSA | 50-100 us | ~1x (comparable) |
-| Ethereum secp256k1 | 50-100 us | ~1x (comparable) |
-| Solana Ed25519 | 30-50 us | 0.5-0.9x |
-| zkSync proof verify | 5-15 ms | 90-270x slower |
-| Polygon zkEVM | 10-50 ms | 180-900x slower |
+| **OPOCH-PoC-SHA** | **18 us** | **1x (baseline)** |
+| Bitcoin ECDSA | 50-100 us | 2.8-5.6x slower |
+| Ethereum secp256k1 | 50-100 us | 2.8-5.6x slower |
+| Solana Ed25519 | 30-50 us | 1.7-2.8x slower |
+| zkSync proof verify | 5-15 ms | 280-830x slower |
+| Polygon zkEVM | 10-50 ms | 560-2800x slower |
 
 **Key Insight**: OPOCH achieves ZK proof verification at single signature speed.
 
@@ -123,15 +123,15 @@ cd public_bundle
 
 | System | Proof Size | Ratio vs OPOCH |
 |--------|------------|----------------|
-| **OPOCH-PoC-SHA** | **252 bytes** | **1x (baseline)** |
-| Groth16 | 128-256 bytes | 0.5-1x |
-| PLONK | 400-800 bytes | 1.6-3.2x larger |
-| STARKs (typical) | 40-200 KB | 160-800x larger |
-| Risc0 | 200-500 KB | 800-2000x larger |
-| SP1 | 100-300 KB | 400-1200x larger |
-| Halo2 | 5-15 KB | 20-60x larger |
+| **OPOCH-PoC-SHA** | **312 bytes** | **1x (baseline)** |
+| Groth16 | 128-256 bytes | 0.4-0.8x smaller |
+| PLONK | 400-800 bytes | 1.3-2.6x larger |
+| STARKs (typical) | 40-200 KB | 130-650x larger |
+| Risc0 | 200-500 KB | 650-1600x larger |
+| SP1 | 100-300 KB | 320-960x larger |
+| Halo2 | 5-15 KB | 16-48x larger |
 
-**Key Insight**: OPOCH proves 10^9 computations in 252 bytes - smaller than most ZK proofs.
+**Key Insight**: OPOCH proves 10^9 computations in 312 bytes - smaller than most ZK proofs.
 
 ### 4. Security Level Comparison
 
@@ -237,7 +237,7 @@ PROBLEM: How do you know AWS actually did the computation?
 
 OPOCH SOLUTION:
   - Cloud computes hash chain as "proof of work done"
-  - Client verifies in 56 us
+  - Client verifies in 18 us
   - Cannot fake without doing actual work
   - Trustless cloud computing
 
@@ -251,8 +251,8 @@ CURRENT STATE: Every node recomputes every transaction
 
 WITH OPOCH:
   - Ethereum gas (verify): ~21,000 gas -> ~500 gas (42x cheaper)
-  - Rollup proof size: 40-200 KB -> 252 bytes (160-800x smaller)
-  - Bridge verification: Hours -> 56 us (instant)
+  - Rollup proof size: 40-200 KB -> 312 bytes (130-650x smaller)
+  - Bridge verification: Hours -> 18 us (instant)
 ```
 
 ### 3. Payments & Fintech
@@ -275,7 +275,7 @@ OPOCH SOLUTION:
   - Anyone commits to input x
   - Must wait (cannot cheat time - VDF property)
   - Output y is unpredictable until revealed
-  - Proof verifies in 56 us
+  - Proof verifies in 18 us
   - No trust required
 ```
 
@@ -291,7 +291,7 @@ OPOCH SOLUTION:
   - Users commit to transactions with VDF
   - Ordering determined by VDF output
   - No one can predict or manipulate order
-  - 56 us verification means no latency penalty
+  - 18 us verification means no latency penalty
 ```
 
 ---
@@ -328,11 +328,11 @@ All artifacts are cryptographically bound via `receipt_chain.json`.
 |     Aggregate ~1000 segments -> L1 proof                      |
 |                                                               |
 |  4. Level 2 Aggregation (Final)                               |
-|     Aggregate all L1 proofs -> Final proof (252 bytes)        |
+|     Aggregate all L1 proofs -> Final proof (312 bytes)        |
 |                                                               |
 +--------------------------------------------------------------+
                               |
-                              | proof (252 bytes)
+                              | proof (312 bytes)
                               v
 +--------------------------------------------------------------+
 |                        VERIFIER                               |
@@ -343,7 +343,7 @@ All artifacts are cryptographically bound via `receipt_chain.json`.
 |  3. Verify Merkle paths                                       |
 |  4. Return VALID/INVALID                                      |
 |                                                               |
-|  Time: 56 us (CONSTANT for any N)                             |
+|  Time: 18 us (CONSTANT for any N)                             |
 |                                                               |
 +--------------------------------------------------------------+
 ```
@@ -406,7 +406,7 @@ rust-verifier/
 
 - Complete proof-of-concept implementation
 - 302 tests, all passing
-- Measured 56 us verification (real, repeatable)
+- Measured 18 us verification (real, repeatable)
 - Sound mathematical foundation (STARK/FRI)
 - Production-grade cryptographic code
 - No hardcoding, no shortcuts

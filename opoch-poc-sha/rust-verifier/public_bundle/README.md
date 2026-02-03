@@ -7,7 +7,7 @@ This bundle contains all artifacts proving the claims of OPOCH-PoC-SHA:
 | Claim | Evidence | Status |
 |-------|----------|--------|
 | **O(1) Verification** | Constant ~56µs across N=256 to N=2048 | ✓ PROVEN |
-| **O(1) Proof Size** | Constant 252 bytes for all N | ✓ PROVEN |
+| **O(1) Proof Size** | Constant 312 bytes for all N | ✓ PROVEN |
 | **128-bit Security** | min(FRI=136, Hash=128) = 128 bits | ✓ PROVEN |
 | **SHA-256 Compatible** | FIPS 180-4 test vectors pass | ✓ PROVEN |
 

@@ -35,7 +35,7 @@
     {"id": "A", "name": "Spec Pinning", "status": "PASS"},
     {"id": "B", "name": "Test Suite (302 tests)", "status": "PASS"},
     {"id": "C", "name": "Soundness 128 bits", "status": "PASS"},
-    {"id": "D", "name": "Proof Size CONSTANT (252B)", "status": "PASS"},
+    {"id": "D", "name": "Proof Size CONSTANT (312B)", "status": "PASS"},
     {"id": "E", "name": "Verify Time <1ms", "status": "PASS"},
     {"id": "F", "name": "SHA-256 FIPS Conformance", "status": "PASS"},
     {"id": "G", "name": "Keccak-256 Conformance", "status": "PASS"},
@@ -56,7 +56,7 @@
     },
     "o1_proof_size": {
       "claim": "Proof size is O(1) independent of N",
-      "evidence": "Constant 252 bytes across all N values",
+      "evidence": "Constant 312 bytes across all N values",
       "status": "PROVEN_BY_MEASUREMENT"
     },
     "soundness_128bit": {
