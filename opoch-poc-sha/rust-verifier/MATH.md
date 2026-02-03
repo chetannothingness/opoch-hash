@@ -207,6 +207,8 @@ Where:
   Maj(x,y,z) = (x ∧ y) ⊕ (x ∧ z) ⊕ (y ∧ z)
 ```
 
+**Implementation Note:** The current AIR uses algebraic approximations for Ch and Maj (e.g., `ch = e*f + (1-e)*g`) without full 32-bit decomposition and booleanity constraints. The trace is generated from correct SHA-256 execution. Full bit-exact AIR with `b*(1-b)=0` enforcement is planned.
+
 ### 5.3 Boundary Constraints
 
 **First row (round 0):**

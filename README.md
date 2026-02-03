@@ -301,6 +301,10 @@ opoch-poc-sha/
 - O(1) verification is achievable for hash chains
 - 128-bit security is achievable with transparent setup
 
+### Current Limitation
+
+The AIR constraints for CH and MAJ use algebraic approximations without full bit decomposition. The trace is generated from correct SHA-256 execution, but the constraint system does not yet enforce booleanity at the bit level. Full bit-exact SHA-256 AIR with `b*(1-b)=0` constraints is on the roadmap.
+
 ---
 
 ## Implications
