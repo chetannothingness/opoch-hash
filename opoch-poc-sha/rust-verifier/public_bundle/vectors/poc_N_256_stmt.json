@@ -1,0 +1,11 @@
+{
+  "d0": "d13c0e3f6e23868f3bf73e7be30e665bbf7c828a9d1be10176c84cd21b7cb787",
+  "label": "N_256",
+  "num_segments": 4,
+  "proof_size_bytes": 252,
+  "prover_time_ms": 27670,
+  "segment_length": 64,
+  "total_steps": 256,
+  "verify_time_ns": 5527,
+  "y": "9751c7d7b33b05339cffb64f2ef9f6443765214ae32ff1e7bcbcca89ba893a99"
+}

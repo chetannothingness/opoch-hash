@@ -39,3 +39,15 @@ path = "src/e2e_main.rs"
 [[bin]]
 name = "analysis"
 path = "src/analysis_main.rs"
+
+[[bin]]
+name = "bench_full"
+path = "src/bench_full.rs"
+
+[[bin]]
+name = "trillion_dollar_demo"
+path = "src/trillion_dollar_demo.rs"
+
+[[bin]]
+name = "closure_benchmark"
+path = "src/closure_benchmark.rs"

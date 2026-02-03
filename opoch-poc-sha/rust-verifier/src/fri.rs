@@ -59,6 +59,16 @@ pub struct FriProof {
     pub query_responses: Vec<Vec<FriQueryResponse>>,
 }
 
+impl Default for FriProof {
+    fn default() -> Self {
+        FriProof {
+            layer_commitments: Vec::new(),
+            final_value: Fp::ZERO,
+            query_responses: Vec::new(),
+        }
+    }
+}
+
 /// FRI Prover
 pub struct FriProver {
     config: FriConfig,

@@ -1,0 +1,32 @@
+{
+  "deep_composition": {
+    "composition_degree": 196608,
+    "constraint_degree": 3,
+    "max_degree": 65536,
+    "note": "Subsumed by FRI in DEEP-ALI construction",
+    "soundness_bits_per_point": 46
+  },
+  "fiat_shamir": {
+    "hash": "SHA-256",
+    "security_bits": 128
+  },
+  "formula": "min(FRI=136, Hash=128) = 128 bits",
+  "fri": {
+    "formula": "(2 * 0.125)^68 = 2^-136.0",
+    "queries": 68,
+    "rate": 0.125,
+    "soundness_bits": 136
+  },
+  "merkle": {
+    "collision_bits": 128,
+    "hash": "SHA-256"
+  },
+  "recursion": {
+    "composition_type": "SEQUENTIAL (AND)",
+    "explanation": "Sequential composition preserves soundness as min(layers), not sum. No penalty.",
+    "layers": 3,
+    "penalty_bits": 0
+  },
+  "security_class": "128-bit",
+  "total_soundness_bits": 128
+}

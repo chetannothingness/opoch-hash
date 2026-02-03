@@ -52,6 +52,20 @@ pub mod endtoend;
 pub mod soundness;
 pub mod sequentiality;
 
+// Benchmark-beating components
+pub mod lookup;
+pub mod bigint;
+pub mod poseidon;
+pub mod keccak;
+pub mod ed25519;
+pub mod secp256k1;
+
+// Foundation modules (Phase 1)
+pub mod serpi;
+pub mod mixer;
+pub mod machines;
+pub mod receipt;
+
 // Re-exports for convenience
 pub use sha256::{Sha256, sha256_32, hash_chain};
 pub use field::{Fp, Fp2, GOLDILOCKS_PRIME};
@@ -63,6 +77,20 @@ pub use verifier::{Verifier, VerifierConfig, VerifyResult, verify_quick, verify_
 pub use air::{Sha256Air, generate_trace, TRACE_WIDTH, ROWS_PER_HASH};
 pub use segment::{SegmentConfig, SegmentProver, SegmentVerifier, compute_segment_end};
 pub use aggregation::{AggregationConfig, AggregationProver, AggregationVerifier, AggregationLevel};
+
+// Benchmark-beating component re-exports
+pub use lookup::{LookupTable, LookupAccumulator, GrandProductLookup, LogDerivativeLookup};
+pub use bigint::{U256Limbs, U256Add, U256Sub, U256Mul, U256Compare, ModularReduce, WitnessInverse};
+pub use poseidon::{PoseidonState, PoseidonAir, PoseidonProof, poseidon_hash};
+pub use keccak::{KeccakState, KeccakAir, KeccakProof, keccak256};
+pub use ed25519::{EdDSASignature, EdDSAPublicKey, EdDSAAir, EdDSAProof, verify_eddsa};
+pub use secp256k1::{ECDSASignature, ECDSAPublicKey, ECDSAAir, ECDSAProof, verify_ecdsa};
+
+// Foundation module re-exports (Phase 1)
+pub use serpi::{SerPi, CanonicalTape, SemanticObject};
+pub use mixer::{opoch_hash, TreeSpongeMixer};
+pub use machines::{Machine, MachineId};
+pub use receipt::{Receipt, ReceiptChain};
 
 /// Library version
 pub const VERSION: &str = env!("CARGO_PKG_VERSION");

@@ -1,0 +1,28 @@
+{
+  "description": "Goldilocks field arithmetic test vectors",
+  "field": {
+    "name": "Goldilocks",
+    "prime": "18446744069414584321"
+  },
+  "addition": [
+    {"a": "1", "b": "2", "result": "3"},
+    {"a": "18446744069414584320", "b": "1", "result": "0"},
+    {"a": "18446744069414584320", "b": "2", "result": "1"}
+  ],
+  "subtraction": [
+    {"a": "5", "b": "3", "result": "2"},
+    {"a": "0", "b": "1", "result": "18446744069414584320"},
+    {"a": "1", "b": "2", "result": "18446744069414584320"}
+  ],
+  "multiplication": [
+    {"a": "2", "b": "3", "result": "6"},
+    {"a": "4294967296", "b": "4294967296", "result": "18446744065119617025"},
+    {"a": "18446744069414584320", "b": "2", "result": "18446744069414584319"}
+  ],
+  "inversion": [
+    {"a": "1", "inverse": "1"},
+    {"a": "2", "inverse": "9223372034707292161"},
+    {"a": "7", "inverse": "15240637773640786275"}
+  ],
+  "notes": "All values are decimal strings"
+}

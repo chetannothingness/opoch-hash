@@ -1,0 +1,11 @@
+{
+  "d0": "d13c0e3f6e23868f3bf73e7be30e665bbf7c828a9d1be10176c84cd21b7cb787",
+  "label": "N_1024",
+  "num_segments": 16,
+  "proof_size_bytes": 252,
+  "prover_time_ms": 112310,
+  "segment_length": 64,
+  "total_steps": 1024,
+  "verify_time_ns": 5850,
+  "y": "69afd8f44322d4a5ba44adeea1e6ddadf6b313ba4ffeb1a78e63f17151462a1a"
+}

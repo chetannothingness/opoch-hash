@@ -136,6 +136,11 @@ impl Transcript {
     pub fn state(&self) -> [u8; 32] {
         self.state
     }
+
+    /// Get generic challenge (field element) - used by AIR modules
+    pub fn challenge(&mut self) -> Fp {
+        self.challenge_fri()
+    }
 }
 
 impl Default for Transcript {

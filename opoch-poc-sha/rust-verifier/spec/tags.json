@@ -1,0 +1,58 @@
+{
+  "description": "OPOCH-PoC-SHA Domain Separation Tags",
+  "version": "1.0.0",
+  
+  "type_tags": {
+    "NULL": 0,
+    "BOOL": 1,
+    "INT": 2,
+    "BYTES": 3,
+    "STRING": 4,
+    "ARRAY": 5,
+    "MAP": 6,
+    "FIELD_ELEMENT": 7,
+    "POINT": 8
+  },
+  
+  "mixer_tags": {
+    "LEAF": "0x10",
+    "PARENT": "0x11",
+    "ROOT": "0x12",
+    "SMALL": "0x13",
+    "TREE": "0x14"
+  },
+  
+  "poc_tags": {
+    "SEED": "0x70",
+    "INIT": "0x71",
+    "STEP": "0x72",
+    "SEGMENT_COMMIT": "0x73",
+    "L1_COMMIT": "0x74",
+    "L2_COMMIT": "0x75",
+    "FINAL": "0x76"
+  },
+  
+  "machine_ids": {
+    "POC_SHA_CHAIN": "0x0001",
+    "KECCAK256": "0x0002",
+    "POSEIDON": "0x0003",
+    "ED25519_VERIFY": "0x0004",
+    "SECP256K1_ECDSA_VERIFY": "0x0005",
+    "BIGINT_256_EMU": "0x0006",
+    "LOOKUP_CORE": "0x0007"
+  },
+  
+  "transcript_tags": {
+    "FRI_COMMIT": "FRI_COMMIT",
+    "FRI_CHALLENGE": "FRI_CHALLENGE",
+    "FRI_QUERY": "FRI_QUERY",
+    "MERKLE_ROOT": "MERKLE_ROOT",
+    "SEGMENT_ROOT": "SEG_ROOT",
+    "CONSTRAINT_EVAL": "CONSTR_EVAL"
+  },
+  
+  "protocol_magic": {
+    "OPOCH": "OPCH",
+    "SERPI": "SERP"
+  }
+}

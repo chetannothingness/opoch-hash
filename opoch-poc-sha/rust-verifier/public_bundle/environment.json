@@ -1,0 +1,14 @@
+{
+  "os": "macos",
+  "pinned_params": {
+    "FRI_BLOWUP": 8,
+    "FRI_QUERIES": 68,
+    "L": 1024,
+    "MAX_DEGREE": 65536,
+    "N": 1000000000,
+    "NUM_SEGMENTS": 976562
+  },
+  "rust_version": "1.0.0",
+  "target": "aarch64",
+  "timestamp": 1770080658
+}

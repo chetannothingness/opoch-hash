@@ -1,0 +1,22 @@
+{
+  "name": "Goldilocks",
+  "description": "Goldilocks prime field used in Plonky2 and OPOCH",
+  "p": "18446744069414584321",
+  "p_hex": "0xFFFFFFFF00000001",
+  "p_formula": "2^64 - 2^32 + 1",
+  "generator": 7,
+  "two_adicity": 32,
+  "two_adic_root_of_unity": "1753635133440165772",
+  "properties": {
+    "bits": 64,
+    "efficient_reduction": true,
+    "ntt_friendly": true,
+    "explanation": "p-1 = 2^32 * 4294967295, enabling efficient NTT with domains up to 2^32"
+  },
+  "extension_field": {
+    "name": "Fp2",
+    "irreducible": "x^2 + 1",
+    "degree": 2,
+    "bits": 128
+  }
+}

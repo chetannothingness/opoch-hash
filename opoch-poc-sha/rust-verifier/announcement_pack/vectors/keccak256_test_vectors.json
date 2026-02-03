@@ -1,0 +1,21 @@
+{
+  "description": "Keccak-256 test vectors",
+  "vectors": [
+    {
+      "id": "empty",
+      "input_hex": "",
+      "expected_hex": "c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470"
+    },
+    {
+      "id": "abc",
+      "input_hex": "616263",
+      "expected_hex": "4e03657aea45a94fc7d47ba826c8d667c0d1e6e33a64a036ec44f58fa12d6c45"
+    },
+    {
+      "id": "ethereum_message",
+      "input_hex": "19457468657265756d205369676e6564204d6573736167653a0a333268656c6c6f20776f726c64",
+      "expected_hex": "d9eba16ed0ecae432b71fe008c98cc872bb4cc214d3220a36f365326cf807d68"
+    }
+  ],
+  "notes": "Keccak-256 (NOT SHA3-256, uses different padding)"
+}

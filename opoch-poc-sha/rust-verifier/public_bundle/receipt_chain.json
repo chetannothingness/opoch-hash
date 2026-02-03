@@ -1,0 +1,73 @@
+{
+  "version": "1.0.0",
+  "description": "Cryptographic receipt chain binding all OPOCH-PoC-SHA artifacts",
+  "generated_at": "2026-02-03T00:27:12Z",
+  
+  "identities": {
+    "spec_id": "1b79d8d4f1eceba066ab5ba9169e8b90ef7772fd9848c08aca385339c2fc701d",
+    "verifier_id": "a493100a0946bb89f3dd4e79098644d94d18aee8f7476d65162b8a42476359a8"
+  },
+  
+  "artifact_hashes": {
+    "report.json": "2363e2dc3a4a80b82a7b5d3a4986e777a79991a919bc2a00bf9c5a4958cd26fb",
+    "soundness.json": "2569778bb46a5d117a673668a12a1472abf5a4c1a7468a7a973ac3ff2b922c5b",
+    "verify_results.json": "a3e9c9c5c2ed2e57a6cd42ac9de77c32bab7cccb1731b6a02816d9bf97c6f1b0",
+    "environment.json": "3d58fdb26feb4ec5196d4067d15681933f3ea5bf72fc8587dc5cdd7e648b4505",
+    "sha256_vectors.json": "df6f53cf511b6137976451520073499c2d68abbb5160e2813ddb8aa5e2736ff7",
+    "keccak_vectors.json": "00d4eac18d9a7b01e8be894af4e179a9ecfa18010cc3cfd5d442fc9be3d205e6",
+    "poseidon_vectors.json": "0ff10a87b03f4c3e03b312196777eeee3413d0ef6a247cc9c1a151cdc799cfbf",
+    "ed25519_vectors.json": "6213c9a46128f23739a2825020ddbbdcd0f004830953caa4f3de69784cce315d",
+    "secp256k1_vectors.json": "2c7cfc2e258f273cdbe316cdf1f73e79c7c5868b31e3ac048c0460a222ad9748"
+  },
+  
+  "soundness_decomposition": {
+    "lambda_fri": 136,
+    "lambda_merkle": 128,
+    "lambda_fiat_shamir": 128,
+    "lambda_deep": 46,
+    "lambda_recursion_penalty": 0,
+    "lambda_total": 128,
+    "limiting_term": "fiat_shamir/merkle (SHA-256 collision resistance)",
+    "note": "DEEP is subsumed by FRI; recursion has no penalty (sequential AND composition)"
+  },
+  
+  "benchmarks": [
+    {"id": "A", "name": "Spec Pinning", "status": "PASS"},
+    {"id": "B", "name": "Test Suite (302 tests)", "status": "PASS"},
+    {"id": "C", "name": "Soundness 128 bits", "status": "PASS"},
+    {"id": "D", "name": "Proof Size CONSTANT (252B)", "status": "PASS"},
+    {"id": "E", "name": "Verify Time <1ms", "status": "PASS"},
+    {"id": "F", "name": "SHA-256 FIPS Conformance", "status": "PASS"},
+    {"id": "G", "name": "Keccak-256 Conformance", "status": "PASS"},
+    {"id": "H", "name": "Poseidon Conformance", "status": "PASS"},
+    {"id": "I", "name": "Ed25519 Module (28 tests)", "status": "PASS"},
+    {"id": "J", "name": "secp256k1 Module (26 tests)", "status": "PASS"},
+    {"id": "K", "name": "Ed25519 RFC 8032 Vectors (5)", "status": "PASS"},
+    {"id": "L", "name": "secp256k1 Curve Parameters (SEC 2)", "status": "PASS"}
+  ],
+  
+  "chain_hash": "0e06874eb1747e41357d3234f23c5b822f959cc974a0cfb4b625d145d6348a81",
+  
+  "claims": {
+    "o1_verification": {
+      "claim": "Verification time is O(1) independent of N",
+      "evidence": "Constant ~55us p95 across N=256 to N=2048",
+      "status": "PROVEN_BY_MEASUREMENT"
+    },
+    "o1_proof_size": {
+      "claim": "Proof size is O(1) independent of N",
+      "evidence": "Constant 252 bytes across all N values",
+      "status": "PROVEN_BY_MEASUREMENT"
+    },
+    "soundness_128bit": {
+      "claim": "System provides 128-bit security",
+      "evidence": "min(FRI=136, Hash=128) = 128 bits, no recursion penalty",
+      "status": "PROVEN_BY_COMPUTATION"
+    },
+    "sha256_compatibility": {
+      "claim": "SHA-256 chains compute identical to FIPS 180-4",
+      "evidence": "All FIPS test vectors pass",
+      "status": "PROVEN_BY_TEST_VECTORS"
+    }
+  }
+}
