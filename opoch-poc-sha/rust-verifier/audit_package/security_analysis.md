@@ -127,7 +127,7 @@ FRI soundness = (2ρ)^q
 
 | Vector | Mitigation |
 |--------|------------|
-| Buffer overflow | Fixed-size proof (312 bytes) |
+| Buffer overflow | Fixed-size proof (321 bytes) |
 | Integer overflow | Big-endian with size checks |
 | Malformed header | Magic/version validation |
 

@@ -39,3 +39,5 @@ Thumbs.db
 # Benchmark results (regenerate locally)
 bench/results*/
 bench/verify_results/
+opoch-poc-sha/rust-verifier/demo.gif
+opoch-poc-sha/rust-verifier/src/bin/visual_demo.rs

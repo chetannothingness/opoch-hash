@@ -44,7 +44,7 @@ Given input `x`, it proves: `y = SHA-256^N(SHA-256(x))` where N = 10^9.
 - [x] Verifier binary with test vectors
 - [x] Benchmark suite (A-E)
 - [x] Production verifier with <1ms target (achieved ~18µs)
-- [x] Proof serialization to file (312 bytes constant)
+- [x] Proof serialization to file (321 bytes constant)
 
 ## Test Results
 
@@ -67,7 +67,7 @@ Given input `x`, it proves: `y = SHA-256^N(SHA-256(x))` where N = 10^9.
 | Operation | Time |
 |-----------|------|
 | Verification (p95) | ~18 µs |
-| Proof size | 312 bytes (constant) |
+| Proof size | 321 bytes (constant) |
 | Soundness | 128 bits |
 | FRI queries | 68 |
 | Blowup factor | 8 |
@@ -134,7 +134,7 @@ cargo test --release
 ## Achievements
 
 1. ✅ O(1) verification time (~18µs on Apple M4)
-2. ✅ O(1) proof size (312 bytes constant)
+2. ✅ O(1) proof size (321 bytes constant)
 3. ✅ 128-bit security (min(FRI=136, Hash=128))
 4. ✅ SHA-256 FIPS 180-4 compliant
 5. ✅ 311 tests passing

@@ -4,7 +4,7 @@ A transparent proof system for SHA-256 hash chains using STARK/FRI. Generate a c
 
 ## Overview
 
-OPOCH-PoC-SHA proves statements of the form: "starting from input x, I computed N sequential SHA-256 hashes and obtained output y." The proof is 312 bytes for any N, and verification takes ~18 microseconds on commodity hardware—independent of whether N is 1,000 or 1,000,000,000.
+OPOCH-PoC-SHA proves statements of the form: "starting from input x, I computed N sequential SHA-256 hashes and obtained output y." The proof is 321 bytes for any N, and verification takes ~18 microseconds on commodity hardware—independent of whether N is 1,000 or 1,000,000,000.
 
 This enables trustless verification of computation: a cloud provider can prove they did the work, an audit system can verify logs are authentic, or a blockchain can use it as a verifiable delay function (VDF) for unbiasable randomness.
 
@@ -16,7 +16,7 @@ This enables trustless verification of computation: a cloud provider can prove t
          ...
          y  = SHA-256(h_{N-1})
 
-  Proof size:     312 bytes (constant)
+  Proof size:     321 bytes (constant)
   Verify time:    18 µs (constant)
   Security:       128 bits
   Trusted setup:  None
@@ -36,10 +36,10 @@ cargo test --release --lib
 | Claim | Value | Evidence | Status |
 |-------|-------|----------|--------|
 | **O(1) Verification** | 17.9 µs p95 | Constant across N=256 to N=2048 | PROVEN |
-| **O(1) Proof Size** | 312 bytes | Constant for all N | PROVEN |
+| **O(1) Proof Size** | 321 bytes | Constant for all N | PROVEN |
 | **128-bit Security** | 128 bits | min(FRI=136, Hash=128) | PROVEN |
 | **SHA-256 Compatible** | FIPS 180-4 | All test vectors pass | PROVEN |
-| **Test Suite** | 311 tests | All passing | PROVEN |
+| **Test Suite** | 414 tests | All passing | PROVEN |
 
 ### Reproduce All Claims
 
@@ -61,7 +61,7 @@ cd opoch-poc-sha/rust-verifier
     Verification time:      17.9 µs (p95)
     Median:                 17.7 µs
     Variance:               < 1 µs
-    Proof size:             312 bytes (CONSTANT)
+    Proof size:             321 bytes (CONSTANT)
 
   ASYMMETRY at N = 10^9:
     Recompute time:         ~100 seconds
@@ -79,12 +79,12 @@ cd opoch-poc-sha/rust-verifier
 
 | N (computations) | Verify Time | Proof Size | Speedup vs Recompute |
 |------------------|-------------|------------|----------------------|
-| 256 | 18 µs | 312 bytes | 0.1x |
-| 1,024 | 18 µs | 312 bytes | 0.6x |
-| 2,048 | 18 µs | 312 bytes | 1.1x |
-| 10,000† | 18 µs | 312 bytes | 6x |
-| 1,000,000† | 18 µs | 312 bytes | 5,500x |
-| **1,000,000,000†** | **18 µs** | **312 bytes** | **5,500,000x** |
+| 256 | 18 µs | 321 bytes | 0.1x |
+| 1,024 | 18 µs | 321 bytes | 0.6x |
+| 2,048 | 18 µs | 321 bytes | 1.1x |
+| 10,000† | 18 µs | 321 bytes | 6x |
+| 1,000,000† | 18 µs | 321 bytes | 5,500x |
+| **1,000,000,000†** | **18 µs** | **321 bytes** | **5,500,000x** |
 
 *Rows without † are measured. †Extrapolated from O(1) property (verification time and proof size are independent of N by construction).*
 
@@ -121,7 +121,7 @@ cd opoch-poc-sha/rust-verifier
 
 | System | Proof Size | Ratio vs OPOCH |
 |--------|------------|----------------|
-| **OPOCH-PoC-SHA** | **312 bytes** | **1x (baseline)** |
+| **OPOCH-PoC-SHA** | **321 bytes** | **1x (baseline)** |
 | Groth16 | 128-256 bytes | 0.4-0.8x smaller |
 | PLONK | 400-800 bytes | 1.3-2.6x larger |
 | STARKs (typical) | 40-200 KB | 130-650x larger |
@@ -129,7 +129,7 @@ cd opoch-poc-sha/rust-verifier
 | SP1 | 100-300 KB | 320-960x larger |
 | Halo2 | 5-15 KB | 16-48x larger |
 
-**Key Insight**: OPOCH proves 10^9 computations in 312 bytes - smaller than most ZK proofs.
+**Key Insight**: OPOCH proves 10^9 computations in 321 bytes - smaller than most ZK proofs.
 
 ### 4. Security Level Comparison
 
@@ -223,11 +223,11 @@ All artifacts are cryptographically bound via `receipt_chain.json`.
 |     Aggregate ~1000 segments -> L1 proof                      |
 |                                                               |
 |  4. Level 2 Aggregation (Final)                               |
-|     Aggregate all L1 proofs -> Final proof (312 bytes)        |
+|     Aggregate all L1 proofs -> Final proof (321 bytes)        |
 |                                                               |
 +--------------------------------------------------------------+
                               |
-                              | proof (312 bytes)
+                              | proof (321 bytes)
                               v
 +--------------------------------------------------------------+
 |                        VERIFIER                               |

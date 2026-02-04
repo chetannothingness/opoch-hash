@@ -1,6 +1,6 @@
 # OPOCH-PoC-SHA: Complete Mathematical Specification
 
-> **Note**: This document describes the theoretical design. Actual implementation achieved **312 bytes** proof size (vs. 150KB theoretical) and **~18µs** verification (Apple M4). The dramatic improvement comes from optimized FRI parameters and efficient proof serialization.
+> **Note**: This document describes the theoretical design. Actual implementation achieved **321 bytes** proof size (vs. 150KB theoretical) and **~18µs** verification (Apple M4). The dramatic improvement comes from optimized FRI parameters and efficient proof serialization.
 
 ## The Six Demands — Satisfied
 
@@ -249,7 +249,7 @@ Level 1: L1 Aggregation
 
 Level 2: L2 Aggregation (Final)
   - Single proof aggregating all L1 proofs
-  - Final proof size: 312 bytes (constant)
+  - Final proof size: 321 bytes (constant)
   - Final verification: ~18 µs
 ```
 
@@ -268,7 +268,7 @@ The aggregation circuit proves:
 | d0 (input hash) | 32 bytes |
 | y (output hash) | 32 bytes |
 | FRI commitment + queries | 240 bytes |
-| **Total** | **312 bytes (constant)** |
+| **Total** | **321 bytes (constant)** |
 
 ---
 
@@ -481,7 +481,7 @@ cargo run --release --bin e2e         # End-to-end benchmark
 **The math is pinned. The code works. The tests pass.**
 
 ```
-Final proof size:    312 bytes (constant)
+Final proof size:    321 bytes (constant)
 Verification time:   ~18 µs
 Soundness:          128 bits
 Asymmetry ratio:    5,500,000×

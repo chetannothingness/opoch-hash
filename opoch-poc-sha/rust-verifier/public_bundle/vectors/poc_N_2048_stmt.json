@@ -2,10 +2,10 @@
   "d0": "d13c0e3f6e23868f3bf73e7be30e665bbf7c828a9d1be10176c84cd21b7cb787",
   "label": "N_2048",
   "num_segments": 32,
-  "proof_size_bytes": 312,
-  "prover_time_ms": 216959,
+  "proof_size_bytes": 321,
+  "prover_time_ms": 218455,
   "segment_length": 64,
   "total_steps": 2048,
-  "verify_time_ns": 1635,
+  "verify_time_ns": 5940,
   "y": "6db61372d5575693ae6a0b263caf14feb81f101d7394f288858fa9bfb89d3b1b"
 }

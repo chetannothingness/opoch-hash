@@ -133,7 +133,7 @@ depth = 3
 
 ## 8. Proof Format
 
-**Total Size**: 312 bytes (constant for all N)
+**Total Size**: 321 bytes (constant for all N)
 
 **Layout**:
 ```

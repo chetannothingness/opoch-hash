@@ -22,14 +22,14 @@ MAX_DEGREE = 65536
 
 | Chain Steps | Segments × Length | Segment Proof Time | Verify Time | Proof Size |
 |-------------|-------------------|-------------------|-------------|------------|
-| 1,024 | 16 × 64 | 105.5 sec | 4 µs | 312 B |
-| 2,048 | 32 × 64 | 213.0 sec | 5 µs | 312 B |
-| 4,096 | 64 × 64 | 431.1 sec | 4 µs | 312 B |
+| 1,024 | 16 × 64 | 105.5 sec | 4 µs | 321 B |
+| 2,048 | 32 × 64 | 213.0 sec | 5 µs | 321 B |
+| 4,096 | 64 × 64 | 431.1 sec | 4 µs | 321 B |
 
 **Key observations:**
 - Segment proof generation: ~6.6 sec per segment (with L=64)
 - Verification: CONSTANT ~18 µs ✓
-- Proof size: CONSTANT 312 bytes ✓
+- Proof size: CONSTANT 321 bytes ✓
 
 ### 0.4 The Timing Discrepancy - HONEST ACCOUNTING
 
@@ -66,7 +66,7 @@ Run N values that ACTUALLY complete:
 
 **What we CAN prove today:**
 1. Verification time is CONSTANT (~18 µs) across all N values
-2. Proof size is CONSTANT (312 bytes) across all N values
+2. Proof size is CONSTANT (321 bytes) across all N values
 3. Prover time scales linearly with N
 4. Security is 136 bits (computed, not hardcoded)
 
@@ -184,10 +184,10 @@ Add to `report.json`:
 ```json
 {
   "proof_size_invariance": {
-    "N_1e4": 312,
-    "N_1e5": 312,
-    "N_1e6": 312,
-    "N_1e7": 312,
+    "N_1e4": 321,
+    "N_1e5": 321,
+    "N_1e6": 321,
+    "N_1e7": 321,
     "constant": true
   }
 }
@@ -274,7 +274,7 @@ Create `public_bundle/soundness.json`:
 
 ### ✅ Proven by Measurement
 - Verification time: CONSTANT ~18 µs (measured across N=256, 512, 1024, 2048)
-- Proof size: CONSTANT 312 bytes (measured)
+- Proof size: CONSTANT 321 bytes (measured)
 - SHA-256 compatibility: FIPS 180-4 test vectors pass
 
 ### ✅ Proven by Computation
@@ -289,7 +289,7 @@ Create `public_bundle/soundness.json`:
 ### The HONEST Headline
 
 > "OPOCH-PoC-SHA achieves O(1) verification of arbitrary-length SHA-256 chains
-> with measured ~18 µs verification time, 312-byte constant proof size,
+> with measured ~18 µs verification time, 321-byte constant proof size,
 > and 128-bit cryptographic security. Full N=10^9 proof generation
 > requires GPU acceleration (future work); O(1) verification is proven
 > by constant measured time across N=10³ to N=10⁴ chains."

@@ -437,13 +437,13 @@ From actual benchmark runs:
 
 | Chain Steps | Proof Size | Verify Time | Speedup |
 |-------------|------------|-------------|---------|
-| 256 | 312 B | 18 µs | 0.1x |
-| 1,024 | 312 B | 18 µs | 0.6x |
-| 2,048 | 312 B | 18 µs | 1.1x |
+| 256 | 321 B | 18 µs | 0.1x |
+| 1,024 | 321 B | 18 µs | 0.6x |
+| 2,048 | 321 B | 18 µs | 1.1x |
 
 **Key observations (Apple M4):**
 
-- Proof size is **CONSTANT** (312 bytes)
+- Proof size is **CONSTANT** (321 bytes)
 - Verify time is **CONSTANT** (~18 µs)
 - Security: 128 bits = min(FRI=136, Hash=128)
 
@@ -457,6 +457,6 @@ From actual benchmark runs:
 
 # The Headline
 
-> **"OPOCH-PoC-SHA verifies 1 billion SHA-256 operations in 18 microseconds with a 312-byte proof and 128-bit cryptographic security."**
+> **"OPOCH-PoC-SHA verifies 1 billion SHA-256 operations in 18 microseconds with a 321-byte proof and 128-bit cryptographic security."**
 
 This is not an estimate. This is measured. This is real.

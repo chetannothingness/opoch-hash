@@ -14,11 +14,11 @@ h_{t+1} = SHA-256(h_t)  for t = 0, 1, ..., N-1
 y = h_N
 ```
 
-The verifier checks a constant-size proof (312 bytes) in O(1) time (~17.9 µs) regardless of N.
+The verifier checks a constant-size proof (321 bytes) in O(1) time (~17.9 µs) regardless of N.
 
 ## 2. Proof Format
 
-### 2.1 Complete Proof (312 bytes)
+### 2.1 Complete Proof (321 bytes)
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
@@ -94,7 +94,7 @@ Level 1 (Aggregation):
 
 Level 2 (Final):
   - Aggregates L1 proofs into single proof
-  - Final proof size: 312 bytes (constant)
+  - Final proof size: 321 bytes (constant)
 ```
 
 ### 4.1 Padding Rules
@@ -228,7 +228,7 @@ The initial hash d0 is computed identically to legacy systems.
 
 - Time: O(1) - constant regardless of N
 - Space: O(1) - constant regardless of N
-- Proof size: 312 bytes - constant regardless of N
+- Proof size: 321 bytes - constant regardless of N
 
 ### 11.2 Prover Complexity
 

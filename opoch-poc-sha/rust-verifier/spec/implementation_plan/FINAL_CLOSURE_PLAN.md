@@ -2,7 +2,7 @@
 ## Production Readiness - No Shortcuts, No Hardcoding
 
 **Current Status**:
-- Proof size: 312 B constant ✅
+- Proof size: 321 B constant ✅
 - Verify time: ~18 µs p95 ✅  
 - FRI soundness: 136 bits ✅
 - System soundness: 128 bits ✅
@@ -104,12 +104,12 @@ OPOCH-PoC-SHA Specification v1.0.0
    - L2 fan-in = 1024 L1 proofs
    - Depth: ceil(log_{1024}(N/L))
 
-8. Proof Format (312 bytes):
+8. Proof Format (321 bytes):
    - [0..4]:   Magic "OPSH"
    - [4..8]:   Version (1)
    - [8..40]:  d0 (32 bytes)
    - [40..72]: y (32 bytes)
-   - [72..312]: FRI commitment + queries + final_layer
+   - [72..321]: FRI commitment + queries + final_layer
 
 9. Verification Benchmark:
    - Iterations: 10,000
@@ -230,7 +230,7 @@ depth = 3
 ### 5.3 Run Benchmark on N_small
 
 - Generate proof
-- Verify proof size = 312 bytes (constant)
+- Verify proof size = 321 bytes (constant)
 - Measure verify time distribution
 
 ---
@@ -254,7 +254,7 @@ This reduces prover time significantly while preserving claims.
 
 - poc_N_1e9_stmt.json
 - poc_N_1e9_proof.bin
-- Verify: proof size = 312 bytes
+- Verify: proof size = 321 bytes
 - Verify: p95 < 1ms
 
 ---
@@ -339,7 +339,7 @@ public_bundle/
 | 3 | Ed25519 | 100 vectors verified with proof |
 | 4 | secp256k1 | 100 vectors verified with proof |
 | 5 | Shape Match | Same structure as N=10^9 |
-| 6 | N=10^9 | Proof size 312B, verify <1ms |
+| 6 | N=10^9 | Proof size 321B, verify <1ms |
 | 7 | Bundle | replay.sh reproduces all hashes |
 
 **All gates must be GREEN before announcement.**
