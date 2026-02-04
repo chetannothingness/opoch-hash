@@ -1,0 +1,13 @@
+{
+  "spec_id": "c544d7ed9ba16165026016acce342808f4bec20509c43fc3e70eccdc61166f16",
+  "verifier_id": "8fef1d01cda1efdd8c5a1ecb0427e79909670941813e39cbf441f32e9fa0a3be",
+  "prover": "opoch",
+  "version": "1.0.0",
+  "timestamp": "SystemTime { tv_sec: 1770163485, tv_nsec: 680123000 }",
+  "benchmarks": {
+    "fibonacci": [100, 1000, 10000, 100000, 1000000, 10000000],
+    "keccak": [32, 64, 136, 1024, 10240, 102400],
+    "rsp": [1024, 10240, 102400, 1048576]
+  },
+  "replay_command": "cargo run --release --bin run_zkbenchmarks -- --full"
+}

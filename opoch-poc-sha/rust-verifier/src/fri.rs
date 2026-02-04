@@ -60,6 +60,11 @@ pub struct FriProof {
     pub final_layer: Vec<Fp>,
     /// Query responses for each layer
     pub query_responses: Vec<Vec<FriQueryResponse>>,
+    /// Transcript binding value for degenerate (zero-layer) FRI proofs.
+    /// When layer_commitments is empty, this field MUST be present and
+    /// must equal H_F("FRI_BIND", alpha0) where alpha0 is derived from transcript.
+    /// This ensures cryptographic binding even when no FRI layers are executed.
+    pub z_bind: Option<Fp>,
 }
 
 impl FriProof {
@@ -75,6 +80,7 @@ impl Default for FriProof {
             layer_commitments: Vec::new(),
             final_layer: Vec::new(),
             query_responses: Vec::new(),
+            z_bind: None,
         }
     }
 }
@@ -92,6 +98,9 @@ pub enum FriError {
     InvalidProofStructure,
     /// Index out of bounds
     IndexOutOfBounds { layer: usize, index: usize, domain_size: usize },
+    /// Transcript binding verification failed (degenerate FRI case)
+    /// This error indicates the proof doesn't cryptographically bind to transcript state
+    TranscriptUnbound,
 }
 
 /// FRI Prover
@@ -154,6 +163,17 @@ impl FriProver {
         // Final layer (small - at most blowup_factor elements)
         let final_layer = all_evaluations.last().unwrap().clone();
 
+        // CRITICAL: For degenerate (zero-layer) FRI proofs, we must still bind to transcript.
+        // Derive alpha0 and compute z_bind = H_F("FRI_BIND", alpha0) to ensure transcript binding.
+        let z_bind = if layer_commitments.is_empty() {
+            // Derive challenge from current transcript state
+            let alpha0 = transcript.challenge_field(b"FRI_ALPHA0");
+            // Compute binding value: z_bind = H_F("FRI_BIND", alpha0)
+            Some(transcript.hash_to_field(b"FRI_BIND", alpha0))
+        } else {
+            None
+        };
+
         // Generate query indices from transcript
         let initial_domain_size = all_evaluations[0].len();
         let query_indices = transcript.challenge_query_indices(
@@ -202,6 +222,7 @@ impl FriProver {
             layer_commitments,
             final_layer,
             query_responses,
+            z_bind,
         }
     }
 }
@@ -222,14 +243,44 @@ impl FriVerifier {
         proof: &FriProof,
         transcript: &mut Transcript,
     ) -> Result<(), FriError> {
-        // Edge case: If no layers, the polynomial is trivially small (< blowup_factor).
-        // In this case, we just check that final_layer is non-empty.
-        // A polynomial with fewer elements than blowup_factor is trivially low-degree.
+        // CRITICAL: Degenerate (zero-layer) FRI case.
+        // When the polynomial is trivially small (< blowup_factor elements),
+        // FRI has no layers to fold. However, we MUST still enforce transcript binding.
+        //
+        // INVARIANT: Every committed field in the proof must influence an acceptance check.
+        //
+        // Without this check, mutating children_root (or any field absorbed into transcript
+        // earlier) would not change verification outcome - a cryptographic binding failure.
         if proof.layer_commitments.is_empty() {
             if proof.final_layer.is_empty() {
                 return Err(FriError::InvalidProofStructure);
             }
-            // Trivially small polynomial - accept without further checks
+
+            // MANDATORY TRANSCRIPT BINDING CHECK:
+            // 1. Derive challenge alpha0 from current transcript state
+            let alpha0 = transcript.challenge_field(b"FRI_ALPHA0");
+
+            // 2. Require z_bind field to be present
+            let z_bind = proof.z_bind.ok_or(FriError::TranscriptUnbound)?;
+
+            // 3. Compute expected value: H_F("FRI_BIND", alpha0)
+            let expected = transcript.hash_to_field(b"FRI_BIND", alpha0);
+
+            // 4. Verify binding
+            if z_bind != expected {
+                return Err(FriError::TranscriptUnbound);
+            }
+
+            // CRITICAL: Keep transcript state in sync with prover.
+            // The prover calls challenge_query_indices even in degenerate case,
+            // so we must too to maintain identical transcript state for batch operations.
+            // In degenerate case, final_layer.len() == initial_domain_size
+            let _ = transcript.challenge_query_indices(
+                self.config.num_queries,
+                proof.final_layer.len(),
+            );
+
+            // Degenerate case verified - transcript is properly bound
             return Ok(());
         }
 
@@ -408,6 +459,16 @@ impl FriProof {
             }
         }
 
+        // z_bind (transcript binding for degenerate FRI proofs)
+        // Format: 1 byte flag (0 = None, 1 = Some) + optional 8 byte field element
+        match &self.z_bind {
+            None => result.push(0),
+            Some(val) => {
+                result.push(1);
+                result.extend_from_slice(&val.to_bytes());
+            }
+        }
+
         result
     }
 
@@ -489,10 +550,30 @@ impl FriProof {
             query_responses.push(layer_responses);
         }
 
+        // z_bind (transcript binding for degenerate FRI proofs)
+        // Format: 1 byte flag (0 = None, 1 = Some) + optional 8 byte field element
+        let z_bind = if offset < data.len() {
+            let flag = data[offset];
+            offset += 1;
+            if flag == 1 {
+                if offset + 8 > data.len() { return None; }
+                let val = Fp::from_bytes(&data[offset..offset+8]);
+                offset += 8;
+                Some(val)
+            } else {
+                None
+            }
+        } else {
+            // Backward compatibility: older proofs without z_bind
+            None
+        };
+        let _ = offset; // silence unused warning
+
         Some(FriProof {
             layer_commitments,
             final_layer,
             query_responses,
+            z_bind,
         })
     }
 }
@@ -757,6 +838,196 @@ mod tests {
         let mut transcript = Transcript::new();
         let proof = prover.prove(evaluations, &mut transcript);
 
+        let verifier = FriVerifier::new(config);
+        let mut verify_transcript = Transcript::new();
+        assert!(verifier.verify(&proof, &mut verify_transcript));
+    }
+
+    // ====================================================================
+    // TRANSCRIPT BINDING REGRESSION TESTS
+    // These tests verify the critical invariant:
+    // "Every committed field in the proof must influence an acceptance check."
+    // ====================================================================
+
+    #[test]
+    fn test_fri_degenerate_case_produces_z_bind() {
+        // When evaluations are small enough that FRI has no layers,
+        // the prover MUST produce z_bind for transcript binding.
+        let config = FriConfig {
+            num_queries: 10,
+            blowup_factor: 8,  // evaluations.len() <= blowup_factor triggers degenerate case
+            max_degree: 16,
+        };
+
+        // Create small evaluation domain (triggers degenerate FRI)
+        let evaluations: Vec<Fp> = (0..8).map(|_| Fp::new(42)).collect();
+
+        let prover = FriProver::new(config.clone());
+        let mut transcript = Transcript::new();
+        let proof = prover.prove(evaluations, &mut transcript);
+
+        // Degenerate case: no layers, but z_bind MUST be present
+        assert!(proof.layer_commitments.is_empty(), "Expected degenerate FRI (no layers)");
+        assert!(proof.z_bind.is_some(), "Degenerate FRI proof MUST have z_bind for transcript binding");
+
+        // Verify the proof is accepted
+        let verifier = FriVerifier::new(config);
+        let mut verify_transcript = Transcript::new();
+        assert!(verifier.verify(&proof, &mut verify_transcript), "Valid degenerate proof should verify");
+    }
+
+    #[test]
+    fn test_fri_degenerate_case_corrupted_z_bind_rejects() {
+        // If z_bind is corrupted, verification MUST fail.
+        let config = FriConfig {
+            num_queries: 10,
+            blowup_factor: 8,
+            max_degree: 16,
+        };
+
+        let evaluations: Vec<Fp> = (0..8).map(|_| Fp::new(42)).collect();
+
+        let prover = FriProver::new(config.clone());
+        let mut transcript = Transcript::new();
+        let mut proof = prover.prove(evaluations, &mut transcript);
+
+        // Corrupt z_bind
+        proof.z_bind = Some(Fp::new(0xDEADBEEF));
+
+        let verifier = FriVerifier::new(config);
+        let mut verify_transcript = Transcript::new();
+        let result = verifier.verify_detailed(&proof, &mut verify_transcript);
+
+        assert!(result.is_err(), "Corrupted z_bind should be rejected");
+        assert_eq!(result.unwrap_err(), FriError::TranscriptUnbound,
+            "Should fail with TranscriptUnbound error");
+    }
+
+    #[test]
+    fn test_fri_degenerate_case_missing_z_bind_rejects() {
+        // If z_bind is missing in degenerate case, verification MUST fail.
+        let config = FriConfig {
+            num_queries: 10,
+            blowup_factor: 8,
+            max_degree: 16,
+        };
+
+        let evaluations: Vec<Fp> = (0..8).map(|_| Fp::new(42)).collect();
+
+        let prover = FriProver::new(config.clone());
+        let mut transcript = Transcript::new();
+        let mut proof = prover.prove(evaluations, &mut transcript);
+
+        // Remove z_bind
+        proof.z_bind = None;
+
+        let verifier = FriVerifier::new(config);
+        let mut verify_transcript = Transcript::new();
+        let result = verifier.verify_detailed(&proof, &mut verify_transcript);
+
+        assert!(result.is_err(), "Missing z_bind should be rejected");
+        assert_eq!(result.unwrap_err(), FriError::TranscriptUnbound,
+            "Should fail with TranscriptUnbound error");
+    }
+
+    #[test]
+    fn test_fri_transcript_binding_across_all_sizes() {
+        // Test that transcript mutations fail for ALL domain sizes.
+        // This is the critical regression test for the binding invariant.
+
+        for domain_size_log in 3..=8 {  // Domain sizes from 8 to 256
+            let domain_size = 1 << domain_size_log;
+            let blowup = 8;
+
+            let config = FriConfig {
+                num_queries: 10,
+                blowup_factor: blowup,
+                max_degree: domain_size,
+            };
+
+            let evaluations: Vec<Fp> = (0..domain_size).map(|i| Fp::new(i as u64 * 7 + 3)).collect();
+
+            // Generate valid proof with transcript that absorbed some commitment
+            let prover = FriProver::new(config.clone());
+            let mut prover_transcript = Transcript::new();
+
+            // Simulate absorbing children_root or any committed data
+            let children_root = [0x42u8; 32];
+            prover_transcript.append_commitment(&children_root);
+
+            let proof = prover.prove(evaluations, &mut prover_transcript);
+
+            // Verify with SAME transcript state
+            let verifier = FriVerifier::new(config.clone());
+            let mut verify_transcript = Transcript::new();
+            verify_transcript.append_commitment(&children_root);
+
+            assert!(verifier.verify(&proof, &mut verify_transcript),
+                "Valid proof at domain_size={} should verify", domain_size);
+
+            // Now verify with MUTATED children_root -> MUST FAIL
+            let mut bad_transcript = Transcript::new();
+            let bad_children_root = [0x43u8; 32];  // Mutated!
+            bad_transcript.append_commitment(&bad_children_root);
+
+            let result = verifier.verify(&proof, &mut bad_transcript);
+            assert!(!result,
+                "SECURITY: Mutated children_root at domain_size={} MUST cause verification to fail!", domain_size);
+        }
+    }
+
+    #[test]
+    fn test_fri_z_bind_serialization_roundtrip() {
+        // Ensure z_bind survives serialization/deserialization
+        let config = FriConfig {
+            num_queries: 10,
+            blowup_factor: 8,
+            max_degree: 16,
+        };
+
+        // Degenerate case
+        let evaluations: Vec<Fp> = (0..8).map(|_| Fp::new(42)).collect();
+
+        let prover = FriProver::new(config.clone());
+        let mut transcript = Transcript::new();
+        let proof = prover.prove(evaluations, &mut transcript);
+
+        assert!(proof.z_bind.is_some(), "Original proof should have z_bind");
+
+        // Serialize and deserialize
+        let serialized = proof.serialize();
+        let deserialized = FriProof::deserialize(&serialized).expect("Should deserialize");
+
+        assert_eq!(deserialized.z_bind, proof.z_bind,
+            "z_bind must survive serialization roundtrip");
+
+        // Verify the deserialized proof
+        let verifier = FriVerifier::new(config);
+        let mut verify_transcript = Transcript::new();
+        assert!(verifier.verify(&deserialized, &mut verify_transcript),
+            "Deserialized proof with z_bind should verify");
+    }
+
+    #[test]
+    fn test_fri_non_degenerate_case_no_z_bind() {
+        // Non-degenerate FRI proofs should NOT have z_bind (it's only for degenerate case)
+        let config = FriConfig {
+            num_queries: 10,
+            blowup_factor: 4,
+            max_degree: 64,
+        };
+
+        let evaluations: Vec<Fp> = (0..64).map(|_| Fp::new(42)).collect();
+
+        let prover = FriProver::new(config.clone());
+        let mut transcript = Transcript::new();
+        let proof = prover.prove(evaluations, &mut transcript);
+
+        // Non-degenerate: has layers, no z_bind needed
+        assert!(!proof.layer_commitments.is_empty(), "Expected non-degenerate FRI with layers");
+        assert!(proof.z_bind.is_none(), "Non-degenerate FRI should not have z_bind");
+
+        // Verify still works
         let verifier = FriVerifier::new(config);
         let mut verify_transcript = Transcript::new();
         assert!(verifier.verify(&proof, &mut verify_transcript));

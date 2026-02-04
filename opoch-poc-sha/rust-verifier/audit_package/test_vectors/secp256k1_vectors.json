@@ -1,0 +1,41 @@
+{
+  "description": "secp256k1 ECDSA Curve Parameters and Verification Reference",
+  "source": "SEC 2: Recommended Elliptic Curve Domain Parameters (Version 2.0)",
+  "note": "Signature verification tested via internal Rust test suite using deterministic RFC 6979 signature generation. No external test vectors included to avoid fabricated data.",
+  "curve_parameters": {
+    "name": "secp256k1",
+    "field_prime_hex": "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F",
+    "field_prime_decimal": "115792089237316195423570985008687907853269984665640564039457584007908834671663",
+    "group_order_hex": "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364141",
+    "group_order_decimal": "115792089237316195423570985008687907852837564279074904382605163141518161494337",
+    "cofactor": 1,
+    "generator": {
+      "x_hex": "79BE667EF9DCBBAC55A06295CE870B07029BFCDB2DCE28D959F2815B16F81798",
+      "y_hex": "483ADA7726A3C4655DA4FBFC0E1108A8FD17B448A68554199C47D08FFB10D4B8",
+      "x_decimal": "55066263022277343669578718895168534326250603453777594175500187360389116729240",
+      "y_decimal": "32670510020758816978083085130507043184471273380659243275938904335757337482424"
+    },
+    "curve_equation": "y^2 = x^3 + 7 (mod p)",
+    "a": "0",
+    "b": "7"
+  },
+  "verification_equation": "P = (z*s^-1)*G + (r*s^-1)*Q where z=message_hash, (r,s)=signature, Q=public_key",
+  "test_methodology": {
+    "approach": "Internal deterministic testing",
+    "description": "The secp256k1 module uses RFC 6979 deterministic nonce generation to create signatures, then verifies them. This ensures mathematical correctness without relying on external test vectors that could be fabricated.",
+    "tests_count": 26,
+    "test_categories": [
+      "Point addition and doubling",
+      "Scalar multiplication",
+      "Signature generation (RFC 6979)",
+      "Signature verification",
+      "Low-S normalization (BIP-62)",
+      "Public key derivation"
+    ]
+  },
+  "references": [
+    "SEC 2: https://www.secg.org/sec2-v2.pdf",
+    "RFC 6979: https://tools.ietf.org/html/rfc6979",
+    "BIP-62: https://github.com/bitcoin/bips/blob/master/bip-0062.mediawiki"
+  ]
+}

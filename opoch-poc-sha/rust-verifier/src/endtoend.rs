@@ -186,6 +186,10 @@ fn verify_proof_internal(proof: &OpochProof, input: &[u8]) -> bool {
     transcript.append(&proof.final_proof.chain_start);
     transcript.append(&proof.final_proof.chain_end);
 
+    // CRITICAL: Must call challenge_aggregation to match prover's transcript state
+    // The prover derives this challenge before FRI proving, so we must too
+    let _alpha = transcript.challenge_aggregation();
+
     // 7. Verify FRI proof (proves constraint polynomial is low-degree)
     let fri_config = production_fri_config();
     let fri_verifier = FriVerifier::new(fri_config);

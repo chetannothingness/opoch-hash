@@ -34,6 +34,22 @@
 //! - FRI rejects with probability 1 - ε_FRI
 //!
 //! Thus, constraint soundness is NOT separate from FRI soundness.
+//!
+//! ## Bytewise AIR Eliminates Relaxed Constraint Attacks (Critical Fix)
+//!
+//! The production bytewise AIR uses lookup tables to enforce EXACT operations:
+//!
+//! - **Old relaxed AIR**: Used `ch = e*f + (1-e)*g` which is only correct when e ∈ {0,1}
+//!   - An attacker could use e = 0.5 (field element (p+1)/2) to satisfy constraints
+//!   - This was a theoretical soundness gap
+//!
+//! - **New bytewise AIR**: Uses AND8/NOT8/XOR8 lookup tables
+//!   - Every byte is range-checked via U8 table (must be in [0, 255])
+//!   - CH = AND8(E, F) XOR8 AND8(NOT8(E), G) - exact bitwise
+//!   - MAJ = AND8(A,B) XOR8 AND8(A,C) XOR8 AND8(B,C) - exact bitwise
+//!   - No relaxed formulas, no soundness gap
+//!
+//! The "62-bit limiter" concern from relaxed constraints is ELIMINATED.
 
 use std::time::Instant;
 

@@ -141,6 +141,32 @@ impl Transcript {
     pub fn challenge(&mut self) -> Fp {
         self.challenge_fri()
     }
+
+    /// Get field element challenge with a custom tag
+    /// Used for transcript binding in degenerate FRI cases
+    pub fn challenge_field(&mut self, tag: &[u8]) -> Fp {
+        let bytes = self.challenge_bytes(tag, 8);
+        let mut arr = [0u8; 8];
+        arr.copy_from_slice(&bytes[..8]);
+        Fp::new(u64::from_le_bytes(arr))
+    }
+
+    /// Hash-to-field function: H_F(tag, input) -> Fp
+    /// Used for binding checks in degenerate FRI proofs.
+    /// This is a deterministic function that takes a tag and a field element,
+    /// and produces a new field element bound to both.
+    pub fn hash_to_field(&self, tag: &[u8], input: Fp) -> Fp {
+        let mut hasher = Sha256::new();
+        hasher.update(&self.state);
+        hasher.update(tag);
+        hasher.update(&input.to_bytes());
+        let hash = hasher.finalize();
+
+        // Extract 8 bytes for field element
+        let mut arr = [0u8; 8];
+        arr.copy_from_slice(&hash[..8]);
+        Fp::new(u64::from_le_bytes(arr))
+    }
 }
 
 impl Default for Transcript {

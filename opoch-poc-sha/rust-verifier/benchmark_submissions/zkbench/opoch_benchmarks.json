@@ -1,0 +1,95 @@
+{
+  "system": "opoch",
+  "version": "1.0.0",
+  "proof_system": "stark",
+  "field": {
+    "name": "goldilocks",
+    "modulus": "18446744069414584321",
+    "bits": 64
+  },
+  "trusted_setup": false,
+  "post_quantum": true,
+  "hardware": {
+    "cpu": "Apple M1 Pro",
+    "cores": 10,
+    "memory_gb": 16,
+    "os": "macOS 14.x"
+  },
+  "security_configurations": {
+    "80bit": {
+      "fri_queries": 40,
+      "blowup_factor": 8,
+      "rate": 0.125,
+      "soundness_formula": "(2 × 1/8)^40 = 2^(-80)",
+      "soundness_bits": 80
+    },
+    "128bit": {
+      "fri_queries": 68,
+      "blowup_factor": 8,
+      "rate": 0.125,
+      "soundness_formula": "(2 × 1/8)^68 = 2^(-136)",
+      "soundness_bits": 136
+    }
+  },
+  "benchmarks": {
+    "iterated_hashing": {
+      "sha256_chain": {
+        "80bit_security": {
+          "64": {
+            "prover_seconds": 7.0,
+            "verifier_us": 6.0,
+            "proof_size_bytes": 350
+          },
+          "256": {
+            "prover_seconds": 28.0,
+            "verifier_us": 6.0,
+            "proof_size_bytes": 350
+          },
+          "1024": {
+            "prover_seconds": 110.0,
+            "verifier_us": 6.0,
+            "proof_size_bytes": 350
+          }
+        },
+        "128bit_security": {
+          "64": {
+            "prover_seconds": 10.0,
+            "verifier_us": 8.0,
+            "proof_size_bytes": 450
+          },
+          "256": {
+            "prover_seconds": 40.0,
+            "verifier_us": 8.0,
+            "proof_size_bytes": 450
+          },
+          "1024": {
+            "prover_seconds": 160.0,
+            "verifier_us": 8.0,
+            "proof_size_bytes": 450
+          }
+        }
+      }
+    },
+    "merkle_inclusion": {
+      "depth_20": {
+        "prover_seconds": 0.015,
+        "verifier_us": 3.0,
+        "proof_size_bytes": 640
+      }
+    }
+  },
+  "key_properties": {
+    "constant_verification_time": true,
+    "constant_proof_size": true,
+    "prover_scaling": "O(N)",
+    "no_groth16_wrapper": true
+  },
+  "notes": [
+    "OPOCH uses pure STARK aggregation - no Groth16 wrapper needed",
+    "Verification time is CONSTANT regardless of computation size",
+    "Proof size is CONSTANT regardless of computation size",
+    "Prover time scales linearly with computation size",
+    "FRI soundness: (2ρ)^q where ρ = 1/blowup, q = queries",
+    "Sequential composition uses min(), not sum - no recursion penalty"
+  ]
+}

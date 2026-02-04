@@ -1,0 +1,24 @@
+{
+  "H0_alg": "SHA256_FIPS_180_4",
+  "d0": "cb583f341dd0782a08ba26d0fc7d60122b0d382c78a6eb016207d9fd23b8f5da",
+  "environment_hash": "5d9227ebda8f2e4f73bd17e1b297cd5b931e791e0ad16e603a4cf1abd264370c",
+  "n": 4096,
+  "proof_hash": "2a30797292271472afcd578065e2c7d0521547d0cfa9b9491c8f4bc688ce5d30",
+  "proof_size_bytes": 312,
+  "prover_time_seconds": 443.250025166,
+  "recursion_layout": {
+    "L0_fan_in": 64,
+    "L1_batch_size": 64,
+    "L2_fan_in": 1,
+    "levels": 3,
+    "padding": "zero_pad_to_power_of_2"
+  },
+  "segment_L": 64,
+  "spec_id": "a493100a0946bb89f3dd4e79098644d94d18aee8f7476d65162b8a42476359a8",
+  "timestamp_utc": 1770100678,
+  "verifier_id": "a493100a0946bb89f3dd4e79098644d94d18aee8f7476d65162b8a42476359a8",
+  "verify_time_ns": 1666,
+  "x": "4f504f4348205472696c6c696f6e20446f6c6c61722044656d6f",
+  "x_hash": "cb583f341dd0782a08ba26d0fc7d60122b0d382c78a6eb016207d9fd23b8f5da",
+  "y": "c437683ae673c69db96d27181cd5bd9a51e05f16343a363befaeeeb6832477d4"
+}

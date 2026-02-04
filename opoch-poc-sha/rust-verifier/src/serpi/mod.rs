@@ -14,12 +14,37 @@
 //! [TYPE_TAG: 1 byte]
 //! [PAYLOAD: variable]
 //! ```
+//!
+//! ## v0 vs v1
+//!
+//! - **v0**: Rules-only canonicalization - applies fixed normalization rules
+//! - **v1**: Partition-lattice normal form with:
+//!   1. Partition hash P_W(τ) for equivalence on meaning
+//!   2. Coequalization of redundant normalizations
+//!   3. Compression to minimal-cost representative
+//!   4. Parallel composition (product partitions)
+//!
+//! ## Usage
+//!
+//! ```ignore
+//! use opoch_poc_sha::serpi::{CanonicalTape, SerPi, SString};
+//!
+//! let obj = SString::new("hello");
+//! let tape = SerPi::serialize(&obj, 0x0001);
+//! let hash = tape.hash();
+//! ```
 
 pub mod types;
 pub mod primitives;
+pub mod partition;
 
 pub use types::{TypeTag, SemanticObject, SerPiError};
 pub use primitives::{SNull, SBool, SInt, SBytes, SString, SDigest};
+pub use partition::{
+    PartitionHash, PartitionKey, PartitionSerializer,
+    CompressionMap, CompressionStats, CoequalizationStats,
+    SemanticMap, product_partition,
+};
 
 use crate::sha256::Sha256;
 
@@ -194,7 +219,7 @@ mod tests {
 
     #[test]
     fn test_magic_check() {
-        let bytes = vec![b'B', b'A', b'D', b'!', 1, 0, 0, 0];
+        let mut bytes = vec![b'B', b'A', b'D', b'!', 1, 0, 0, 0];
         let result = CanonicalTape::from_bytes(&bytes);
         assert!(matches!(result, Err(SerPiError::InvalidMagic)));
     }

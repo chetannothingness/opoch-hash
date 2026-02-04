@@ -1,0 +1,384 @@
+{
+  "timestamp": "SystemTime { tv_sec: 1770162062, tv_nsec: 878754000 }",
+  "seed": "fixed_seed_2024",
+  "corpus_hashes": {},
+  "benchmarks": [
+    {
+      "name": "A.1 Factorial Collapse (n=5)",
+      "v0_result": {
+        "iterations": 120,
+        "total_time_us": 0,
+        "avg_time_us": 0.0,
+        "p50_us": 0.0,
+        "p95_us": 0.0,
+        "p99_us": 0.0,
+        "ops_per_sec": 0.0,
+        "extra": {
+          "distinct_hashes": 1.0,
+          "raw_distinct": 120.0
+        }
+      },
+      "v1_result": {
+        "iterations": 120,
+        "total_time_us": 0,
+        "avg_time_us": 0.0,
+        "p50_us": 0.0,
+        "p95_us": 0.0,
+        "p99_us": 0.0,
+        "ops_per_sec": 0.0,
+        "extra": {
+          "distinct_hashes": 1.0,
+          "raw_distinct": 120.0
+        }
+      },
+      "delta": {
+        "speedup_ratio": 0.0,
+        "throughput_improvement": 0.0,
+        "latency_reduction_p95": 0.0,
+        "extra": {
+          "raw_distinct": 120.0,
+          "collapse_ratio": 120.0,
+          "serpi_distinct": 1.0
+        }
+      },
+      "pass": true,
+      "notes": "Raw: 120 distinct, SerΠ: 1 distinct, Collapse: 120x"
+    },
+    {
+      "name": "A.1 Factorial Collapse (n=6)",
+      "v0_result": {
+        "iterations": 720,
+        "total_time_us": 0,
+        "avg_time_us": 0.0,
+        "p50_us": 0.0,
+        "p95_us": 0.0,
+        "p99_us": 0.0,
+        "ops_per_sec": 0.0,
+        "extra": {
+          "raw_distinct": 720.0,
+          "distinct_hashes": 1.0
+        }
+      },
+      "v1_result": {
+        "iterations": 720,
+        "total_time_us": 0,
+        "avg_time_us": 0.0,
+        "p50_us": 0.0,
+        "p95_us": 0.0,
+        "p99_us": 0.0,
+        "ops_per_sec": 0.0,
+        "extra": {
+          "distinct_hashes": 1.0,
+          "raw_distinct": 720.0
+        }
+      },
+      "delta": {
+        "speedup_ratio": 0.0,
+        "throughput_improvement": 0.0,
+        "latency_reduction_p95": 0.0,
+        "extra": {
+          "collapse_ratio": 720.0,
+          "serpi_distinct": 1.0,
+          "raw_distinct": 720.0
+        }
+      },
+      "pass": true,
+      "notes": "Raw: 720 distinct, SerΠ: 1 distinct, Collapse: 720x"
+    },
+    {
+      "name": "A.2 Context Separation",
+      "v0_result": {
+        "iterations": 1000,
+        "total_time_us": 0,
+        "avg_time_us": 0.0,
+        "p50_us": 0.0,
+        "p95_us": 0.0,
+        "p99_us": 0.0,
+        "ops_per_sec": 0.0,
+        "extra": {
+          "collisions": 0.0
+        }
+      },
+      "v1_result": {
+        "iterations": 1000,
+        "total_time_us": 0,
+        "avg_time_us": 0.0,
+        "p50_us": 0.0,
+        "p95_us": 0.0,
+        "p99_us": 0.0,
+        "ops_per_sec": 0.0,
+        "extra": {
+          "collisions": 0.0
+        }
+      },
+      "delta": {
+        "speedup_ratio": 0.0,
+        "throughput_improvement": 0.0,
+        "latency_reduction_p95": 0.0,
+        "extra": {}
+      },
+      "pass": true,
+      "notes": "v0 collisions: 0, v1 collisions: 0"
+    },
+    {
+      "name": "A.3 Schema Evolution Safety",
+      "v0_result": {
+        "iterations": 1000,
+        "total_time_us": 0,
+        "avg_time_us": 0.0,
+        "p50_us": 0.0,
+        "p95_us": 0.0,
+        "p99_us": 0.0,
+        "ops_per_sec": 0.0,
+        "extra": {
+          "collisions": 0.0
+        }
+      },
+      "v1_result": {
+        "iterations": 1000,
+        "total_time_us": 0,
+        "avg_time_us": 0.0,
+        "p50_us": 0.0,
+        "p95_us": 0.0,
+        "p99_us": 0.0,
+        "ops_per_sec": 0.0,
+        "extra": {
+          "collisions": 0.0
+        }
+      },
+      "delta": {
+        "speedup_ratio": 0.0,
+        "throughput_improvement": 0.0,
+        "latency_reduction_p95": 0.0,
+        "extra": {}
+      },
+      "pass": true,
+      "notes": "Schema collisions: v0=0, v1=0"
+    },
+    {
+      "name": "B.1 Partition vs Tape Count",
+      "v0_result": {
+        "iterations": 10000,
+        "total_time_us": 0,
+        "avg_time_us": 0.0,
+        "p50_us": 0.0,
+        "p95_us": 0.0,
+        "p99_us": 0.0,
+        "ops_per_sec": 0.0,
+        "extra": {
+          "unique_tapes": 10000.0,
+          "unique_partitions": 10000.0
+        }
+      },
+      "v1_result": {
+        "iterations": 10000,
+        "total_time_us": 0,
+        "avg_time_us": 0.0,
+        "p50_us": 0.0,
+        "p95_us": 0.0,
+        "p99_us": 0.0,
+        "ops_per_sec": 0.0,
+        "extra": {
+          "unique_tapes": 10000.0,
+          "compression_replacements": 0.0,
+          "unique_partitions": 10000.0
+        }
+      },
+      "delta": {
+        "speedup_ratio": 0.0,
+        "throughput_improvement": 0.0,
+        "latency_reduction_p95": 0.0,
+        "extra": {}
+      },
+      "pass": true,
+      "notes": "Partitions: 10000, Tapes: 10000, Replacements: 0"
+    },
+    {
+      "name": "B.2 Coequalization Rate",
+      "v0_result": {
+        "iterations": 10000,
+        "total_time_us": 0,
+        "avg_time_us": 0.0,
+        "p50_us": 0.0,
+        "p95_us": 0.0,
+        "p99_us": 0.0,
+        "ops_per_sec": 0.0,
+        "extra": {
+          "tests_run": 10000.0,
+          "tests_discarded": 0.0,
+          "cost_saved": 0.0
+        }
+      },
+      "v1_result": {
+        "iterations": 10000,
+        "total_time_us": 0,
+        "avg_time_us": 0.0,
+        "p50_us": 0.0,
+        "p95_us": 0.0,
+        "p99_us": 0.0,
+        "ops_per_sec": 0.0,
+        "extra": {
+          "tests_discarded": 6680.0,
+          "cost_saved": 66800.0,
+          "tests_run": 10000.0,
+          "savings_percent": 66.8
+        }
+      },
+      "delta": {
+        "speedup_ratio": 0.0,
+        "throughput_improvement": 0.0,
+        "latency_reduction_p95": 0.0,
+        "extra": {
+          "coequalization_active": 1.0
+        }
+      },
+      "pass": true,
+      "notes": "v0 discarded: 0, v1 discarded: 6680, savings: 66.8%"
+    },
+    {
+      "name": "B.3 Adaptive Speedup",
+      "v0_result": {
+        "iterations": 0,
+        "total_time_us": 0,
+        "avg_time_us": 0.0,
+        "p50_us": 0.0,
+        "p95_us": 0.0,
+        "p99_us": 0.0,
+        "ops_per_sec": 0.0,
+        "extra": {}
+      },
+      "v1_result": {
+        "iterations": 10000,
+        "total_time_us": 0,
+        "avg_time_us": 0.0,
+        "p50_us": 0.0,
+        "p95_us": 0.0,
+        "p99_us": 0.0,
+        "ops_per_sec": 0.0,
+        "extra": {
+          "speedup": 0.9672149801080352,
+          "pass1_us": 2805.0,
+          "pass2_us": 2900.0
+        }
+      },
+      "delta": {
+        "speedup_ratio": 0.9672149801080352,
+        "throughput_improvement": 0.0,
+        "latency_reduction_p95": 0.0,
+        "extra": {}
+      },
+      "pass": true,
+      "notes": "Pass1: 2.805084ms, Pass2: 2.900166ms, Speedup: 0.97x"
+    },
+    {
+      "name": "C End-to-End Throughput",
+      "v0_result": {
+        "iterations": 100000,
+        "total_time_us": 529056,
+        "avg_time_us": 5.29056206,
+        "p50_us": 5.209,
+        "p95_us": 5.708,
+        "p99_us": 6.666,
+        "ops_per_sec": 189015.83398116304,
+        "extra": {}
+      },
+      "v1_result": {
+        "iterations": 100000,
+        "total_time_us": 525678,
+        "avg_time_us": 5.25678261,
+        "p50_us": 5.208,
+        "p95_us": 5.375,
+        "p99_us": 6.667,
+        "ops_per_sec": 190230.4268960439,
+        "extra": {}
+      },
+      "delta": {
+        "speedup_ratio": 1.0064258791938137,
+        "throughput_improvement": 0.6425879193813512,
+        "latency_reduction_p95": 5.833917309039947,
+        "extra": {}
+      },
+      "pass": true,
+      "notes": "v0: 189016 ops/s, p95=5.7us | v1: 190230 ops/s, p95=5.4us"
+    },
+    {
+      "name": "D Cross-language Determinism",
+      "v0_result": {
+        "iterations": 10000,
+        "total_time_us": 0,
+        "avg_time_us": 0.0,
+        "p50_us": 0.0,
+        "p95_us": 0.0,
+        "p99_us": 0.0,
+        "ops_per_sec": 0.0,
+        "extra": {
+          "mismatches": 0.0
+        }
+      },
+      "v1_result": {
+        "iterations": 10000,
+        "total_time_us": 0,
+        "avg_time_us": 0.0,
+        "p50_us": 0.0,
+        "p95_us": 0.0,
+        "p99_us": 0.0,
+        "ops_per_sec": 0.0,
+        "extra": {
+          "mismatches": 0.0
+        }
+      },
+      "delta": {
+        "speedup_ratio": 0.0,
+        "throughput_improvement": 0.0,
+        "latency_reduction_p95": 0.0,
+        "extra": {}
+      },
+      "pass": true,
+      "notes": "Rust reference: 10000 hashes generated, determinism: PASS"
+    },
+    {
+      "name": "E Collision Localization",
+      "v0_result": {
+        "iterations": 0,
+        "total_time_us": 0,
+        "avg_time_us": 0.0,
+        "p50_us": 0.0,
+        "p95_us": 0.0,
+        "p99_us": 0.0,
+        "ops_per_sec": 0.0,
+        "extra": {}
+      },
+      "v1_result": {
+        "iterations": 3,
+        "total_time_us": 0,
+        "avg_time_us": 0.0,
+        "p50_us": 0.0,
+        "p95_us": 0.0,
+        "p99_us": 0.0,
+        "ops_per_sec": 0.0,
+        "extra": {
+          "tests_passed": 3.0,
+          "total_tests": 3.0
+        }
+      },
+      "delta": {
+        "speedup_ratio": 0.0,
+        "throughput_improvement": 0.0,
+        "latency_reduction_p95": 0.0,
+        "extra": {}
+      },
+      "pass": true,
+      "notes": "Classification tests: 3/3 passed"
+    }
+  ],
+  "summary": {
+    "total_benchmarks": 10,
+    "passed": 10,
+    "failed": 0,
+    "avg_speedup": 0.1973640859301849,
+    "semantic_slack_collapsed": true,
+    "coequalization_active": true,
+    "compression_active": false,
+    "all_pass": true
+  }
+}

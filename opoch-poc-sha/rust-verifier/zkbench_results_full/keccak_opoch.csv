@@ -1,0 +1,7 @@
+program,prover,input_size,prove_time_s,proof_size_bytes,verify_time_us,status
+keccak,opoch,32,0.000009,338,0.00,PASS
+keccak,opoch,64,0.000010,338,0.00,PASS
+keccak,opoch,136,0.000015,338,0.00,PASS
+keccak,opoch,1024,0.000053,338,0.00,PASS
+keccak,opoch,10240,0.000462,338,0.00,PASS
+keccak,opoch,102400,0.005474,338,0.04,PASS

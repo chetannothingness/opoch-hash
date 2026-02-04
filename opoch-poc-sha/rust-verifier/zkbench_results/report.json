@@ -1,0 +1,71 @@
+{
+  "prover": "opoch",
+  "version": "1.0.0",
+  "timestamp": "SystemTime { tv_sec: 1770163360, tv_nsec: 571660000 }",
+  "total_time_secs": 0.008675417,
+  "results": [
+    {
+      "program": "fibonacci",
+      "prover": "opoch",
+      "input_size": 100,
+      "prove_time_secs": 0.000029541,
+      "proof_size_bytes": 322,
+      "verify_time_us": 0.042,
+      "passed": true
+    },
+    {
+      "program": "fibonacci",
+      "prover": "opoch",
+      "input_size": 1000,
+      "prove_time_secs": 0.000204625,
+      "proof_size_bytes": 322,
+      "verify_time_us": 0.0,
+      "passed": true
+    },
+    {
+      "program": "fibonacci",
+      "prover": "opoch",
+      "input_size": 10000,
+      "prove_time_secs": 0.002522542,
+      "proof_size_bytes": 322,
+      "verify_time_us": 0.0,
+      "passed": true
+    },
+    {
+      "program": "keccak",
+      "prover": "opoch",
+      "input_size": 32,
+      "prove_time_secs": 8.875e-6,
+      "proof_size_bytes": 338,
+      "verify_time_us": 0.0,
+      "passed": true
+    },
+    {
+      "program": "keccak",
+      "prover": "opoch",
+      "input_size": 1024,
+      "prove_time_secs": 0.000053292,
+      "proof_size_bytes": 338,
+      "verify_time_us": 0.042,
+      "passed": true
+    },
+    {
+      "program": "rsp",
+      "prover": "opoch",
+      "input_size": 1024,
+      "prove_time_secs": 9.958e-6,
+      "proof_size_bytes": 338,
+      "verify_time_us": 0.042,
+      "passed": true
+    },
+    {
+      "program": "rsp",
+      "prover": "opoch",
+      "input_size": 10240,
+      "prove_time_secs": 0.00008175,
+      "proof_size_bytes": 338,
+      "verify_time_us": 0.041,
+      "passed": true
+    }
+  ]
+}

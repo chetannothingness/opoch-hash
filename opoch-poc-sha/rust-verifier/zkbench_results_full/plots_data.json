@@ -1,0 +1,104 @@
+{
+  "fibonacci": [
+    {
+      "x": 100.0,
+      "prove_time": 0.000023333,
+      "proof_size": 322.0,
+      "verify_time": 0.0
+    },
+    {
+      "x": 1000.0,
+      "prove_time": 0.000262458,
+      "proof_size": 322.0,
+      "verify_time": 0.0
+    },
+    {
+      "x": 10000.0,
+      "prove_time": 0.002080667,
+      "proof_size": 322.0,
+      "verify_time": 0.0
+    },
+    {
+      "x": 100000.0,
+      "prove_time": 0.02093925,
+      "proof_size": 322.0,
+      "verify_time": 0.041
+    },
+    {
+      "x": 1000000.0,
+      "prove_time": 0.21286975,
+      "proof_size": 322.0,
+      "verify_time": 0.0
+    },
+    {
+      "x": 10000000.0,
+      "prove_time": 2.098532667,
+      "proof_size": 322.0,
+      "verify_time": 0.125
+    }
+  ],
+  "keccak": [
+    {
+      "x": 32.0,
+      "prove_time": 9.166e-6,
+      "proof_size": 338.0,
+      "verify_time": 0.0
+    },
+    {
+      "x": 64.0,
+      "prove_time": 9.959e-6,
+      "proof_size": 338.0,
+      "verify_time": 0.0
+    },
+    {
+      "x": 136.0,
+      "prove_time": 0.000015083,
+      "proof_size": 338.0,
+      "verify_time": 0.0
+    },
+    {
+      "x": 1024.0,
+      "prove_time": 0.000052542,
+      "proof_size": 338.0,
+      "verify_time": 0.0
+    },
+    {
+      "x": 10240.0,
+      "prove_time": 0.000462084,
+      "proof_size": 338.0,
+      "verify_time": 0.0
+    },
+    {
+      "x": 102400.0,
+      "prove_time": 0.005474,
+      "proof_size": 338.0,
+      "verify_time": 0.042
+    }
+  ],
+  "rsp": [
+    {
+      "x": 1024.0,
+      "prove_time": 0.00001025,
+      "proof_size": 338.0,
+      "verify_time": 0.0
+    },
+    {
+      "x": 10240.0,
+      "prove_time": 0.000077875,
+      "proof_size": 338.0,
+      "verify_time": 0.041
+    },
+    {
+      "x": 102400.0,
+      "prove_time": 0.000765,
+      "proof_size": 338.0,
+      "verify_time": 0.0
+    },
+    {
+      "x": 1048576.0,
+      "prove_time": 0.007892375,
+      "proof_size": 338.0,
+      "verify_time": 0.041
+    }
+  ]
+}

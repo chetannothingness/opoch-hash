@@ -1,0 +1,7 @@
+program,prover,input_size,prove_time_s,proof_size_bytes,verify_time_us,status
+fibonacci,opoch,100,0.000023,322,0.00,PASS
+fibonacci,opoch,1000,0.000262,322,0.00,PASS
+fibonacci,opoch,10000,0.002081,322,0.00,PASS
+fibonacci,opoch,100000,0.020939,322,0.04,PASS
+fibonacci,opoch,1000000,0.212870,322,0.00,PASS
+fibonacci,opoch,10000000,2.098533,322,0.12,PASS

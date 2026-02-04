@@ -5,8 +5,8 @@
     "proof_size_constant": true,
     "soundness_bits": 128,
     "verification_constant_time": true,
-    "verification_p95_ns": 17625,
-    "verification_p95_us": 17.625
+    "verification_p95_ns": 17917,
+    "verification_p95_us": 17.917
   },
   "environment": {
     "os": "macos",
@@ -20,7 +20,7 @@
     },
     "rust_version": "1.0.0",
     "target": "aarch64",
-    "timestamp": 1770145405
+    "timestamp": 1770096513
   },
   "proof_results": [
     {
@@ -28,10 +28,10 @@
       "label": "N_256",
       "num_segments": 4,
       "proof_size_bytes": 312,
-      "prover_time_ms": 27462,
+      "prover_time_ms": 26647,
       "segment_length": 64,
       "total_steps": 256,
-      "verify_time_ns": 1580,
+      "verify_time_ns": 1576,
       "y": "9751c7d7b33b05339cffb64f2ef9f6443765214ae32ff1e7bcbcca89ba893a99"
     },
     {
@@ -39,10 +39,10 @@
       "label": "N_512",
       "num_segments": 8,
       "proof_size_bytes": 312,
-      "prover_time_ms": 55178,
+      "prover_time_ms": 53896,
       "segment_length": 64,
       "total_steps": 512,
-      "verify_time_ns": 1575,
+      "verify_time_ns": 1601,
       "y": "082b60dab12493107a4d77320eeb7236a8579db91be8d88b4d2ca90d3d5580c6"
     },
     {
@@ -50,10 +50,10 @@
       "label": "N_1024",
       "num_segments": 16,
       "proof_size_bytes": 312,
-      "prover_time_ms": 110671,
+      "prover_time_ms": 108651,
       "segment_length": 64,
       "total_steps": 1024,
-      "verify_time_ns": 1590,
+      "verify_time_ns": 1674,
       "y": "69afd8f44322d4a5ba44adeea1e6ddadf6b313ba4ffeb1a78e63f17151462a1a"
     },
     {
@@ -61,10 +61,10 @@
       "label": "N_2048",
       "num_segments": 32,
       "proof_size_bytes": 312,
-      "prover_time_ms": 219078,
+      "prover_time_ms": 216959,
       "segment_length": 64,
       "total_steps": 2048,
-      "verify_time_ns": 1580,
+      "verify_time_ns": 1635,
       "y": "6db61372d5575693ae6a0b263caf14feb81f101d7394f288858fa9bfb89d3b1b"
     }
   ],
@@ -104,17 +104,17 @@
     "security_class": "128-bit",
     "total_soundness_bits": 128
   },
-  "timestamp": 1770146037,
+  "timestamp": 1770097134,
   "verification_timing": {
     "cache_state": "warm",
     "iterations": 10000,
-    "max": 76250,
-    "mean": 17529,
-    "median": 17458,
-    "min": 17208,
-    "p95": 17625,
-    "p95_microseconds": 17.625,
-    "p99": 19833,
+    "max": 47500,
+    "mean": 17183,
+    "median": 17209,
+    "min": 15209,
+    "p95": 17917,
+    "p95_microseconds": 17.917,
+    "p99": 22000,
     "target_1ms_met": true,
     "unit": "nanoseconds",
     "warmup_iterations": 100
