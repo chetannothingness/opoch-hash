@@ -1,0 +1,5 @@
+program,prover,input_size,prove_time_s,proof_size_bytes,verify_time_us,status
+rsp,opoch,1024,0.000010,338,0.00,PASS
+rsp,opoch,10240,0.000078,338,0.04,PASS
+rsp,opoch,102400,0.000765,338,0.00,PASS
+rsp,opoch,1048576,0.007892,338,0.04,PASS

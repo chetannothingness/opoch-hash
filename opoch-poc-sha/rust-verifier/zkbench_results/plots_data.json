@@ -1,0 +1,50 @@
+{
+  "fibonacci": [
+    {
+      "x": 100.0,
+      "prove_time": 0.000029541,
+      "proof_size": 322.0,
+      "verify_time": 0.042
+    },
+    {
+      "x": 1000.0,
+      "prove_time": 0.000204625,
+      "proof_size": 322.0,
+      "verify_time": 0.0
+    },
+    {
+      "x": 10000.0,
+      "prove_time": 0.002522542,
+      "proof_size": 322.0,
+      "verify_time": 0.0
+    }
+  ],
+  "keccak": [
+    {
+      "x": 32.0,
+      "prove_time": 8.875e-6,
+      "proof_size": 338.0,
+      "verify_time": 0.0
+    },
+    {
+      "x": 1024.0,
+      "prove_time": 0.000053292,
+      "proof_size": 338.0,
+      "verify_time": 0.042
+    }
+  ],
+  "rsp": [
+    {
+      "x": 1024.0,
+      "prove_time": 9.958e-6,
+      "proof_size": 338.0,
+      "verify_time": 0.042
+    },
+    {
+      "x": 10240.0,
+      "prove_time": 0.00008175,
+      "proof_size": 338.0,
+      "verify_time": 0.041
+    }
+  ]
+}

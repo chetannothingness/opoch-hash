@@ -1,0 +1,60 @@
+{
+  "framework": "opoch",
+  "version": "1.0.0",
+  "description": "STARK-based proof system for SHA-256 hash chains with pure STARK aggregation",
+  "language": "rust",
+  "proof_system": "stark",
+  "field": {
+    "name": "goldilocks",
+    "modulus": "18446744069414584321",
+    "modulus_hex": "0xFFFFFFFF00000001",
+    "bits": 64,
+    "two_adicity": 32
+  },
+  "security": {
+    "configurations": {
+      "80bit": {
+        "fri_queries": 40,
+        "blowup_factor": 8,
+        "soundness_formula": "(2 × 1/8)^40 = 2^(-80)",
+        "soundness_bits": 80
+      },
+      "128bit": {
+        "fri_queries": 68,
+        "blowup_factor": 8,
+        "soundness_formula": "(2 × 1/8)^68 = 2^(-136)",
+        "soundness_bits": 136
+      }
+    },
+    "merkle_hash": "sha256",
+    "fiat_shamir": "sha256",
+    "combined_soundness": "min(merkle, fiat_shamir, fri)"
+  },
+  "trusted_setup": false,
+  "post_quantum": true,
+  "circuits": [
+    {
+      "name": "sha256_chain",
+      "description": "Proves y = SHA-256^N(x) for arbitrary N",
+      "parameters": {
+        "iterations": [64, 256, 1024, 10000, 1000000000]
+      },
+      "constraints_per_step": 64
+    },
+    {
+      "name": "merkle_membership",
+      "description": "Proves Merkle tree membership with SHA-256",
+      "parameters": {
+        "depth": [10, 15, 20, 32]
+      }
+    }
+  ],
+  "build_command": "cargo build --release",
+  "run_command": "cargo run --release --bin berkeley_bench",
+  "key_properties": {
+    "constant_verification_time": "Verification time is O(1) regardless of chain length",
+    "constant_proof_size": "Proof size is O(1) regardless of chain length",
+    "no_groth16_wrapper": "Achieves small proofs without SNARKs",
+    "transparent": "No trusted setup ceremony required"
+  }
+}

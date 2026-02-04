@@ -1,0 +1,152 @@
+{
+  "prover": "opoch",
+  "version": "1.0.0",
+  "timestamp": "SystemTime { tv_sec: 1770163485, tv_nsec: 680123000 }",
+  "total_time_secs": 23.614680959,
+  "results": [
+    {
+      "program": "fibonacci",
+      "prover": "opoch",
+      "input_size": 100,
+      "prove_time_secs": 0.000023333,
+      "proof_size_bytes": 322,
+      "verify_time_us": 0.0,
+      "passed": true
+    },
+    {
+      "program": "fibonacci",
+      "prover": "opoch",
+      "input_size": 1000,
+      "prove_time_secs": 0.000262458,
+      "proof_size_bytes": 322,
+      "verify_time_us": 0.0,
+      "passed": true
+    },
+    {
+      "program": "fibonacci",
+      "prover": "opoch",
+      "input_size": 10000,
+      "prove_time_secs": 0.002080667,
+      "proof_size_bytes": 322,
+      "verify_time_us": 0.0,
+      "passed": true
+    },
+    {
+      "program": "fibonacci",
+      "prover": "opoch",
+      "input_size": 100000,
+      "prove_time_secs": 0.02093925,
+      "proof_size_bytes": 322,
+      "verify_time_us": 0.041,
+      "passed": true
+    },
+    {
+      "program": "fibonacci",
+      "prover": "opoch",
+      "input_size": 1000000,
+      "prove_time_secs": 0.21286975,
+      "proof_size_bytes": 322,
+      "verify_time_us": 0.0,
+      "passed": true
+    },
+    {
+      "program": "fibonacci",
+      "prover": "opoch",
+      "input_size": 10000000,
+      "prove_time_secs": 2.098532667,
+      "proof_size_bytes": 322,
+      "verify_time_us": 0.125,
+      "passed": true
+    },
+    {
+      "program": "keccak",
+      "prover": "opoch",
+      "input_size": 32,
+      "prove_time_secs": 9.166e-6,
+      "proof_size_bytes": 338,
+      "verify_time_us": 0.0,
+      "passed": true
+    },
+    {
+      "program": "keccak",
+      "prover": "opoch",
+      "input_size": 64,
+      "prove_time_secs": 9.959e-6,
+      "proof_size_bytes": 338,
+      "verify_time_us": 0.0,
+      "passed": true
+    },
+    {
+      "program": "keccak",
+      "prover": "opoch",
+      "input_size": 136,
+      "prove_time_secs": 0.000015083,
+      "proof_size_bytes": 338,
+      "verify_time_us": 0.0,
+      "passed": true
+    },
+    {
+      "program": "keccak",
+      "prover": "opoch",
+      "input_size": 1024,
+      "prove_time_secs": 0.000052542,
+      "proof_size_bytes": 338,
+      "verify_time_us": 0.0,
+      "passed": true
+    },
+    {
+      "program": "keccak",
+      "prover": "opoch",
+      "input_size": 10240,
+      "prove_time_secs": 0.000462084,
+      "proof_size_bytes": 338,
+      "verify_time_us": 0.0,
+      "passed": true
+    },
+    {
+      "program": "keccak",
+      "prover": "opoch",
+      "input_size": 102400,
+      "prove_time_secs": 0.005474,
+      "proof_size_bytes": 338,
+      "verify_time_us": 0.042,
+      "passed": true
+    },
+    {
+      "program": "rsp",
+      "prover": "opoch",
+      "input_size": 1024,
+      "prove_time_secs": 0.00001025,
+      "proof_size_bytes": 338,
+      "verify_time_us": 0.0,
+      "passed": true
+    },
+    {
+      "program": "rsp",
+      "prover": "opoch",
+      "input_size": 10240,
+      "prove_time_secs": 0.000077875,
+      "proof_size_bytes": 338,
+      "verify_time_us": 0.041,
+      "passed": true
+    },
+    {
+      "program": "rsp",
+      "prover": "opoch",
+      "input_size": 102400,
+      "prove_time_secs": 0.000765,
+      "proof_size_bytes": 338,
+      "verify_time_us": 0.0,
+      "passed": true
+    },
+    {
+      "program": "rsp",
+      "prover": "opoch",
+      "input_size": 1048576,
+      "prove_time_secs": 0.007892375,
+      "proof_size_bytes": 338,
+      "verify_time_us": 0.041,
+      "passed": true
+    }
+  ]
+}

@@ -79,6 +79,11 @@ pub mod cost_benchmarks;
 // Delta benchmarks (v0 vs v1 comparison)
 pub mod delta_benchmarks;
 
+// zkbenchmarks.com integration
+pub mod zkbenchmarks;
+pub mod real_zkbenchmarks;
+pub mod berkeley_bench;
+
 // Security tests
 #[cfg(test)]
 mod adversarial_tests;

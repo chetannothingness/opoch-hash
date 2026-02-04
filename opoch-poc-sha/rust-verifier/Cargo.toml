@@ -74,3 +74,23 @@ path = "src/generate_large_proof.rs"
 [[bin]]
 name = "run_delta"
 path = "src/run_delta.rs"
+
+[[bin]]
+name = "run_zkbenchmarks"
+path = "src/run_zkbenchmarks.rs"
+
+[[bin]]
+name = "measure_proofs"
+path = "src/measure_proofs.rs"
+
+[[bin]]
+name = "honest_benchmark"
+path = "src/honest_benchmark.rs"
+
+[[bin]]
+name = "real_zkbench"
+path = "src/real_zkbench_main.rs"
+
+[[bin]]
+name = "berkeley_bench"
+path = "src/berkeley_bench_main.rs"
