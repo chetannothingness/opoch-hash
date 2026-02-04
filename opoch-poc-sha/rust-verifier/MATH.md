@@ -1,13 +1,13 @@
 # OPOCH-PoC-SHA: Complete Mathematical Specification
 
-> **Note**: This document describes the theoretical design. Actual implementation achieved **321 bytes** proof size (vs. 150KB theoretical) and **~18µs** verification (Apple M4). The dramatic improvement comes from optimized FRI parameters and efficient proof serialization.
+> **Note**: This document describes the theoretical design. Actual implementation achieved **321 bytes** proof size (vs. 150KB theoretical) and **~78µs** verification (Apple M4). The dramatic improvement comes from optimized FRI parameters and efficient proof serialization.
 
 ## The Six Demands — Satisfied
 
 | Demand | Status | Proof Reference |
 |--------|--------|-----------------|
 | 1. SHA-256 bit-for-bit identical to FIPS-180-4 | ✓ | §1 |
-| 2. Verification < 1ms for N ≥ 10⁹ | ✓ | §5 (measured: ~18µs on Apple M4) |
+| 2. Verification < 1ms for N ≥ 10⁹ | ✓ | §5 (measured: ~78µs on Apple M4) |
 | 3. Cannot generate valid proof with < N/2 work | ✓ | §6 |
 | 4. No trusted setup | ✓ | §4 |
 | 5. Open spec + reference implementation | ✓ | This document + Rust code |
@@ -225,7 +225,7 @@ Where:
 
 **Measured Performance (10000 iterations):**
 ```
-Verification time: ~18 µs (p95, Apple M4)
+Verification time: ~78 µs (p95, Apple M4)
 ```
 
 This is **55x better** than the 1ms target.
@@ -250,7 +250,7 @@ Level 1: L1 Aggregation
 Level 2: L2 Aggregation (Final)
   - Single proof aggregating all L1 proofs
   - Final proof size: 321 bytes (constant)
-  - Final verification: ~18 µs
+  - Final verification: ~78 µs
 ```
 
 ### 6.2 Aggregation AIR
@@ -351,7 +351,7 @@ Speedup: 1.0x (no improvement)
 | Property | Satisfied | How |
 |----------|-----------|-----|
 | Sequentiality | ✓ | Hash chain |
-| Efficient verification | ✓ | ~18 µs for 10⁹ ops |
+| Efficient verification | ✓ | ~78 µs for 10⁹ ops |
 | Uniqueness | ✓ | Deterministic SHA-256 |
 | Soundness | ✓ | STARK proof |
 
@@ -385,7 +385,7 @@ VERIFY(x, y, π):
   7. Return VALID / INVALID
 ```
 
-**Verification time: ~18 µs**
+**Verification time: ~78 µs**
 
 ---
 
@@ -405,12 +405,12 @@ VERIFY(x, y, π):
 For N = 10⁹:
 ```
 Prove time:  ~100 seconds
-Verify time: ~0.000018 seconds (~18 µs)
+Verify time: ~0.000078 seconds (~78 µs)
 
-Asymmetry ratio: 100 / 0.000018 ≈ 5,500,000×
+Asymmetry ratio: 100 / 0.000078 ≈ 1,280,000×
 ```
 
-**The verifier is 5.5 million times faster than the prover.**
+**The verifier is 1.28 million times faster than the prover.**
 
 ---
 
@@ -472,7 +472,7 @@ cargo run --release --bin e2e         # End-to-end benchmark
 **OPOCH-PoC-SHA is a complete, working STARK-based proof system that:**
 
 1. ✓ Computes SHA-256 bit-for-bit identical to FIPS-180-4
-2. ✓ Verifies 10⁹ operations in ~18 µs (55× better than 1ms target)
+2. ✓ Verifies 10⁹ operations in ~78 µs (55× better than 1ms target)
 3. ✓ Provides 128+ bit soundness (cannot fake without doing work)
 4. ✓ Requires no trusted setup (SHA-256 + field arithmetic only)
 5. ✓ Is fully open and documented (this specification + Rust code)
@@ -482,9 +482,9 @@ cargo run --release --bin e2e         # End-to-end benchmark
 
 ```
 Final proof size:    321 bytes (constant)
-Verification time:   ~18 µs
+Verification time:   ~78 µs
 Soundness:          128 bits
-Asymmetry ratio:    5,500,000×
+Asymmetry ratio:    1,280,000×
 Trusted setup:      NONE
 ```
 

@@ -437,21 +437,21 @@ From actual benchmark runs:
 
 | Chain Steps | Proof Size | Verify Time | Speedup |
 |-------------|------------|-------------|---------|
-| 256 | 321 B | 18 µs | 0.1x |
-| 1,024 | 321 B | 18 µs | 0.6x |
-| 2,048 | 321 B | 18 µs | 1.1x |
+| 256 | 321 B | 78 µs | 0.1x |
+| 1,024 | 321 B | 78 µs | 0.6x |
+| 2,048 | 321 B | 78 µs | 1.1x |
 
 **Key observations (Apple M4):**
 
 - Proof size is **CONSTANT** (321 bytes)
-- Verify time is **CONSTANT** (~18 µs)
+- Verify time is **CONSTANT** (~78 µs)
 - Security: 128 bits = min(FRI=136, Hash=128)
 
 **For N = 1,000,000,000:**
 
 - Prover time: ~100 seconds
-- Verifier time: ~18 µs
-- Asymmetry: **5,500,000×**
+- Verifier time: ~78 µs
+- Asymmetry: **1,280,000×**
 
 ---
 

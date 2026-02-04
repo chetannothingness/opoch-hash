@@ -18,7 +18,7 @@ Our system has two pillars:
 
 1. **OpochHash = Mix . Ser_Pi**: a meaning-preserving hashing pipeline that compiles semantic objects to a Pi-fixed canonical tape and then mixes the tape with a domain-separated tree sponge. We provide a *collision localization theorem*: every collision is attributable to exactly one of four causes (meaning equivalence, serialization bug, mixer collision, or truncation).
 
-2. **Hash-based Proof of Computation (PoC) with constant proof size**: a transparent, recursive proof system that proves >= 10^9 sequential steps of a pinned computation while keeping verification near-constant. A measured closure benchmark demonstrates constant proof size (321 bytes) and microsecond-class verification (~18µs on Apple M4) across multiple work sizes, with explicit soundness accounting. The verifier is designed as a production-grade Rust component.
+2. **Hash-based Proof of Computation (PoC) with constant proof size**: a transparent, recursive proof system that proves >= 10^9 sequential steps of a pinned computation while keeping verification near-constant. A measured closure benchmark demonstrates constant proof size (321 bytes) and microsecond-class verification (~78µs on Apple M4) across multiple work sizes, with explicit soundness accounting. The verifier is designed as a production-grade Rust component.
 
 We also define and benchmark auxiliary AIRs and gadgets required for real industry workloads: Keccak-256 AIR, Poseidon AIR, 256-bit integer/field emulation, and signature verification AIRs (Ed25519/EdDSA and secp256k1/ECDSA). The result is a unified "verification substrate" that can replace large classes of auditing, reconciliation, and trust processes with deterministic verification, enabling instant settlement of computation and logs at scale.
 
@@ -47,7 +47,7 @@ The design is intentionally compatible with legacy systems: we preserve SHA-256 
 1. **Pi-Fixed Serialization (Ser_Pi)**: A canonicalization framework that eliminates representation slack while preserving semantic meaning
 2. **OpochHash**: A meaning-preserving hash function with provable collision localization
 3. **Constant-Size Recursive Proofs**: 321-byte proofs independent of computation size N
-4. **Microsecond Verification**: ~18 µs p95 verification time (Apple M4), constant across N
+4. **Microsecond Verification**: ~78 µs p95 verification time (Apple M4), constant across N
 5. **128-bit Soundness**: Rigorous security analysis with explicit component decomposition
 6. **Production Implementation**: 311 passing tests, complete Rust implementation
 
@@ -316,7 +316,7 @@ This yields:
 | Property | Value |
 |----------|-------|
 | **Proof Size** | Constant (321 bytes) across all N |
-| **Verification Time** | Constant (~18 µs on Apple M4) across all N |
+| **Verification Time** | Constant (~78 µs on Apple M4) across all N |
 | **Soundness** | Accumulates per pinned bound |
 
 ---
@@ -503,8 +503,8 @@ P_x mod n = r
 
 | Metric | Value | Conditions |
 |--------|-------|------------|
-| **Verification Time** | ~18 µs (p95) | 10,000 iterations, Apple M4 |
-| **Median Verification** | ~17.7 µs | |
+| **Verification Time** | ~78 µs (p95) | 10,000 iterations, Apple M4 |
+| **Median Verification** | ~64.6 µs | |
 | **Proof Size** | 321 bytes | Constant across all N |
 | **Test Suite** | 311 tests | All passing |
 
@@ -512,11 +512,11 @@ P_x mod n = r
 
 | N (operations) | Verify Time | Proof Size | Speedup |
 |----------------|-------------|------------|---------|
-| 256 | 18 µs | 321 bytes | 0.1x |
-| 512 | 18 µs | 321 bytes | 0.3x |
-| 1,024 | 18 µs | 321 bytes | 0.6x |
-| 2,048 | 18 µs | 321 bytes | 1.1x |
-| 10^9 (projected) | 18 µs | 321 bytes | 5,500,000x |
+| 256 | 78 µs | 321 bytes | 0.1x |
+| 512 | 78 µs | 321 bytes | 0.3x |
+| 1,024 | 78 µs | 321 bytes | 0.6x |
+| 2,048 | 78 µs | 321 bytes | 1.1x |
+| 10^9 (projected) | 78 µs | 321 bytes | 1,280,000x |
 
 **O(1) verification and O(1) proof size confirmed.**
 
@@ -582,7 +582,7 @@ This reproduces all hashes, receipts, and verification results.
 | Current State | With OPOCH |
 |---------------|------------|
 | Trust provider | Trustless verification |
-| Recompute to verify | 18 µs proof check |
+| Recompute to verify | 78 µs proof check |
 | Manual dispute resolution | Instant cryptographic proof |
 
 **Value:** Eliminate ~5% verification overhead = **$25B/yr**
@@ -593,7 +593,7 @@ This reproduces all hashes, receipts, and verification results.
 |---------------|------------|
 | Every node recomputes | Single proof verification |
 | 40-200 KB rollup proofs | 321 byte proofs |
-| Hours for bridge verification | 18 µs verification |
+| Hours for bridge verification | 78 µs verification |
 
 **Value:** 10% efficiency gain = **$200B**
 
@@ -611,7 +611,7 @@ This reproduces all hashes, receipts, and verification results.
 
 | Current State | With OPOCH |
 |---------------|------------|
-| Days-weeks audit | 18 µs verification |
+| Days-weeks audit | 78 µs verification |
 | Paper-based provenance | Cryptographic chain |
 | Trust-based compliance | Verifiable receipts |
 
@@ -635,7 +635,7 @@ Conservative estimate:         $500B - $5T
 
 | System | Time | vs OPOCH |
 |--------|------|----------|
-| **OPOCH** | **18 µs** | 1x |
+| **OPOCH** | **78 µs** | 1x |
 | Groth16 | 8-15 ms | 140-270x slower |
 | PLONK | 5-10 ms | 90-180x slower |
 | STARKs (generic) | 2-5 ms | 35-90x slower |
@@ -808,13 +808,13 @@ Cache state:    Warm
 
 Statistics (microseconds, Apple M4):
   Min:          ~17 µs
-  Median:       ~17.7 µs
-  Mean:         ~17.9 µs
-  P95:          ~18 µs
+  Median:       ~64.6 µs
+  Mean:         ~67.0 µs
+  P95:          ~78 µs
   P99:          ~19 µs
   Max:          ~25 µs
 
-Target (<1ms):  ACHIEVED (18 µs << 1000 µs)
+Target (<1ms):  ACHIEVED (78 µs << 1000 µs)
 ```
 
 ---

@@ -3,7 +3,7 @@
 
 **Current Status**:
 - Proof size: 321 B constant ✅
-- Verify time: ~18 µs p95 ✅  
+- Verify time: ~78 µs p95 ✅  
 - FRI soundness: 136 bits ✅
 - System soundness: 128 bits ✅
 - Ed25519/secp256k1 proofs: Missing ❌

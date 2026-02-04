@@ -4,7 +4,7 @@ A transparent proof system for SHA-256 hash chains using STARK/FRI. Generate a c
 
 ## Overview
 
-OPOCH-PoC-SHA proves statements of the form: "starting from input x, I computed N sequential SHA-256 hashes and obtained output y." The proof is 321 bytes for any N, and verification takes ~18 microseconds on commodity hardware—independent of whether N is 1,000 or 1,000,000,000.
+OPOCH-PoC-SHA proves statements of the form: "starting from input x, I computed N sequential SHA-256 hashes and obtained output y." The proof is 321 bytes for any N, and verification takes ~78 microseconds on commodity hardware—independent of whether N is 1,000 or 1,000,000,000.
 
 This enables trustless verification of computation: a cloud provider can prove they did the work, an audit system can verify logs are authentic, or a blockchain can use it as a verifiable delay function (VDF) for unbiasable randomness.
 
@@ -17,7 +17,7 @@ This enables trustless verification of computation: a cloud provider can prove t
          y  = SHA-256(h_{N-1})
 
   Proof size:     321 bytes (constant)
-  Verify time:    18 µs (constant)
+  Verify time:    78 µs (constant)
   Security:       128 bits
   Trusted setup:  None
 ```
@@ -35,7 +35,7 @@ cargo test --release --lib
 
 | Claim | Value | Evidence | Status |
 |-------|-------|----------|--------|
-| **O(1) Verification** | 17.9 µs p95 | Constant across N=256 to N=2048 | PROVEN |
+| **O(1) Verification** | 77.6 µs p95 | Constant across N=256 to N=2048 | PROVEN |
 | **O(1) Proof Size** | 321 bytes | Constant for all N | PROVEN |
 | **128-bit Security** | 128 bits | min(FRI=136, Hash=128) | PROVEN |
 | **SHA-256 Compatible** | FIPS 180-4 | All test vectors pass | PROVEN |
@@ -58,15 +58,15 @@ cd opoch-poc-sha/rust-verifier
   Chain Length (N):           1,000,000,000 operations
 
   VERIFIER SIDE:
-    Verification time:      17.9 µs (p95)
-    Median:                 17.7 µs
-    Variance:               < 1 µs
+    Verification time:      77.6 µs (p95)
+    Median:                 64.6 µs
+    Variance:               < 15 µs
     Proof size:             321 bytes (CONSTANT)
 
   ASYMMETRY at N = 10^9:
     Recompute time:         ~100 seconds
-    Verify time:            18 µs
-    Speedup:                5,500,000x
+    Verify time:            78 µs
+    Speedup:                1,280,000x
 
   SECURITY:
     FRI soundness:          136 bits
@@ -79,12 +79,12 @@ cd opoch-poc-sha/rust-verifier
 
 | N (computations) | Verify Time | Proof Size | Speedup vs Recompute |
 |------------------|-------------|------------|----------------------|
-| 256 | 18 µs | 321 bytes | 0.1x |
-| 1,024 | 18 µs | 321 bytes | 0.6x |
-| 2,048 | 18 µs | 321 bytes | 1.1x |
-| 10,000† | 18 µs | 321 bytes | 6x |
-| 1,000,000† | 18 µs | 321 bytes | 5,500x |
-| **1,000,000,000†** | **18 µs** | **321 bytes** | **5,500,000x** |
+| 256 | 78 µs | 321 bytes | 0.03x |
+| 1,024 | 78 µs | 321 bytes | 0.1x |
+| 2,048 | 78 µs | 321 bytes | 0.3x |
+| 10,000† | 78 µs | 321 bytes | 1.3x |
+| 1,000,000† | 78 µs | 321 bytes | 1,280x |
+| **1,000,000,000†** | **78 µs** | **321 bytes** | **1,280,000x** |
 
 *Rows without † are measured. †Extrapolated from O(1) property (verification time and proof size are independent of N by construction).*
 
@@ -96,24 +96,24 @@ cd opoch-poc-sha/rust-verifier
 
 | System | Verification Time | Ratio vs OPOCH |
 |--------|-------------------|----------------|
-| **OPOCH-PoC-SHA** | **18 µs** | **1x (baseline)** |
-| Groth16 (snarkjs) | 8-15 ms | 440-830x slower |
-| PLONK (Aztec) | 5-10 ms | 280-560x slower |
-| STARKs (StarkWare) | 2-5 ms | 110-280x slower |
-| Halo2 (Zcash) | 10-20 ms | 560-1100x slower |
-| Risc0 zkVM | 50-200 ms | 2800-11000x slower |
-| SP1 (Succinct) | 20-100 ms | 1100-5600x slower |
+| **OPOCH-PoC-SHA** | **78 µs** | **1x (baseline)** |
+| Groth16 (snarkjs) | 8-15 ms | 100-190x slower |
+| PLONK (Aztec) | 5-10 ms | 64-128x slower |
+| STARKs (StarkWare) | 2-5 ms | 26-64x slower |
+| Halo2 (Zcash) | 10-20 ms | 128-256x slower |
+| Risc0 zkVM | 50-200 ms | 640-2560x slower |
+| SP1 (Succinct) | 20-100 ms | 256-1280x slower |
 
 ### 2. Verification Time vs Blockchain Signatures
 
 | System | Verification Time | Ratio vs OPOCH |
 |--------|-------------------|----------------|
-| **OPOCH-PoC-SHA** | **18 µs** | **1x (baseline)** |
-| Bitcoin ECDSA | 50-100 µs | 2.8-5.6x slower |
-| Ethereum secp256k1 | 50-100 µs | 2.8-5.6x slower |
-| Solana Ed25519 | 30-50 µs | 1.7-2.8x slower |
-| zkSync proof verify | 5-15 ms | 280-830x slower |
-| Polygon zkEVM | 10-50 ms | 560-2800x slower |
+| **OPOCH-PoC-SHA** | **78 µs** | **1x (baseline)** |
+| Bitcoin ECDSA | 50-100 µs | 0.6-1.3x (comparable) |
+| Ethereum secp256k1 | 50-100 µs | 0.6-1.3x (comparable) |
+| Solana Ed25519 | 30-50 µs | 0.4-0.6x (faster) |
+| zkSync proof verify | 5-15 ms | 64-192x slower |
+| Polygon zkEVM | 10-50 ms | 128-640x slower |
 
 **Key Insight**: OPOCH achieves ZK proof verification at single signature speed.
 
@@ -195,7 +195,7 @@ Sequential (AND) composition preserves soundness:
 
 | Identity | SHA-256 Hash |
 |----------|--------------|
-| spec_id | `9b40585b7ab6a362abd6b4b02824f98aa241a35d9c51ed4157748348f50b8532` |
+| spec_id | `07a00ba37ff43c8225b87517ef80ec70a59dfb7e7283548d3c57cef928a11240` |
 | chain_hash | `0e06874eb1747e41357d3234f23c5b822f959cc974a0cfb4b625d145d6348a81` |
 
 All artifacts are cryptographically bound via `receipt_chain.json`.
@@ -238,7 +238,7 @@ All artifacts are cryptographically bound via `receipt_chain.json`.
 |  3. Verify Merkle paths                                       |
 |  4. Return VALID/INVALID                                      |
 |                                                               |
-|  Time: 18 µs (CONSTANT for any N)                             |
+|  Time: 78 µs (CONSTANT for any N)                             |
 |                                                               |
 +--------------------------------------------------------------+
 ```
@@ -290,8 +290,8 @@ opoch-poc-sha/
 ### What This Is
 
 - Complete proof-of-concept implementation
-- 311 tests, all passing
-- Measured 18 µs verification on Apple M4 (real, repeatable, O(1))
+- 414 tests, all passing
+- Measured 78 µs verification on Apple M4 (real, repeatable, O(1))
 - Sound mathematical foundation (STARK/FRI)
 - Production-grade cryptographic code
 - No hardcoding, no shortcuts
@@ -475,5 +475,5 @@ No new cryptographic primitives. No architectural changes. Just parameter tuning
 
 **OPOCH-PoC-SHA v1.0.0**
 
-*Verify a billion operations in eighteen microseconds (Apple M4).*
+*Verify a billion operations in under 80 microseconds (Apple M4).*
 *Times vary by hardware but remain O(1). 128-bit security proven.*

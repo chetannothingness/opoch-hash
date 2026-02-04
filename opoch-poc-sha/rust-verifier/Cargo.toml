@@ -90,3 +90,7 @@ path = "src/real_zkbench_main.rs"
 [[bin]]
 name = "berkeley_bench"
 path = "src/berkeley_bench_main.rs"
+
+[[bin]]
+name = "zkharness_bench"
+path = "src/bin/zkharness_bench.rs"

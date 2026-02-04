@@ -14,7 +14,7 @@ h_{t+1} = SHA-256(h_t)  for t = 0, 1, ..., N-1
 y = h_N
 ```
 
-The verifier checks a constant-size proof (321 bytes) in O(1) time (~17.9 µs) regardless of N.
+The verifier checks a constant-size proof (321 bytes) in O(1) time (~78 µs) regardless of N.
 
 ## 2. Proof Format
 
